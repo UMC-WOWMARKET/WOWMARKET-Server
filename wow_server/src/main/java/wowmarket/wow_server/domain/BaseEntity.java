@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter
 public abstract class BaseEntity {
-    private LocalDateTime createdDate;
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime created_time;
+    private LocalDateTime lastModified_time;
 }

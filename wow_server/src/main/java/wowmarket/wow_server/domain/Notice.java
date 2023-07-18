@@ -8,11 +8,11 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Category {
+public class Notice {
     @Id
     @GeneratedValue
-    @Column(name = "category_id")
+    @Column(name = "notice_id")
     private Long id;
 
-    private String name;
+    private String title;
 }

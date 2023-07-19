@@ -1,10 +1,11 @@
 HELP.md
-.gradle
+wow_server/.gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 *.properties
+.DS_Store
 
 ### STS ###
 .apt_generated

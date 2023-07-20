@@ -37,3 +37,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+  .gradle/buildOutputCleanup/buildOutputCleanup.lock
+        .gradle/buildOutputCleanup/outputFiles.bin
+        .gradle/file-system.probe
+        build.gradle
+        gradle/wrapper/gradle-wrapper.jar
+        gradlew
+        gradlew.bat
+        settings.gradle

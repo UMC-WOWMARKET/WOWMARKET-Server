@@ -6,6 +6,8 @@ build/
 !**/src/test/**/build/
 *.properties
 .DS_Store
+.gradle/*
+gradle
 
 ### STS ###
 .apt_generated
@@ -38,11 +40,11 @@ out/
 ### VS Code ###
 .vscode/
 
-  .gradle/buildOutputCleanup/buildOutputCleanup.lock
-        .gradle/buildOutputCleanup/outputFiles.bin
-        .gradle/file-system.probe
-        build.gradle
-        gradle/wrapper/gradle-wrapper.jar
-        gradlew
-        gradlew.bat
-        settings.gradle
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/outputFiles.bin
+.gradle/file-system.probe
+build.gradle
+gradle/wrapper/gradle-wrapper.jar
+gradlew
+gradlew.bat
+settings.gradle

@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.sql.Blob;
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ public class Project extends BaseEntity{
     @Column(name = "project_id")
     private Long id;
     private String name;
+    private String nickname;
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
@@ -22,7 +25,6 @@ public class Project extends BaseEntity{
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String description;
 
     private LocalDate start_date;
     private LocalDate end_date;
@@ -34,6 +36,7 @@ public class Project extends BaseEntity{
 //    private Blob image1;
 //    private Blob image2;
 //    private Blob image3;
+
     private String receive_type;
     private String bank;
     private String account;

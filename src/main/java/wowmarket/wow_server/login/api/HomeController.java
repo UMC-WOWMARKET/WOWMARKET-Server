@@ -28,6 +28,11 @@ public class HomeController {
         System.out.println("사용자 액세스 토큰 값 : " + access_token + "\n");
 
         HashMap<String, Object> userInfo = kakaoAPI.getUserInfo(access_token);
+        System.out.println("\n\n HashMap<String, Object>는 뭐가 나올까 userInfo = " + userInfo);
+        if (!userInfo.containsKey("email")) { //값이 없으면 false인데 !로 true로 바꿔서 이메일 없을 경우 로직 실행
+            System.out.println("\n\n 이메일 값이 넘어오지 않아서 다시 로그인 페이지 index() 호출 \n\n");
+            index();
+        }
         System.out.println("login Controller : " + userInfo);
 
         //클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록

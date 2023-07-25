@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--<p th:text="'hello ' + ${name}">hello! empty</p>-->
+<span th:if="${userId == null}">
+    <a href="https://kauth.kakao.com/oauth/authorize?client_id=394cbd2e5e0ad400adbc202784ad624b&redirect_uri=http://localhost:8080/wowmarket/users/login/kakao&response_type=code">
+        <img src="img/kakao_login_medium_narrow.png">
+    </a>
+</span>
+<span th:if="${userId != null}">
+    <h1>로그인 성공</h1>
+    <input type="button" value="로그아웃" onclick="location.href='/logout'">
+</span>
+</body>
+</html>

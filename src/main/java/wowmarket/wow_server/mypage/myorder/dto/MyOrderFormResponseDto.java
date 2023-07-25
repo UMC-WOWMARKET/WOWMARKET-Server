@@ -1,9 +1,8 @@
 package wowmarket.wow_server.mypage.myorder.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import wowmarket.wow_server.domain.Order;
+import wowmarket.wow_server.domain.Orders;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +14,7 @@ public class MyOrderFormResponseDto {
     private LocalDateTime createdtime;
     private int status;
 
-    public MyOrderFormResponseDto(Order order){
+    public MyOrderFormResponseDto(Orders order){
         this.orderid = order.getId();
         this.name = order.getProject().getName();
         this.createdtime = order.getCreated_time();

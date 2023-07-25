@@ -17,7 +17,8 @@ public class MyOrderController {
 
     @GetMapping("/{user_id}/myorder")
     public MyOrderFormListResponseDto getMyOrderList(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1")int page){
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("order_id").descending());
+        //Pageable pageable = PageRequest.of(page - 1, 10 /*, Sort.by("id").descending()*/);
+        Pageable pageable = PageRequest.of(page - 1, 10);
         return myOrderService.findAllMyOrderForm(user_id, pageable);
     }
 

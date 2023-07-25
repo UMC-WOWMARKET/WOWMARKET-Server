@@ -19,10 +19,6 @@ public class Demand_detail extends BaseEntity{
     @JoinColumn(name = "demand_item_id", referencedColumnName = "demand_item_id")
     private Demand_item demand_item;
 
-//    @ManyToOne(fetch = FetchType.LAZY)이렇게 되면 수요조사 프로젝트 테이블과 연관관계 생기는것 아닌가?
-//    @JoinColumn(name = "demand_project_id", referencedColumnName = "demand_project_id")
-//    private Demand_project demand_project;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
     private User user;

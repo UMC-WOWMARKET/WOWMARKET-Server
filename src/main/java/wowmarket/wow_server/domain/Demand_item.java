@@ -19,15 +19,6 @@ public class Demand_item extends BaseEntity{
     @JoinColumn(name = "demand_project_id", referencedColumnName = "demand_project_id")
     private Demand_project demand_project;
 
-//    @ManyToOne(fetch = FetchType.LAZY) 이렇게 하면 user 테이블과 직접 연관관계 만들어지는거 아닌가?
-//    @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
-//    private User user;
-
-//    @ManyToOne(fetch = FetchType.LAZY) 이렇게 해야하는건가?
-//    @JoinColumn(name = "seller_id", referencedColumnName = "seller_id")
-//    private Demand_project demand_project_seller_id;
-
-
     private String name;
     private Long price;
     private Long goal;

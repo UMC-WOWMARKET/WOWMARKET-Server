@@ -11,19 +11,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Getter
-public class Demand_project extends BaseEntity{
+public class DemandProject extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "demand_project_id")
+    @Column(name = "demandProjectId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "sellerId", referencedColumnName = "userId")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @JoinColumn(name = "categoryId", referencedColumnName = "categoryId")
     private Category category;
 
     private String name;

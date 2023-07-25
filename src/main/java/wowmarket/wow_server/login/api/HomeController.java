@@ -2,12 +2,13 @@ package wowmarket.wow_server.login.api;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.login.service.KakaoAPI;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class HomeController {
@@ -31,7 +32,7 @@ public class HomeController {
         System.out.println("\n\n HashMap<String, Object>는 뭐가 나올까 userInfo = " + userInfo);
         if (!userInfo.containsKey("email")) { //값이 없으면 false인데 !로 true로 바꿔서 이메일 없을 경우 로직 실행
             System.out.println("\n\n 이메일 값이 넘어오지 않아서 다시 로그인 페이지 index() 호출 \n\n");
-            index();
+            check_email(code);
         }
         System.out.println("login Controller : " + userInfo);
 
@@ -43,6 +44,24 @@ public class HomeController {
         }
 
         return "index";
+    }
+
+    @PostMapping("/wowmarket/users/login/kakao/check_email")
+    @ResponseBody // JSON 형태로 응답 반환을 위해 @ResponseBody 어노테이션 사용
+    public ResponseEntity<Map<String, String>> check_email(String code) {
+        System.out.println("\n\n 이메일 제공 미동의로 인한 로직 check_email");
+        String access_token = kakaoAPI.getAccessToken(code);
+
+        HashMap<String, Object> userInfo = kakaoAPI.getUserInfo(access_token);
+
+        Map<String, String> response = new HashMap<>();
+        if (userInfo.containsKey("email")) {
+            response.put("email", userInfo.get("email").toString());
+        } else {
+            response.put("email", "");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/logout")

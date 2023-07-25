@@ -17,7 +17,6 @@ public class MyInfoController {
 
     @GetMapping("/{user_id}")
     public MyInfoResponseDto getMyInfo(@PathVariable Long user_id){
-        System.out.println("???");
         return myInfoService.findMyInfo(user_id);
     }
 

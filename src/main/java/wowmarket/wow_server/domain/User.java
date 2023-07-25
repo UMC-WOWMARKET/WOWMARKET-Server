@@ -27,7 +27,6 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private String name;
     private int age;
-    private Boolean Gender;
     private String address;
     private String bank;
     private String account;

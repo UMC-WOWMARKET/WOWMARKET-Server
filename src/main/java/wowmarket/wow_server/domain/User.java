@@ -43,6 +43,9 @@ public class User extends BaseEntity implements UserDetails {
     private Role role;
     private String refreshToken;
 
+    @Enumerated
+    private Login_Method login_method;
+
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
     }

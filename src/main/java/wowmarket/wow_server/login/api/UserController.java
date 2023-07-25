@@ -12,7 +12,7 @@ import wowmarket.wow_server.login.dto.UserSignUpRequestDto;
 import wowmarket.wow_server.login.service.UserService;
 
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/wowmarket/users")
 @RestController
 public class UserController {
     private final UserService userService;

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AttributeOverride(name = "created_time", column = @Column(name = "order_time"))
 public class Order extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 

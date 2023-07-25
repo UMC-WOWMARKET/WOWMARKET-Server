@@ -3,9 +3,11 @@ package wowmarket.wow_server.login.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.JwtTokenProvider;
 import wowmarket.wow_server.login.dto.TokenResponseDto;
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()){
-            throw new Exception("이미 존재하는 이메일입니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST); //이메일 중복 시 400 에러 반환
         }
 
         User User = userRepository.save(requestDto.toEntity());
@@ -40,10 +42,10 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public TokenResponseDto signIn(UserSignInRequestDto requestDto) throws Exception {
         User user = userRepository.findByEmail(requestDto.getEmail())
-                .orElseThrow(()->new IllegalArgumentException("가입된 이메일이 아닙니다."));
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
         if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())){
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
 

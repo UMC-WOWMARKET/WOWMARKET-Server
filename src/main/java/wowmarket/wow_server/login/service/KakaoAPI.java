@@ -101,26 +101,34 @@ public class KakaoAPI {
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
+            System.out.println(" \n\n element는 뭘까.. element = " + element);
 
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            System.out.println("\n JsonObject로 넘어오는 값은 뭘까 kakao_account = " + kakao_account);
+            System.out.println("\n 그러면 properties는 뭘까 properties = " + properties);
+            System.out.println(" \n 이메일 동의 했는지 확인 kakao_account.getAsJsonObject().get(\"has_email\").getAsString() : " + kakao_account.getAsJsonObject().get("has_email").getAsString() + "\n\n");
 
-            if (userRepository.findByEmail(email) == null) {
-                KakaoDto kakaoDto = new KakaoDto(email, nickname, Login_Method.KAKAO);
-                User User = userRepository.save(kakaoDto.toEntity());
+            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            //has_email로 이메일 동의 했는지 확인
+            //동의 안 했으면 빈 해쉬값이 넘어가서 controller에서 연결 끊기 api가 실행되고 다시 로그인 하도록 설정
+            if (kakao_account.getAsJsonObject().get("has_email").getAsString() == "false") {
+                return userInfo;
             }
-            //findByEMail로 값이 없으면 DB에 저장
-//            User user = new User();
-//            user.setEmail(email);
-//            user.setNickname(nickname);
-//            user.setLogin_method("KAKAO");
-//            userRepository.save(user);
+            String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
             System.out.println("getUserInfo nickname = " + nickname);
             System.out.println("getUserInfo email = " + email);
+//
+//            System.out.println("\n\n **** userRepository.findByEmail(email).isEmpty() : " + userRepository.findByEmail(email).isEmpty());
+//            System.out.println("userRepository.findByEmail(email) : " + userRepository.findByEmail(email) + "\n\n");
+
+            //findByEmail로 값이 없으면 DB에 저장
+            if (userRepository.findByEmail(email).isEmpty()) {
+                KakaoDto kakaoDto = new KakaoDto(email, nickname, Login_Method.KAKAO);
+                User User = userRepository.save(kakaoDto.toEntity());
+            }
 
             userInfo.put("nickname", nickname);
             userInfo.put("email", email);

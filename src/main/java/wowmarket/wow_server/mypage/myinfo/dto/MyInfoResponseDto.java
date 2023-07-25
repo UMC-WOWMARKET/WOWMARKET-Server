@@ -13,10 +13,10 @@ public class MyInfoResponseDto {
     private String email;
 
 
-    public MyInfoResponseDto(User user){
-        this.userid = user.getId();
-        this.name = user.getName();
-        this.email = user.getEmail();
-    }
+//    public MyInfoResponseDto(User user){
+//        this.userid = user.getId();
+//        this.name = user.getName();
+//        this.email = user.getEmail();
+//    }
 
 }

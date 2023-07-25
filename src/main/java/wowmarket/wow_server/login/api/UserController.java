@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.login.dto.TokenResponseDto;
 import wowmarket.wow_server.login.dto.UserSignInRequestDto;
@@ -25,7 +26,8 @@ public class UserController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public TokenResponseDto login(@Valid @RequestBody UserSignInRequestDto request) throws Exception {
-        return userService.signIn(request);
+//        return userService.signIn(request);
+        return ResponseEntity.ok().body(userService.signIn(request)).getBody();
     }
 
     @PutMapping("/newAccess")

@@ -9,5 +9,5 @@ public interface UserService {
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception;
 
     public TokenResponseDto signIn(UserSignInRequestDto requestDto) throws Exception;
-    TokenResponseDto issueAccessToken(HttpServletRequest request);
+    public TokenResponseDto issueAccessToken(HttpServletRequest request);
 }

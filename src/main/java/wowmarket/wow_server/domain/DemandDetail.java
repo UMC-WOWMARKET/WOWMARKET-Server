@@ -9,18 +9,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Demand_detail extends BaseEntity{
+public class DemandDetail extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "demand_detail_id")
+    @Column(name = "demandDetailId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "demand_item_id", referencedColumnName = "demand_item_id")
-    private Demand_item demand_item;
+    @JoinColumn(name = "demandItemId", referencedColumnName = "demandItemId")
+    private DemandItem demand_item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "buyerId", referencedColumnName = "userId")
     private User user;
     private Integer count;
 

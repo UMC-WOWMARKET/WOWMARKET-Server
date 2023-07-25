@@ -18,8 +18,8 @@ public class MyOrderService {
     private final OrderDetailRepository orderDetailRepository;
 
     @Transactional(readOnly = true)
-    public MyOrderFormListResponseDto findAllMyOrderForm(Pageable pageable){
-        Page<Order> orders = orderRepository.findAll(pageable);
+    public MyOrderFormListResponseDto findAllMyOrderForm(Long user_id, Pageable pageable){
+        Page<Order> orders = orderRepository.findByUserId(user_id, pageable);
         Page<MyOrderFormResponseDto> orderformDtos = orders.map(MyOrderFormResponseDto::new);
         MyOrderFormListResponseDto responseDto = new MyOrderFormListResponseDto(orderformDtos.getContent(),
                 orderformDtos.getTotalPages(), orderformDtos.getNumber());

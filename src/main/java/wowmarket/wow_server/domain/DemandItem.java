@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Demand_item extends BaseEntity{
+public class DemandItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "demand_item_id")
+    @Column(name = "demandItemId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "demand_project_id", referencedColumnName = "demand_project_id")
-    private Demand_project demand_project;
+    @JoinColumn(name = "demandProjectId", referencedColumnName = "demandProjectId")
+    private DemandProject demand_project;
 
     private String name;
     private Long price;

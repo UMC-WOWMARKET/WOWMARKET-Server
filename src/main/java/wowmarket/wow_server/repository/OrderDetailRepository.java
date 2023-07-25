@@ -1,7 +1,7 @@
 package wowmarket.wow_server.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import wowmarket.wow_server.domain.Order_detail;
+import wowmarket.wow_server.domain.OrderDetail;
 
-public interface OrderDetailRepository extends JpaRepository<Order_detail, Long> {
+public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
 }

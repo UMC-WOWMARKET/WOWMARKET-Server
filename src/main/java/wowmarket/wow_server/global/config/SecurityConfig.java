@@ -34,10 +34,11 @@ public class SecurityConfig {
                 .requestMatchers("/register/**").authenticated()
                 .anyRequest().permitAll();
         http
-                .cors(cors -> cors.disable()) //프론트와 백엔드 협업에서 하는 설정 잠시 비활성화
+//                .cors(cors -> cors.disable()) //프론트와 백엔드 협업에서 하는 설정 잠시 비활성화
                 .csrf(csrf -> csrf.disable()) // token을 사용하는 방식이기 때문에 csrf를 disable로 설정
                 .formLogin(formLogin -> formLogin.disable()) // 사용자 지정 로그인 로직 구현
                 .httpBasic(httpBasic -> httpBasic.disable()); // http 기본 인증 비활성화
+
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                 UsernamePasswordAuthenticationFilter.class);

@@ -22,15 +22,12 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
     @Override
     @Transactional
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()){
             throw new Exception("이미 존재하는 이메일입니다.");
-        }
-
-        if (!requestDto.getPassword().equals(requestDto.getCheckedPassword())){
-            throw new Exception("비밀번호가 일치하지 않습니다.");
         }
 
         User User = userRepository.save(requestDto.toEntity());

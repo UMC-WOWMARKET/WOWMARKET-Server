@@ -21,7 +21,7 @@ public class UserSignUpRequestDto {
 //            message = "비밀번호는 8~30 자리이면서 1개 이상의 알파벳, 숫자, 특수문자를 포함해야합니다.")
     private String password;
     private String name;
-
+    private Boolean marketing_agree;
     private Role role;
 
     @Builder
@@ -30,6 +30,7 @@ public class UserSignUpRequestDto {
                 .email(email)
                 .password(password)
                 .name(name)
+                .marketing_agree(marketing_agree)
                 .role(Role.ROLE_USER)
                 .build();
     }

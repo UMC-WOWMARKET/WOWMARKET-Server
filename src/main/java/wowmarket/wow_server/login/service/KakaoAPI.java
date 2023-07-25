@@ -108,12 +108,13 @@ public class KakaoAPI {
 
             System.out.println("\n JsonObject로 넘어오는 값은 뭘까 kakao_account = " + kakao_account);
             System.out.println("\n 그러면 properties는 뭘까 properties = " + properties);
-            System.out.println(" \n 이메일 동의 했는지 확인 kakao_account.getAsJsonObject().get(\"has_email\").getAsString() : " + kakao_account.getAsJsonObject().get("has_email").getAsString() + "\n\n");
+            System.out.println(" \n 이메일 동의 했는지 확인 kakao_account.getAsJsonObject().get(\"email_needs_agreement\").getAsString() : " + kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() + "\n\n");
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            //has_email로 이메일 동의 했는지 확인
+            //email_needs_agreement로 이메일 동의 했는지 확인
             //동의 안 했으면 빈 해쉬값이 넘어가서 controller에서 연결 끊기 api가 실행되고 다시 로그인 하도록 설정
-            if (kakao_account.getAsJsonObject().get("has_email").getAsString() == "false") {
+            //email_needs_agreement 가 true 이면 이메일 정보 제공에 동의를 안 해서 동의가 필요하다는 뜻
+            if (kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() == "true") {
                 return userInfo;
             }
             String email = kakao_account.getAsJsonObject().get("email").getAsString();

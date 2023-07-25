@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 public class Project extends BaseEntity{
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Long id;
     private String name;

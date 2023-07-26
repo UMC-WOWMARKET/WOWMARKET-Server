@@ -130,11 +130,13 @@ public class KakaoAPI {
             Optional<User> userFindbyEmail = userRepository.findByEmail(email);
             //findByEmail로 값이 없으면 DB에 저장 userRepository.findByEmail(email).isEmpty()
             if (userFindbyEmail.isEmpty()) { // 쿼리 너무 많이 나가서 -> 추후에 userRepository.findByEmail(email).isEmpty() 로 교체
-                System.out.println("\n[getUserInfo] userId와 email 값 잘 넘어왔고 DB에 해당 email 없으면 DB에 저장하는 로직 실행");
+                System.out.println("\n[getUserInfo] userId와 email 값 잘 넘어왔고 DB에 해당 email 없어서 DB에 저장하는 로직 실행");
                 System.out.println("[getUserInfo] DB 저장 전 Optional<User> userFindbyEmail = userRepository.findByEmail(email) : " + userFindbyEmail);
                 KakaoDto kakaoDto = new KakaoDto(email, nickname, Login_Method.KAKAO);
                 User User = userRepository.save(kakaoDto.toEntity());
-                System.out.println("[getUserInfo] DB 저장 후 User 테이블 userId userRepository.findByEmail(email).get().getId() : " +  userRepository.findByEmail(email).get().getId());
+                System.out.println("[getUserInfo] DB 저장 후 User 테이블 userId 확인 userRepository.findByEmail(email).get().getId() : " + userRepository.findByEmail(email).get().getId());
+            } else {
+                System.out.println("\n[getUserInfo] DB에 해당 email 이미 저장되어 있어서 DB에 저장하는 로직 실행하지 않음");
             }
 
             userInfo.put("nickname", nickname);
@@ -165,7 +167,7 @@ public class KakaoAPI {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("[unLink] response body : " + result);
+            System.out.println("[unLink] response body : " + result + " 연결 끊기에 성공한 사용자의 회원번호 이 회원번호는 카카오의 회원번호일까? 근데 매번 바뀌는디");
             //해당 id는 연결 끊기에 성공한 사용자의 회원번호
 
         } catch (IOException e) {

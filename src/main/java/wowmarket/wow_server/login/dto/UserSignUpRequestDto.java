@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import wowmarket.wow_server.domain.Login_Method;
 import wowmarket.wow_server.domain.Role;
 import wowmarket.wow_server.domain.User;
 
@@ -32,6 +33,8 @@ public class UserSignUpRequestDto {
                 .name(name)
                 .marketing_agree(marketing_agree)
                 .role(Role.ROLE_USER)
+                .login_method(Login_Method.EMAIL)
+                .temporary_password(Boolean.FALSE)
                 .build();
     }
 }

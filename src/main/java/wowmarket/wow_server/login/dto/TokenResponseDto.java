@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TokenResponseDto {
+    private Boolean temporaryPw;
     private String grantType;
     private String accessToken;
     private String refreshToken;

@@ -7,8 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +24,6 @@ public class User extends BaseEntity implements UserDetails {
 
     private String password;
     private String name;
-    private int age;
     private String address;
     private String bank;
     private String account;
@@ -41,8 +38,9 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String refreshToken;
+    private Boolean temporary_password;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Login_Method login_method;
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
@@ -51,6 +49,9 @@ public class User extends BaseEntity implements UserDetails {
     public void updateRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
     }
+
+    // 비밀번호 변경 시 임시비밀번호인지도 확인
+    public void updatePassword(String password, Boolean temp){ this.password = password; this.temporary_password = temp; }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auth = new ArrayList<>();
@@ -58,6 +59,10 @@ public class User extends BaseEntity implements UserDetails {
         return auth;
     }
 
+
+    /**
+     * UserDetails
+     */
     @Override
     public String getUsername() {
         return email;

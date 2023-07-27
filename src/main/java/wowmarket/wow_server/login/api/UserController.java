@@ -30,6 +30,19 @@ public class UserController {
         return ResponseEntity.ok().body(userService.signIn(request)).getBody();
     }
 
+    @PostMapping("/sendTempPw")
+    @ResponseStatus(HttpStatus.OK)
+    public void sendTempPw(String email){
+        userService.sendMailAndChangePassword(email);
+    }
+
+
+    @PostMapping("/resetPw")
+    @ResponseStatus(HttpStatus.OK)
+    public Long resetPw(@Valid @RequestBody UserSignInRequestDto request){
+        return userService.updatePassword(request.getEmail(), request.getPassword(), false);
+    }
+
     @PutMapping("/newAccess")
     public TokenResponseDto issueAccessToken(HttpServletRequest request){
         return userService.issueAccessToken(request);

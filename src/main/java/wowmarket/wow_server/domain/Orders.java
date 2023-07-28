@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -25,7 +27,7 @@ public class Orders extends BaseEntity {
     private String bank;
     private String account;
     private String depositor;
-    //    private LocalDateTime deposit_time;
+    private LocalDateTime depositTime;
     private int order_status;
 
     @ManyToOne(fetch = FetchType.LAZY)

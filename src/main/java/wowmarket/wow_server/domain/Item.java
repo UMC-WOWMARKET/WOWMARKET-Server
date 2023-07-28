@@ -1,10 +1,13 @@
 package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "itemId")
@@ -17,5 +20,9 @@ public class Item {
     private String name;
     private Long price;
     private int goal;
+
+    public void setProject(Project project){
+        this.project = project;
+    }
 
 }

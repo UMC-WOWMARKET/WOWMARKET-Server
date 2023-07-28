@@ -1,16 +1,15 @@
 package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
+@Builder
 public class DemandProject extends BaseEntity{
 
     @Id
@@ -35,5 +34,10 @@ public class DemandProject extends BaseEntity{
     //소개이미지1
     //소개이미지2
     //소개이미지3
+
+    public void setUser(User user){ this.user = user;}
+    public void setCategory(Category category){
+        this.category = category;
+    }
 
 }

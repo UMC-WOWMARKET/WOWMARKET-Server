@@ -28,11 +28,11 @@ public class User extends BaseEntity implements UserDetails {
     private String bank;
     private String account;
     private String phone;
+    @Column(unique = true, nullable = false)
     private String email;
     private String univ;
     private LocalDateTime univ_auth;
-    private Boolean univ_check;
-    private Boolean is_seller;
+    private boolean univ_check;
     private Boolean marketing_agree;
 
     @Enumerated(EnumType.STRING)

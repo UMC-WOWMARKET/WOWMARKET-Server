@@ -47,6 +47,8 @@ public class Project extends BaseEntity{
     private int re_progress;
     private Long final_achievement_rate;
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view; //조회수
 
     public void setUser(User user){
         this.user = user;

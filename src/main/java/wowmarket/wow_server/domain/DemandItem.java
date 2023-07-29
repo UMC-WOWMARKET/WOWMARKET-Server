@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity
+@Builder
 public class DemandItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +23,9 @@ public class DemandItem extends BaseEntity{
 
     private String name;
     private Long price;
-    private Long goal;
+    private int goal;
+
+    public void setDemandProject(DemandProject demandProject){
+        this.demand_project=demandProject;
+    }
 }

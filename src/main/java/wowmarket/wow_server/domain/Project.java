@@ -1,14 +1,15 @@
 package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import java.sql.Blob;
 import java.time.LocalDate;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Project extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "projectId")
@@ -45,6 +46,14 @@ public class Project extends BaseEntity{
 
     private int re_progress;
     private Long final_achievement_rate;
+
+
+    public void setUser(User user){
+        this.user = user;
+    }
+    public void setCategory(Category category){
+        this.category = category;
+    }
 
 }
 

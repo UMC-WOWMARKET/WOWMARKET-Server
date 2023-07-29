@@ -28,6 +28,7 @@ public class User extends BaseEntity implements UserDetails {
     private String bank;
     private String account;
     private String phone;
+    @Column(unique = true, nullable = false)
     private String email;
     private String univ;
     private LocalDateTime univ_auth;

@@ -50,4 +50,11 @@ public class MyOrderService {
         Orders orders = orderRepository.findById(order_id).get();
         orders.updateOrderForm(requestDto);
     }
+
+    @Transactional
+    public void deleteMyOrderFormDetail(Long order_id){
+        Orders orders = orderRepository.findById(order_id).get();
+        if (orders.isDel() == false)
+            orders.setDel(true);
+    }
 }

@@ -22,7 +22,6 @@ public class MyOrderController {
 
     @GetMapping("/{user_id}/myorder")
     public MyOrderFormListResponseDto getMyOrderList(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1", required = false)int page){
-        //Pageable pageable = PageRequest.of(page - 1, 10 /*, Sort.by("id").descending()*/);
         Pageable pageable = PageRequest.of(page - 1, 10);
         return myOrderService.findAllMyOrderForm(user_id, pageable);
     }
@@ -39,6 +38,12 @@ public class MyOrderController {
     @PutMapping("/{user_id}/myorder/detail/{order_id}/save")
     public ResponseEntity saveMyDetailOrder(@PathVariable Long user_id, @PathVariable Long order_id, @RequestBody MyOrderFormDetailUpdateRequestDto requestDto){
         myOrderService.updateMyOrderFormDetail(order_id, requestDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{user_id}/myorder/detail/{order_id}")
+    public ResponseEntity deleteMyOrder(@PathVariable Long user_id, @PathVariable Long order_id){
+        myOrderService.deleteMyOrderFormDetail(order_id);
         return new ResponseEntity(HttpStatus.OK);
     }
 

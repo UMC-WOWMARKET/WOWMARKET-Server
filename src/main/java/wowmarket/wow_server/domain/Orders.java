@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormDetailUpdateRequestDto;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,10 @@ public class Orders extends BaseEntity {
     private String depositor;
     private LocalDateTime depositTime;
     private int order_status;
+
+    @Column(columnDefinition="tinyint(0) default 0")
+    @Setter
+    private boolean isDel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")

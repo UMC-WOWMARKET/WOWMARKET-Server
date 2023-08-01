@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesFormDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesFormListResponseDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesOrderListResponseDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesOrderStatusRequestDto;
+import wowmarket.wow_server.mypage.myproject.dto.*;
 import wowmarket.wow_server.mypage.myproject.service.MyProjectService;
 
 @RestController
@@ -49,6 +46,16 @@ public class MyProjectController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/{user_id}/myproject/order/detail/{order_id}")
+    public MySalesOrderDetailResponseDto getMySalesOrderDetail(@PathVariable Long user_id, @PathVariable Long order_id){
+        return myProjectService.findMySalesOrderDetail(order_id);
+    }
+
+    @DeleteMapping("/{user_id}/myproject/order/detail/{order_id}")
+    public ResponseEntity deleteMySalesOrderForm(@PathVariable Long user_id, @PathVariable Long order_id){
+        myProjectService.deleteMySalesOrder(order_id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 
 }

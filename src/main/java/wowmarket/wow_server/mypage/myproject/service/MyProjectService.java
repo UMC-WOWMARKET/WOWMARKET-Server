@@ -1,17 +1,18 @@
 package wowmarket.wow_server.mypage.myproject.service;
 
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.Item;
+import wowmarket.wow_server.domain.OrderDetail;
 import wowmarket.wow_server.domain.Orders;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.mypage.myproject.dto.*;
 import wowmarket.wow_server.repository.ItemRepository;
+import wowmarket.wow_server.repository.OrderDetailRepository;
 import wowmarket.wow_server.repository.OrderRepository;
 import wowmarket.wow_server.repository.ProjectRepository;
 
@@ -26,6 +27,7 @@ public class MyProjectService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
     @Transactional(readOnly = true)
     public MySalesFormListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
@@ -76,5 +78,20 @@ public class MyProjectService {
         orders.setOrder_status(requestDto.getOrder_status());
     }
 
+    @Transactional
+    public MySalesOrderDetailResponseDto findMySalesOrderDetail(Long order_id){
+        Orders orders = orderRepository.findById(order_id).get();
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_Id(order_id);
+        List<MySalesOrderDetailDto> orderDetailDtos = orderDetails.stream().map(MySalesOrderDetailDto::new).collect(Collectors.toList());
+        MySalesOrderDetailResponseDto responseDto = new MySalesOrderDetailResponseDto(orderDetailDtos, orders);
+        return responseDto;
+    }
+
+    @Transactional
+    public void deleteMySalesOrder(Long order_id){
+        Orders orders = orderRepository.findById(order_id).get();
+        if (orders.isDel() == false)
+            orders.setDel(true);
+    }
 
 }

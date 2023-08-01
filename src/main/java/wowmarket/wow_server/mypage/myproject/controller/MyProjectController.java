@@ -6,9 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.mypage.myproject.dto.MySalesFormDetailResponseDto;
 import wowmarket.wow_server.mypage.myproject.dto.MySalesFormListResponseDto;
+import wowmarket.wow_server.mypage.myproject.dto.MySalesOrderListResponseDto;
+import wowmarket.wow_server.mypage.myproject.dto.MySalesOrderStatusRequestDto;
 import wowmarket.wow_server.mypage.myproject.service.MyProjectService;
 
 @RestController
@@ -33,6 +36,19 @@ public class MyProjectController {
     public MySalesFormDetailResponseDto getMySalesDetail(@PathVariable Long user_id, @PathVariable Long project_id){
         return myProjectService.findMySalesDetail(project_id);
     }
+
+    @GetMapping("/{user_id}/myproject/order")
+    public MySalesOrderListResponseDto getMySalesOrderForms(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1", required = false)int page){
+        Pageable pageable = PageRequest.of(page - 1, 10);
+        return myProjectService.findMySalesOrderForms(user_id, pageable);
+    }
+
+    @PutMapping("/{user_id}/myproject/order/{order_id}")
+    public ResponseEntity updateMySalesOrderFormStatus(@PathVariable Long user_id, @PathVariable Long order_id, @RequestBody MySalesOrderStatusRequestDto requestDto){
+        myProjectService.updateMySalesOrderStatus(order_id, requestDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 
 }

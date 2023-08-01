@@ -11,4 +11,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByNameContaining(String name);
 
     Page<Project> findByUser_Id(Long sellerId, Pageable pageable);
+
+    List<Project> findByUser_Id(Long sellerId);
 }

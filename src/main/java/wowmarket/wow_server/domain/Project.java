@@ -30,8 +30,14 @@ public class Project extends BaseEntity{
     private LocalDate start_date;
     private LocalDate end_date;
     private int participant_number;
-    private Boolean is_del;
-    private Boolean is_end;
+
+    @Column(columnDefinition="tinyint(0) default 0")
+    @Setter
+    private boolean is_del;
+
+    @Column(columnDefinition="tinyint(0) default 0")
+    @Setter
+    private boolean is_end;
 
 //    private Blob thumbnail;
 //    private Blob image1;

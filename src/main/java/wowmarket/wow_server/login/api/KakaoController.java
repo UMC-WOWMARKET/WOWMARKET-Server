@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import wowmarket.wow_server.login.service.KakaoAPIService;
 
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class KakaoController {

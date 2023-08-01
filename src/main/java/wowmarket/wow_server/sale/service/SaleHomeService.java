@@ -42,7 +42,13 @@ public class SaleHomeService {
             univProjects = allProjects;
         }
 
-        //정렬 조건 endDate, popularity, startDate
+//        아예 프론트에서 orderby를 End_date, Start_date 이렇게 넘겨주면 간단할 듯!!
+//        이렇게 사용하는 방법은 없을까?
+//        String orderMethod = "get" + orderby;
+//        sortedProjects = univProjects.stream()
+//                .sorted(Comparator.comparing(Project::orderMethod)).toList();
+
+//        //정렬 조건 endDate, popularity, startDate
         if (orderby.equals("endDate")) { //default
             sortedProjects = univProjects.stream()
                     .sorted(Comparator.comparing(Project::getEnd_date)).toList();

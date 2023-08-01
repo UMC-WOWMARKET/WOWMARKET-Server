@@ -33,12 +33,12 @@ public class User extends BaseEntity implements UserDetails {
     private String univ;
     private LocalDateTime univ_auth;
     private boolean univ_check;
-    private Boolean marketing_agree;
+    private boolean marketing_agree;
 
     @Enumerated(EnumType.STRING)
     private Role role;
     private String refreshToken;
-    private Boolean temporary_password;
+    private boolean temporary_password;
 
     @Enumerated(EnumType.STRING)
     private Login_Method login_method;

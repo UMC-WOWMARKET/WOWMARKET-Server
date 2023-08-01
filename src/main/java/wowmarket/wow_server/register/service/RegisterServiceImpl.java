@@ -27,7 +27,7 @@ public class RegisterServiceImpl implements RegisterService{
     private final CategoryRepository categoryRepository;
 
 
-    public Long registerProject(RegisterProjectDto requestDto) throws Exception {
+    public Long registerProject(RegisterProjectDto requestDto, List<String> uploaded) throws Exception {
         Project project = requestDto.toEntity();
 
         //category 연관관계 설정
@@ -36,6 +36,8 @@ public class RegisterServiceImpl implements RegisterService{
         //user 연관관계 설정
         project.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+        //이미지 컬럼에 저장
+        project.setImage(uploaded);
 
         projectRepository.save(project);
 
@@ -44,7 +46,6 @@ public class RegisterServiceImpl implements RegisterService{
             item.setProject(project);
             itemRepository.save(item);
         }
-
         return project.getId();
     }
     public List<Category> findCategories(){
@@ -52,7 +53,7 @@ public class RegisterServiceImpl implements RegisterService{
     }
 
     @Override
-    public Long registerDemand(RegisterDemandProjectDto requestDto) throws Exception {
+    public Long registerDemand(RegisterDemandProjectDto requestDto, List<String> uploaded) throws Exception {
         DemandProject demandProject = requestDto.toEntity();
         //category 연관관계 설정
         demandProject.setCategory(categoryRepository.findById(requestDto.getCategory_id())
@@ -61,6 +62,7 @@ public class RegisterServiceImpl implements RegisterService{
         demandProject.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
 
+        demandProject.setImage(uploaded);
         demandProjectRepository.save(demandProject);
 
         for (int i = 0; i < requestDto.getItem().size(); i++) {

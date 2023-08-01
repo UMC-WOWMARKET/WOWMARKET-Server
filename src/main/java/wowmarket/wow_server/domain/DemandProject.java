@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,11 +30,11 @@ public class DemandProject extends BaseEntity{
     private String description;
     private LocalDate start_date;
     private LocalDate end_date;
-    //설명이미지필드
-    //대표이미지필드
-    //소개이미지1
-    //소개이미지2
-    //소개이미지3
+
+    private String thumbnail;
+    private String image1;
+    private String image2;
+    private String image3;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
@@ -43,4 +44,16 @@ public class DemandProject extends BaseEntity{
         this.category = category;
     }
 
+    public void setImage(List<String> uploaded){
+        switch (uploaded.size()){
+            case 4:
+                image3 = uploaded.get(3);
+            case 3:
+                image2 = uploaded.get(2);
+            case 2:
+                image1 = uploaded.get(1);
+            case 1:
+                thumbnail = uploaded.get(0);
+        }
+    }
 }

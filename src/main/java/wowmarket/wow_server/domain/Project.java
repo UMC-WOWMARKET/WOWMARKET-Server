@@ -12,18 +12,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Project extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "projectId")
+    @Column(name = "project_id")
     private Long id;
     private String name;
     private String nickname;
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sellerId", referencedColumnName = "userId")
+    @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "category_id")
     private Category category;
 
 

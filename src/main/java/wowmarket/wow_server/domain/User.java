@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 public class User extends BaseEntity implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private Long id;
 
     private String password;

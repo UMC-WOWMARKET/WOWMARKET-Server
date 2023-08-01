@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormItemListRequestDto;
 
 @Entity
 @Getter
@@ -12,16 +13,20 @@ import lombok.NoArgsConstructor;
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderDetailId")
+    @Column(name = "order_detail_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "order_id")
     private Orders orders;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "itemId")
+    @JoinColumn(name = "item_id")
     private Item item;
 
     private int count;
+
+    public void updateOrderDetail(MyOrderFormItemListRequestDto requestDto){
+        this.count = requestDto.getCount();
+    }
 }

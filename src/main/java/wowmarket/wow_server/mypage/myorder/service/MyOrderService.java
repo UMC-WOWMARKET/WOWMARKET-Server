@@ -30,13 +30,24 @@ public class MyOrderService {
     }
 
     @Transactional(readOnly = true)
-    public MyOrderFormDetailResponseDto findMyOrderFormDetail(Long user_id, Long order_id){
+    public MyOrderFormDetailResponseDto findMyOrderFormDetail(Long order_id){
         List<OrderDetail> ordersDetails = orderDetailRepository.findByOrders_Id(order_id);
 
         List<MyOrderFormDetailDto> orderFormDetailDtos = ordersDetails.stream().map(MyOrderFormDetailDto::new).collect(Collectors.toList());
         Orders orders = orderRepository.findById(order_id).get();
         MyOrderFormDetailResponseDto responseDto = new MyOrderFormDetailResponseDto(orderFormDetailDtos, orders.getReceiver(), orders.getAddress(),
-        orders.getDelivery_msg(), orders.getPhone(), orders.getBank(), orders.getAccount(), orders.getDepositor(), orders.getDepositTime());
+        orders.getZipcode(), orders.getDelivery_msg(), orders.getPhone(), orders.getBank(), orders.getAccount(), orders.getDepositor(), orders.getDepositTime());
         return responseDto;
+    }
+
+    @Transactional
+    public void updateMyOrderFormDetail(Long order_id, MyOrderFormDetailUpdateRequestDto requestDto){
+        List<MyOrderFormItemListRequestDto> itemList = requestDto.getItemList();
+        for(MyOrderFormItemListRequestDto i : itemList){
+            OrderDetail orderDetail = orderDetailRepository.findByOrders_IdAndItem_Id(order_id, i.getItemId());
+            orderDetail.updateOrderDetail(i);
+        }
+        Orders orders = orderRepository.findById(order_id).get();
+        orders.updateOrderForm(requestDto);
     }
 }

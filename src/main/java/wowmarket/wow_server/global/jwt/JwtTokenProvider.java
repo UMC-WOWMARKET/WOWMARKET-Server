@@ -20,14 +20,14 @@ public class JwtTokenProvider {
     private final CustomUserDetailsService customUserDetailsService;
 
 
-    //숨겨야함
+    //다른 걸로 숨길 예정
     private String secretKey =
             "c7lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK";
 
     // 토큰 유효시간 1시간
     private final long tokenValidTime = 60 * 60 * 1000L;
-    // refresh token 유효시간 14일
-    private final long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L;
+    // refresh token 유효시간 7일
+    private final long refreshTokenValidTime = 7 * 24 * 60 * 60 * 1000L;
 
     // 객체 초기화, secretKey 를 Base64로 인코딩합니다.
     @PostConstruct //스프링이 빈을 생성한 후 자동으로 호출
@@ -77,6 +77,12 @@ public class JwtTokenProvider {
     public String resolveRefreshToken(HttpServletRequest request) {
         return request.getHeader("X-REFRESH-TOKEN");
     }
+
+    // access token의 만료일자 가져오기
+    // public Long getExpiration(String accessToken){
+
+    //     return 1L;
+    // }
 
     // Access Token의 유효성 + 만료일자 확인
     public boolean validateAccessToken(String accessToken) {

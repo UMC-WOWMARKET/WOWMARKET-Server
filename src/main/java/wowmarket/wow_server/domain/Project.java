@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,10 +40,10 @@ public class Project extends BaseEntity{
     @Setter
     private boolean is_end;
 
-//    private Blob thumbnail;
-//    private Blob image1;
-//    private Blob image2;
-//    private Blob image3;
+    private String thumbnail;
+    private String image1;
+    private String image2;
+    private String image3;
 
     private String receive_type;
     private String bank;
@@ -63,5 +64,18 @@ public class Project extends BaseEntity{
         this.category = category;
     }
 
+    public void setImage(List<String> uploaded){
+        switch (uploaded.size()){
+            case 4:
+                image3 = uploaded.get(3);
+            case 3:
+                image2 = uploaded.get(2);
+            case 2:
+                image1 = uploaded.get(1);
+            case 1:
+                thumbnail = uploaded.get(0);
+        }
+    }
 }
+
 

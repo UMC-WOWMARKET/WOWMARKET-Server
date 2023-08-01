@@ -17,8 +17,8 @@ import wowmarket.wow_server.global.jwt.JwtTokenProvider;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtTokenProvider jwtTokenProvider;
 
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean //비밀번호 암호화 처리하는 메서드 제공
     public PasswordEncoder passwordEncoder() {

@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
         }
 
         User User = userRepository.save(requestDto.toEntity());
-        User.encodePassword(passwordEncoder);
+        User.encodePassword(passwordEncoder); // 비밀번호 암호화
 
         return User.getId();
     }
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
         return TokenResponseDto.builder()
-                .temporaryPw(user.getTemporary_password()) //임시비밀번호인지 전달
+                .temporaryPw(user.isTemporary_password()) //임시비밀번호인지 전달
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

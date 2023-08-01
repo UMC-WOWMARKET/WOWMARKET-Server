@@ -10,11 +10,11 @@ import lombok.*;
 @AllArgsConstructor
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "itemId")
+    @Column(name = "item_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "projectId")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     private String name;

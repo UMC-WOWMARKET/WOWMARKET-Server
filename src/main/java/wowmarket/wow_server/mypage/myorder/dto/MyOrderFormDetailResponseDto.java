@@ -14,6 +14,7 @@ public class MyOrderFormDetailResponseDto {
     private List<MyOrderFormDetailDto> itemList;
     private String receiver;
     private String address;
+    private String zipcode;
     private String message;
     private String phone;
     private String bank;
@@ -21,10 +22,11 @@ public class MyOrderFormDetailResponseDto {
     private String depositor;
     private LocalDateTime deposittime;
 
-    public MyOrderFormDetailResponseDto(List<MyOrderFormDetailDto> itemList, String receiver, String address, String message, String phone, String bank, String account, String depositor, LocalDateTime deposittime){
+    public MyOrderFormDetailResponseDto(List<MyOrderFormDetailDto> itemList, String receiver, String address, String zipcode, String message, String phone, String bank, String account, String depositor, LocalDateTime deposittime){
         this.itemList = itemList;
         this.receiver = receiver;
         this.address = address;
+        this.zipcode = zipcode;
         this.message = message;
         this.phone = phone;
         this.bank = bank;

@@ -9,4 +9,7 @@ import java.util.List;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
     @Query(nativeQuery = true, value = "select * from order_detail where order_id = ?1")
     List<OrderDetail> findByOrders_Id(Long order_id);
+
+    @Query(nativeQuery = true, value = "select * from order_detail where order_id = ?1 and item_id = ?2")
+    OrderDetail findByOrders_IdAndItem_Id(Long order_id, Long item_id);
 }

@@ -12,15 +12,15 @@ import lombok.NoArgsConstructor;
 public class DemandDetail extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "demandDetailId")
+    @Column(name = "demand_detail_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "demandItemId", referencedColumnName = "demandItemId")
+    @JoinColumn(name = "demand_item_id", referencedColumnName = "demand_item_id")
     private DemandItem demand_item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buyerId", referencedColumnName = "userId")
+    @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
     private User user;
     private Integer count;
 

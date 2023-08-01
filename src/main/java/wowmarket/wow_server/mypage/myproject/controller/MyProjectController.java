@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.mypage.myproject.dto.MySalesFormDetailResponseDto;
 import wowmarket.wow_server.mypage.myproject.dto.MySalesFormListResponseDto;
 import wowmarket.wow_server.mypage.myproject.service.MyProjectService;
 
@@ -27,5 +28,11 @@ public class MyProjectController {
         myProjectService.finishMySalesForm(project_id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @GetMapping("/{user_id}/myproject/detail/{project_id}")
+    public MySalesFormDetailResponseDto getMySalesDetail(@PathVariable Long user_id, @PathVariable Long project_id){
+        return myProjectService.findMySalesDetail(project_id);
+    }
+
 
 }

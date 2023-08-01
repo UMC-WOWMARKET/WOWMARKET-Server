@@ -35,6 +35,9 @@ public class DemandProject extends BaseEntity{
     //소개이미지2
     //소개이미지3
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view; //조회수
+
     public void setUser(User user){ this.user = user;}
     public void setCategory(Category category){
         this.category = category;

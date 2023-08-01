@@ -71,7 +71,7 @@ public class JwtTokenProvider {
     }
 
     // Request의 Header에서 token 값을 가져오는 메서드 "X-AUTH-TOKEN" : "TOKEN값'
-    public String  resolveAccessToken(HttpServletRequest request) {
+    public String resolveAccessToken(HttpServletRequest request) {
         return request.getHeader("X-ACCESS-TOKEN");
     }
     public String resolveRefreshToken(HttpServletRequest request) {
@@ -79,10 +79,10 @@ public class JwtTokenProvider {
     }
 
     // access token의 만료일자 가져오기
-    public Long getExpiration(String accessToken){
+    // public Long getExpiration(String accessToken){
 
-        return 1L;
-    }
+    //     return 1L;
+    // }
 
     // Access Token의 유효성 + 만료일자 확인
     public boolean validateAccessToken(String accessToken) {

@@ -9,6 +9,6 @@ public class SecurityUtil {
      */
     public static String getLoginUsername(){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getUsername();
+        return user.getUsername(); //메소드 이름은 getUsername이지만 user email 값 반환
     }
 }

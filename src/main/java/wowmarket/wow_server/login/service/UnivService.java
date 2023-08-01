@@ -114,4 +114,52 @@ public class UnivService {
 
         return univCertifyCodeSuccess;
     }
+
+    public String univCertClear() {
+        String univClearSuccess = "";
+        String reqURL = "https://univcert.com/api/v1/clear";
+
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json"); // JSON 데이터를 보내기
+            conn.setDoOutput(true);
+
+            String clearRequestJson = "{\"key\":\"" + univCertAPI + "\"}";
+            System.out.println("[univCertClear] codeRequestJson : " + clearRequestJson);
+
+            // 요청 본문을 전송하기 위한 OutputStream을 얻어옴
+            conn.setDoOutput(true);
+            OutputStream outputStream = conn.getOutputStream();
+
+            // JSON 데이터를 OutputStream을 통해 전송
+            outputStream.write(clearRequestJson.getBytes("UTF-8"));
+            outputStream.flush();
+            outputStream.close();
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("[univCertClear] 상태코드 반환 : " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("[univCertClear] response body : " + result);
+            br.close();
+
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            univClearSuccess = element.getAsJsonObject().get("success").getAsString();
+            System.out.println("[univCertClear] 인증 유저 초기화 성공 여부 univClearSuccess : " + univClearSuccess);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return univClearSuccess;
+    }
 }

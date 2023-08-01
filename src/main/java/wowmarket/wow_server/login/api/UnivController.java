@@ -27,4 +27,10 @@ public class UnivController {
         return univService.univCertCertifyCode(univ_name, univ_email, code);
     }
 
+    @PostMapping("wowmarket/users/univCert/clear")
+    public String univClear() {
+        System.out.println("\n[univCertify Controller] 인증 유저 목록 초기화\n");
+        return univService.univCertClear();
+    }
+
 }

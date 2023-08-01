@@ -25,4 +25,11 @@ public class MyProjectService {
         return responseDto;
     }
 
+    @Transactional
+    public void finishMySalesForm(Long project_id){
+        Project project = projectRepository.findById(project_id).get();
+        if (project.is_end() == false)
+            project.set_end(true);
+    }
+
 }

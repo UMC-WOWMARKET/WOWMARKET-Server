@@ -21,4 +21,11 @@ public class MyProjectController {
         Pageable pageable = PageRequest.of(page - 1, 10);
         return myProjectService.findAllMySalesForm(user_id, pageable);
     }
+
+    @PutMapping("/{user_id}/myproject/{project_id}")
+    public ResponseEntity finishMySales(@PathVariable Long project_id){
+        myProjectService.finishMySalesForm(project_id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

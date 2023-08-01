@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.mypage.myproject.dto.MySalesFormDetailResponseDto;
 import wowmarket.wow_server.mypage.myproject.dto.MySalesFormListResponseDto;
+import wowmarket.wow_server.mypage.myproject.dto.MySalesOrderListResponseDto;
 import wowmarket.wow_server.mypage.myproject.service.MyProjectService;
 
 @RestController
@@ -33,6 +34,14 @@ public class MyProjectController {
     public MySalesFormDetailResponseDto getMySalesDetail(@PathVariable Long user_id, @PathVariable Long project_id){
         return myProjectService.findMySalesDetail(project_id);
     }
+
+    @GetMapping("/{user_id}/myproject/order")
+    public MySalesOrderListResponseDto getMySalesOrderForms(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1", required = false)int page){
+        Pageable pageable = PageRequest.of(page - 1, 10);
+        return myProjectService.findMySalesOrderForms(user_id, pageable);
+    }
+
+
 
 
 }

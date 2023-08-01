@@ -70,5 +70,11 @@ public class MyProjectService {
         return responseDto;
     }
 
+    @Transactional
+    public void updateMySalesOrderStatus(Long order_id, MySalesOrderStatusRequestDto requestDto){
+        Orders orders = orderRepository.findById(order_id).get();
+        orders.setOrder_status(requestDto.getOrder_status());
+    }
+
 
 }

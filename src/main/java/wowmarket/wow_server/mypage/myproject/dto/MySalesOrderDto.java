@@ -14,6 +14,7 @@ public class MySalesOrderDto {
     private String projectname;
     private LocalDateTime createddate;
     private int order_status;
+    private boolean isdel;
 
     public MySalesOrderDto(Orders orders){
         this.projectid = orders.getProject().getId();
@@ -21,5 +22,6 @@ public class MySalesOrderDto {
         this.projectname = orders.getProject().getName();
         this.createddate = orders.getCreated_time();
         this.order_status = orders.getOrder_status();
+        this.isdel = orders.isDel();
     }
 }

@@ -31,6 +31,8 @@ public class Orders extends BaseEntity {
     private String account;
     private String depositor;
     private LocalDateTime depositTime;
+
+    @Setter
     private int order_status;
 
     @Column(columnDefinition="tinyint(0) default 0")

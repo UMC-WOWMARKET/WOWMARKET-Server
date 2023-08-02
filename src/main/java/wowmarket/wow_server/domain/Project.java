@@ -16,12 +16,12 @@ public class Project extends BaseEntity{
     @Column(name = "project_id")
     private Long id;
     private String name;
-    private String nickname;
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User user;
+    private String nickname;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

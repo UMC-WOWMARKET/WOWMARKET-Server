@@ -22,6 +22,7 @@ public class DemandDetail extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
     private User user;
-    private Integer count;
+
+    private int count;
 
 }

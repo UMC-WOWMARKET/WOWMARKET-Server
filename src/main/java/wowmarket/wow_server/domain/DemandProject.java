@@ -21,6 +21,7 @@ public class DemandProject extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User user;
+    private String nickname;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")

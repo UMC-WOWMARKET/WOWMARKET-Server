@@ -1,10 +1,14 @@
-package wowmarket.wow_server.login.api;
+package wowmarket.wow_server.univ.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import wowmarket.wow_server.login.service.UnivService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.univ.dto.UnivCodeRequestDto;
+import wowmarket.wow_server.univ.dto.UnivRequestDto;
+import wowmarket.wow_server.univ.dto.UnivResponseDto;
+import wowmarket.wow_server.univ.service.UnivService;
 
 
 @RestController
@@ -13,18 +17,17 @@ public class UnivController {
     private final UnivService univService;
 
     @PostMapping("/wowmarket/users/univCert")
-    public String univCertify(@RequestParam String univ_name, @RequestParam String univ_email) {
-        System.out.println("\n===============================================\n");
-        System.out.println("[univCertify Controller] 학교 인증 시작\n");
-        return univService.univCertCertify(univ_name, univ_email);
+    @ResponseStatus(HttpStatus.OK)
+    public UnivResponseDto univCertify(@Valid @RequestBody UnivRequestDto univRequestDto) {
+        System.out.println("\n[univCertify Controller] 학교 인증 시작\n");
+        return ResponseEntity.ok().body(univService.univCertCertify(univRequestDto)).getBody();
     }
 
     @PostMapping("/wowmarket/users/univCert/code")
-    public String univCertifyCode(@RequestParam String univ_name,
-                                  @RequestParam String univ_email,
-                                  @RequestParam int code) {
+    @ResponseStatus(HttpStatus.OK)
+    public UnivResponseDto univCertifyCode(@Valid @RequestBody UnivCodeRequestDto univCodeRequestDto) {
         System.out.println("\n[univCertify Controller] 인증 코드로 학교 인증\n");
-        return univService.univCertCertifyCode(univ_name, univ_email, code);
+        return ResponseEntity.ok().body(univService.univCertCertifyCode(univCodeRequestDto)).getBody();
     }
 
     @PostMapping("wowmarket/users/univCert/clear")

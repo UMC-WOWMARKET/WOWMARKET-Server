@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnivCertifyCodeRequestDto {
+public class certifyCodeRequestDto {
     private String key; //univCertAPI
     private String univName;
     private String email; //univ_email;

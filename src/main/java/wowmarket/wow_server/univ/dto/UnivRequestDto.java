@@ -6,9 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Builder
-@Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class UnivResponseDto {
-    private String success;
+@NoArgsConstructor
+@Getter
+public class UnivRequestDto {
+    private String univ_name;
+    private String univ_email;
 }

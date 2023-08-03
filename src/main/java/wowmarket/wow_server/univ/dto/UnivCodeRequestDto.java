@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnivResponseDto {
-    private String success;
+public class UnivCodeRequestDto {
+    private String univ_name;
+    private String univ_email;
+    private int code;
 }

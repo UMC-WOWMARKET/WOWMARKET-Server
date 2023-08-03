@@ -3,9 +3,14 @@ package wowmarket.wow_server.login.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import wowmarket.wow_server.domain.User;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.login.dto.UnivCertifyCodeRequestDto;
 import wowmarket.wow_server.login.dto.UnivCertifyRequestDto;
+import wowmarket.wow_server.repository.UserRepository;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -14,12 +19,28 @@ import java.net.URL;
 @Service
 @RequiredArgsConstructor
 public class UnivService {
+    private final UserRepository userRepository;
     private final static String univCertAPI = "e8ad2247-491c-4e61-b6aa-46b3776fe7e6";
     private final static boolean univ_check = true; //true : 대학 재학, false : 메일 소유
 
     public String univCertCertify(String univ_name, String univ_email) {
         String univCertifySuccess = "";
+        User user;
         String reqURL = "https://univcert.com/api/v1/certify";
+
+        String loginUserEmail = SecurityUtil.getLoginUsername();
+
+//        project.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
+//                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+
+        //로그인 상태에 따른 처리
+        if (!SecurityUtil.getLoginUsername().equals("anonymousUser")) { //로그인 된 상태
+            System.out.println("[findProjectHome] 로그인 O - 사용자 : " + loginUserEmail);
+            user = userRepository.findByEmail(loginUserEmail).get();
+        } else {
+            System.out.println("[findProjectHome] 로그인 X - 사용자 : " + loginUserEmail);
+            //여기서 종료인디!!
+        }
 
         try {
             URL url = new URL(reqURL);
@@ -58,7 +79,6 @@ public class UnivService {
 
             univCertifySuccess = element.getAsJsonObject().get("success").getAsString();
             System.out.println("[univCertCertify] 인증번호 발송 성공 여부 univCertifySuccess : " + univCertifySuccess);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,7 +88,19 @@ public class UnivService {
 
     public String univCertCertifyCode(String univ_name, String univ_email, int code) {
         String univCertifyCodeSuccess = "";
+        User user;
         String reqURL = "https://univcert.com/api/v1/certifycode";
+
+        String loginUserEmail = SecurityUtil.getLoginUsername();
+
+        //로그인 상태에 따른 처리
+        if (!SecurityUtil.getLoginUsername().equals("anonymousUser")) { //로그인 된 상태
+            System.out.println("[findProjectHome] 로그인 O - 사용자 : " + loginUserEmail);
+            user = userRepository.findByEmail(loginUserEmail).get();
+        } else {
+            System.out.println("[findProjectHome] 로그인 X - 사용자 : " + loginUserEmail);
+            //여기서 종료인디!!
+        }
 
         try {
             URL url = new URL(reqURL);
@@ -107,6 +139,8 @@ public class UnivService {
 
             univCertifyCodeSuccess = element.getAsJsonObject().get("success").getAsString();
             System.out.println("[univCertCertifyCode] 인증번호 일치 성공 여부 univCertifyCodeSuccess : " + univCertifyCodeSuccess);
+
+            //성공이면 유저 학교 관련 정보 업데이트 로직 추가
 
         } catch (IOException e) {
             e.printStackTrace();

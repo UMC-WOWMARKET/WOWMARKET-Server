@@ -1,4 +1,4 @@
-package wowmarket.wow_server.login.dto;
+package wowmarket.wow_server.univ.dto.univCert;
 
 import com.google.gson.Gson;
 import lombok.AllArgsConstructor;

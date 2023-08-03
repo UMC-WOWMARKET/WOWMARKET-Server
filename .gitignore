@@ -48,3 +48,4 @@ gradle/wrapper/gradle-wrapper.jar
 gradlew
 gradlew.bat
 settings.gradle
+.gradle/7.5.1/checksums/checksums.lock

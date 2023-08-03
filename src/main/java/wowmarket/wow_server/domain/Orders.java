@@ -47,18 +47,6 @@ public class Orders extends BaseEntity {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    public void updateOrderForm(MyOrderFormDetailUpdateRequestDto requestDto){
-        this.total_price = requestDto.getTotalprice();
-        this.receiver = requestDto.getReceiver();
-        this.address = requestDto.getAddress();
-        this.zipcode = requestDto.getZipcode();
-        this.delivery_msg = requestDto.getMessage();
-        this.phone = requestDto.getPhone();
-        this.bank = requestDto.getBank();
-        this.account = requestDto.getBank();
-        this.depositor = requestDto.getDepositor();
-        this.depositTime = requestDto.getDeposittime();
-    }
 
 //    아직 주문상세 안 만들어서 주석처리
 //    @OneToOne(fetch = FetchType.LAZY)

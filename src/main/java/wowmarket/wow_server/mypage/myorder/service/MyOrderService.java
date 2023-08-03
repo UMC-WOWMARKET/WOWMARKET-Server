@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.OrderDetail;
 import wowmarket.wow_server.domain.Orders;
+import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.mypage.myorder.dto.*;
 import wowmarket.wow_server.repository.OrderDetailRepository;
 import wowmarket.wow_server.repository.OrderRepository;
+import wowmarket.wow_server.repository.ProjectRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class MyOrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final ProjectRepository projectRepository;
 
     @Transactional(readOnly = true)
     public MyOrderFormListResponseDto findAllMyOrderForm(Long user_id, Pageable pageable){
@@ -35,20 +38,8 @@ public class MyOrderService {
 
         List<MyOrderFormDetailDto> orderFormDetailDtos = ordersDetails.stream().map(MyOrderFormDetailDto::new).collect(Collectors.toList());
         Orders orders = orderRepository.findById(order_id).get();
-        MyOrderFormDetailResponseDto responseDto = new MyOrderFormDetailResponseDto(orderFormDetailDtos, orders.getReceiver(), orders.getAddress(),
-        orders.getZipcode(), orders.getDelivery_msg(), orders.getPhone(), orders.getBank(), orders.getAccount(), orders.getDepositor(), orders.getDepositTime());
+        MyOrderFormDetailResponseDto responseDto = new MyOrderFormDetailResponseDto(orderFormDetailDtos, orders);
         return responseDto;
-    }
-
-    @Transactional
-    public void updateMyOrderFormDetail(Long order_id, MyOrderFormDetailUpdateRequestDto requestDto){
-        List<MyOrderFormItemListRequestDto> itemList = requestDto.getItemList();
-        for(MyOrderFormItemListRequestDto i : itemList){
-            OrderDetail orderDetail = orderDetailRepository.findByOrders_IdAndItem_Id(order_id, i.getItemId());
-            orderDetail.updateOrderDetail(i);
-        }
-        Orders orders = orderRepository.findById(order_id).get();
-        orders.updateOrderForm(requestDto);
     }
 
     @Transactional

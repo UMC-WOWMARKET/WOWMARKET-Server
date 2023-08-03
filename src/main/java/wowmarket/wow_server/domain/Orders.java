@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormDetailUpdateRequestDto;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +23,7 @@ public class Orders extends BaseEntity {
     private int total_price;
     private String receiver;
     private String address;
+    private String address_detail;
     private String zipcode;
     private String delivery_msg;
     private String phone;

@@ -37,6 +37,9 @@ public class DemandProject extends BaseEntity{
     private String image2;
     private String image3;
 
+    @Setter
+    private boolean is_end;
+
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
 

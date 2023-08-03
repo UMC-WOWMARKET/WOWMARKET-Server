@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class TokenResponseDto {
     private Boolean temporaryPw;
     private String grantType;
-    private String accessToken;
-    private String refreshToken;
+    private String jwtAccessToken;
+    private String jwtRefreshToken;
 }

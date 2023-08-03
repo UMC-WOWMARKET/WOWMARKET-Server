@@ -58,8 +58,8 @@ public class UserServiceImpl implements UserService{
         return TokenResponseDto.builder()
                 .temporaryPw(user.isTemporary_password()) //임시비밀번호인지 전달
                 .grantType("Bearer")
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .jwtAccessToken(accessToken)
+                .jwtRefreshToken(refreshToken)
                 .build();
     }
 

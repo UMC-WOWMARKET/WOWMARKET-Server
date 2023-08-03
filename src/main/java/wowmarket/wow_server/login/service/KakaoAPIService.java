@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.Login_Method;
+import wowmarket.wow_server.domain.Role;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.login.dto.KakaoDto;
+import wowmarket.wow_server.global.jwt.JwtTokenProvider;
+import wowmarket.wow_server.login.dto.KakaoResponseDto;
 import wowmarket.wow_server.repository.UserRepository;
 
 import java.io.*;
@@ -24,6 +26,7 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class KakaoAPIService {
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public String getAccessToken(String authorize_code) {
         String access_token = "";
@@ -47,7 +50,7 @@ public class KakaoAPIService {
             bw.flush();
 
             int responseCode = conn.getResponseCode();
-            System.out.println("\n[getAccessToken] 상태코드 반환 : " + responseCode);
+            System.out.println("[getAccessToken] 상태코드 반환 : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -63,8 +66,8 @@ public class KakaoAPIService {
             access_token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_token = element.getAsJsonObject().get("refresh_token").getAsString();
 
-            System.out.println("[getAccessToken] access_token : " + access_token);
-            System.out.println("[getAccessToken] refresh_token : " + refresh_token);
+            System.out.println("[getAccessToken] 카카오 access_token : " + access_token);
+            System.out.println("[getAccessToken] 카카오 refresh_token : " + refresh_token);
 
             br.close();
             bw.close();
@@ -76,19 +79,19 @@ public class KakaoAPIService {
     }
 
     @Transactional
-    public HashMap<String, Object> getUserInfo(String access_token) {
-        HashMap<String, Object> userInfo = new HashMap<>();
+    public KakaoResponseDto getUserInfo(String access_token) {
+        String jwtAccessToken = "";
+        String jwtRefreshToken = "";
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-
             conn.setRequestProperty("Authorization", "Bearer " + access_token);
 
             int responseCode = conn.getResponseCode();
-            System.out.println("\n[getUserInfo] 상태코드 반환 : " + responseCode);
+            System.out.println("[getUserInfo] 상태코드 반환 : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -112,23 +115,44 @@ public class KakaoAPIService {
 
             //findByEmail로 값이 없으면 DB에 저장 userRepository.findByEmail(email).isEmpty()
             if (userRepository.findByEmail(email).isEmpty()) {
-                System.out.println("\n[getUserInfo] nickname과 email 값 잘 넘어왔고 DB에 해당 email 없어서 DB에 저장하는 로직 실행");
-                KakaoDto kakaoDto = new KakaoDto(email, nickname, Login_Method.KAKAO);
-                User User = userRepository.save(kakaoDto.toEntity());
+                System.out.println("[getUserInfo] nickname과 email 값 잘 넘어왔고 DB에 해당 email 없어서 DB에 저장하는 로직 실행");
+
+                User user = User.builder()
+                        .name(nickname)
+                        .email(email)
+                        .login_method(Login_Method.KAKAO)
+                        .role(Role.ROLE_USER)
+                        .build();
+                userRepository.save(user);
+
+                jwtAccessToken = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole().name());
+                jwtRefreshToken = jwtTokenProvider.createRefreshToken();
+                user.updateRefreshToken(jwtRefreshToken); //refreshToken DB에 저장
+                System.out.println("[getUserInfo] jwtAccessToken 생성 & jwtRrefreshToken DB에 저장");
+
                 System.out.println("[getUserInfo] DB 저장 후 User 테이블 userId 확인 userRepository.findByEmail(email).get().getId() : " + userRepository.findByEmail(email).get().getId());
             } else {
-                System.out.println("\n[getUserInfo] DB에 해당 email 이미 저장되어 있어서 DB에 저장하는 로직 실행하지 않음");
-            }
+                System.out.println("[getUserInfo] DB에 해당 email 이미 저장되어 있어서 DB에 저장하는 로직 실행하지 않음");
 
-            userInfo.put("nickname", nickname);
-            userInfo.put("email", email);
+                User user = userRepository.findByEmail(email).get();
+
+                jwtAccessToken = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole().name());
+                jwtRefreshToken = jwtTokenProvider.createRefreshToken();
+                user.updateRefreshToken(jwtRefreshToken); //jwtRrefreshToken DB에 저장
+                System.out.println("[getUserInfo] jwtAccessToken 생성 & jwtRrefreshToken DB에 저장");
+            }
 
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return userInfo;
+        return KakaoResponseDto.builder()
+                .temporaryPw(false)
+                .grantType("Bearer")
+                .jwtAccessToken(jwtAccessToken)
+                .jwtRefreshToken(jwtRefreshToken)
+                .build();
     }
 
     public void unLink(String access_token) {
@@ -141,7 +165,7 @@ public class KakaoAPIService {
             conn.setRequestProperty("Authorization", "Bearer " + access_token);
 
             int responseCode = conn.getResponseCode();
-            System.out.println("\n[unLink] 상태코드 반환 : " + responseCode);
+            System.out.println("[unLink] 상태코드 반환 : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -167,7 +191,7 @@ public class KakaoAPIService {
             conn.setRequestProperty("Authorization", "Bearer " + acccess_token);
 
             int responseCode = conn.getResponseCode();
-            System.out.println("\n[logout] 상태코드 반환 : " + responseCode);
+            System.out.println("[logout] 상태코드 반환 : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";

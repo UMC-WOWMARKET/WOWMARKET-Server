@@ -15,6 +15,7 @@ public class MySalesFormDetailResponseDto {
     private String projectname;
     private String description;
 //    private String mainimg;
+    private String category;
     private List<MySalesItemDto> itemList;
     private LocalDate startdate;
     private LocalDate enddate;
@@ -28,6 +29,7 @@ public class MySalesFormDetailResponseDto {
         this.projectid = project.getId();
         this.projectname = project.getName();
         this.description = project.getDescription();
+        this.category = project.getCategory().getName();
         this.itemList = itemDtos;
         this.startdate = project.getStart_date();
         this.enddate = project.getEnd_date();

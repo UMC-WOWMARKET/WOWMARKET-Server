@@ -8,6 +8,7 @@ build/
 .DS_Store
 .gradle/*
 gradle
+build.gradle
 
 ### STS ###
 .apt_generated
@@ -29,6 +30,10 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+build.gradle
+.gradle
+.gradle/7.5.1/*
+.gradle/8.0/*
 
 ### NetBeans ###
 /nbproject/private/

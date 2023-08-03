@@ -12,14 +12,14 @@ import wowmarket.wow_server.domain.Item;
 @AllArgsConstructor
 @Builder
 public class RegisterItemDto {
-    private String name;
+    private String item_name;
     private Long price;
     private int goal;
 
     @Builder
     public Item toItemEntity(){
         return Item.builder()
-                .name(name)
+                .name(item_name)
                 .price(price)
                 .goal(goal)
                 .build();
@@ -28,7 +28,7 @@ public class RegisterItemDto {
     @Builder
     public DemandItem toDemandItemEntity(){
         return DemandItem.builder()
-                .name(name)
+                .name(item_name)
                 .price(price)
                 .goal(goal)
                 .build();

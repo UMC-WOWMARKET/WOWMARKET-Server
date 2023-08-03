@@ -14,26 +14,23 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RegisterProjectDto {
-    private String name;
+    private String project_name;
     private String description;
-    //대표이미지
     private Long category_id;
     private List<RegisterItemDto> item;
-    //소개이미지
     private LocalDate start_date;
     private LocalDate end_date;
     private String receive_type;
     private String bank;
     private String account;
+    private String account_holder_name;
     private String nickname;
-    private String inquired_phone;
-    private String inquired_email;
 
 
     @Builder
     public Project toEntity(){
         return Project.builder()
-                .name(name)
+                .name(project_name)
                 .description(description)
                 .start_date(start_date)
                 .end_date(end_date)
@@ -42,9 +39,8 @@ public class RegisterProjectDto {
                 .receive_type(receive_type)
                 .bank(bank)
                 .account(account)
+                .account_holder_name(account_holder_name)
                 .nickname(nickname)
-                .inquired_phone(inquired_phone)
-                .inquired_email(inquired_email)
                 .build();
     }
 }

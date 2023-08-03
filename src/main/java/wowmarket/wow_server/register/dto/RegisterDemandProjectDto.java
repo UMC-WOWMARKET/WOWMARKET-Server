@@ -14,23 +14,23 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RegisterDemandProjectDto {
-    private String name;
+    private String project_name;
     private String description;
-    //대표이미지
     private Long category_id;
     private List<RegisterItemDto> item;
-    //소개이미지
     private LocalDate start_date;
     private LocalDate end_date;
+    private String nickname;
 
 
     @Builder
     public DemandProject toEntity(){
         return DemandProject.builder()
-                .name(name)
+                .name(project_name)
                 .description(description)
                 .start_date(start_date)
                 .end_date(end_date)
+                .nickname(nickname)
                 .build();
     }
 

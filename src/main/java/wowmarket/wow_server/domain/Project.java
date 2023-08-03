@@ -46,10 +46,11 @@ public class Project extends BaseEntity{
     private String image3;
 
     private String receive_type;
+
     private String bank;
     private String account;
-    private String inquired_phone;
-    private String inquired_email;
+    private String account_holder_name;
+
 
     private int re_progress;
     private Long final_achievement_rate;

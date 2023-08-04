@@ -19,13 +19,13 @@ public class DemandItem extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "demand_project_id", referencedColumnName = "demand_project_id")
-    private DemandProject demand_project;
+    private DemandProject demandProject;
 
     private String name;
     private Long price;
     private int goal;
 
     public void setDemandProject(DemandProject demandProject){
-        this.demand_project=demandProject;
+        this.demandProject=demandProject;
     }
 }

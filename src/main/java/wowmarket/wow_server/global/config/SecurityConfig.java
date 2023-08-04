@@ -3,6 +3,7 @@ package wowmarket.wow_server.global.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +20,7 @@ import wowmarket.wow_server.global.jwt.JwtTokenProvider;
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate redisTemplate;
 
     @Bean //비밀번호 암호화 처리하는 메서드 제공
     public PasswordEncoder passwordEncoder() {
@@ -40,7 +42,7 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable()); // http 기본 인증 비활성화
 
 
-        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate),
                 UsernamePasswordAuthenticationFilter.class);
 
         // 세션을 사용하지 않기 때문에 STATELESS로 설정

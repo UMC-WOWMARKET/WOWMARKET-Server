@@ -3,19 +3,27 @@ package wowmarket.wow_server.login.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.JwtTokenProvider;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.login.dto.TokenResponseDto;
+
 import wowmarket.wow_server.login.dto.UserSignInRequestDto;
 import wowmarket.wow_server.login.dto.UserSignUpRequestDto;
 import wowmarket.wow_server.repository.UserRepository;
+
+
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Transactional
@@ -27,6 +35,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final JavaMailSender mailSender;
+    private final RedisTemplate redisTemplate;
 
     @Override
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception {
@@ -104,6 +113,20 @@ public class UserServiceImpl implements UserService{
         return str;
     }
 
+    public ResponseEntity logout(HttpServletRequest request){
+        String token = jwtTokenProvider.resolveAccessToken(request);
+
+        //aceess token으로 가져온 유저의 refresh token 삭제
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        user.updateRefreshToken(null);
+        userRepository.save(user);
+
+        // access token의 유효시간 가져와서 블랙리스트 등록
+        Long expiration = jwtTokenProvider.getExpiration(token);
+        redisTemplate.opsForValue().set(token, "logout", expiration, TimeUnit.MILLISECONDS);
+        return ResponseEntity.ok().build();
+    }
 
     @Override
     public TokenResponseDto issueAccessToken(HttpServletRequest request) {

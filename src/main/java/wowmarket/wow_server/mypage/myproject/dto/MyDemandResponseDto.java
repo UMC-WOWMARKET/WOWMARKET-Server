@@ -7,15 +7,14 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class MySalesFormListResponseDto {
-    private List<MySalesFormDto> myprojectList;
-    private int totalpage;
+public class MyDemandResponseDto {
+    private List<MyDemandDto> demandList;
     private int currentpage;
+    private int totalpage;
 
-    public MySalesFormListResponseDto(List<MySalesFormDto> newDtos, int totalpage, int currentpage){
-        this.myprojectList = newDtos;
+    public MyDemandResponseDto(List<MyDemandDto> newDto, int totalpage, int currentpage){
+        this.demandList = newDto;
         this.totalpage = totalpage;
         this.currentpage = currentpage;
     }
-
 }

@@ -25,10 +25,10 @@ public class MyProjectService {
     private final DemandProjectRepository demandProjectRepository;
 
     @Transactional(readOnly = true)
-    public MySalesFormListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
+    public MySalesListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
         Page<Project> projects = projectRepository.findByUser_Id(user_id, pageable);
         Page<MySalesFormDto> mySalesFormDtos = projects.map(MySalesFormDto::new);
-        MySalesFormListResponseDto responseDto = new MySalesFormListResponseDto(mySalesFormDtos.getContent(),
+        MySalesListResponseDto responseDto = new MySalesListResponseDto(mySalesFormDtos.getContent(),
                 mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber());
         return responseDto;
     }
@@ -41,12 +41,12 @@ public class MyProjectService {
     }
 
     @Transactional(readOnly = true)
-    public MySalesFormDetailResponseDto findMySalesDetail(Long project_id){
+    public MySalesDetailResponseDto findMySalesDetail(Long project_id){
         Project project = projectRepository.findById(project_id).get();
         List<Item> itemList = itemRepository.findByProject_Id(project_id);
         List<MySalesItemDto> itemDtos = itemList.stream().map(MySalesItemDto::new).collect(Collectors.toList());
 
-        MySalesFormDetailResponseDto responseDto = new MySalesFormDetailResponseDto(project, itemDtos);
+        MySalesDetailResponseDto responseDto = new MySalesDetailResponseDto(project, itemDtos);
         return responseDto;
     }
 
@@ -90,11 +90,18 @@ public class MyProjectService {
     }
 
     @Transactional(readOnly = true)
-    public MyDemandOrderResponseDto findAllMyDemandForm(Long seller_id, Pageable pageable){
+    public MyDemandResponseDto findAllMyDemandForm(Long seller_id, Pageable pageable){
         Page<DemandProject> demandProjects = demandProjectRepository.findDemandProjectByUser_Id(seller_id, pageable);
-        Page<MyDemandOrderDto> demandOrderDtos = demandProjects.map(MyDemandOrderDto::new);
-        MyDemandOrderResponseDto responseDto = new MyDemandOrderResponseDto(demandOrderDtos.getContent(), demandOrderDtos.getTotalPages(), demandOrderDtos.getNumber() + 1);
+        Page<MyDemandDto> demandOrderDtos = demandProjects.map(MyDemandDto::new);
+        MyDemandResponseDto responseDto = new MyDemandResponseDto(demandOrderDtos.getContent(), demandOrderDtos.getTotalPages(), demandOrderDtos.getNumber() + 1);
         return responseDto;
+    }
+
+    @Transactional
+    public void updateMyDemandFormStatus(Long demand_project_id){
+        DemandProject demandProject = demandProjectRepository.findById(demand_project_id).get();
+        if (demandProject.is_end() == false)
+            demandProject.set_end(true);
     }
 
 }

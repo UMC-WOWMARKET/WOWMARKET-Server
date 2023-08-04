@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 public class SaleDto {
+    private Long project_id;
     private String project_name;
     private String seller_name;
     private LocalDate start_date;
@@ -18,6 +19,7 @@ public class SaleDto {
     private int goal; //달성률 분모: 상품 테이블에서 프로젝트 번호로 조회하여 해당 프로젝트에 들어있는 상품의 목표치의 합
 
     public SaleDto(Project project, int project_total_count, int project_total_goal) {
+        this.project_id = project.getId();
         this.project_name = project.getName();
         this.seller_name = project.getNickname();
         this.start_date = project.getStart_date();

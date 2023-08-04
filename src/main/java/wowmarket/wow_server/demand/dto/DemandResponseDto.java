@@ -10,10 +10,10 @@ import java.util.List;
 @Getter
 public class DemandResponseDto {
     private String univ;
-    private List<DemandDto> project_list;
+    private List<DemandDto> demand_project_list;
 
     public DemandResponseDto(String univ, List<DemandDto> newDtos) {
         this.univ = univ;
-        project_list = newDtos;
+        demand_project_list = newDtos;
     }
 }

@@ -32,16 +32,22 @@ public class User extends BaseEntity implements UserDetails {
     private String email;
     private String univ;
     private LocalDateTime univ_auth;
-    private boolean univ_check;
-    private boolean marketing_agree;
+    private boolean univ_check = false;
+    private boolean marketing_agree = false;
 
     @Enumerated(EnumType.STRING)
     private Role role;
     private String refreshToken;
-    private boolean temporary_password;
+    private boolean temporary_password = false;
 
     @Enumerated(EnumType.STRING)
     private Login_Method login_method;
+
+    public void updateUniv(String univ, LocalDateTime univ_auth, boolean univ_check) {
+        this.univ = univ;
+        this.univ_auth = univ_auth;
+        this.univ_check = univ_check;
+    }
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);

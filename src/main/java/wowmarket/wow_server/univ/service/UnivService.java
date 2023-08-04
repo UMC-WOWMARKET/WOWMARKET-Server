@@ -1,23 +1,38 @@
-package wowmarket.wow_server.login.service;
+package wowmarket.wow_server.univ.service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import wowmarket.wow_server.login.dto.UnivCertifyCodeRequestDto;
-import wowmarket.wow_server.login.dto.UnivCertifyRequestDto;
+import org.springframework.web.server.ResponseStatusException;
+import wowmarket.wow_server.domain.User;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
+import wowmarket.wow_server.univ.dto.UnivCodeRequestDto;
+import wowmarket.wow_server.univ.dto.UnivRequestDto;
+import wowmarket.wow_server.univ.dto.UnivResponseDto;
+import wowmarket.wow_server.univ.dto.univCert.certifyCodeRequestDto;
+import wowmarket.wow_server.univ.dto.univCert.certifyRequestDto;
+import wowmarket.wow_server.repository.UserRepository;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class UnivService {
-    private final static String univCertAPI = "e8ad2247-491c-4e61-b6aa-46b3776fe7e6";
+    private final UserRepository userRepository;
+    @Value("${api-key.univCert}")
+    private String univCertAPIkey;
     private final static boolean univ_check = true; //true : 대학 재학, false : 메일 소유
 
-    public String univCertCertify(String univ_name, String univ_email) {
+    public UnivResponseDto univCertCertify(UnivRequestDto univRequestDto) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
         String univCertifySuccess = "";
         String reqURL = "https://univcert.com/api/v1/certify";
 
@@ -28,8 +43,9 @@ public class UnivService {
             conn.setRequestProperty("Content-Type", "application/json"); // JSON 데이터 보내기
             conn.setDoOutput(true);
 
-            UnivCertifyRequestDto univCertifyRequestDto = new UnivCertifyRequestDto(univCertAPI, univ_name, univ_email, univ_check);
-            String univRequestJson = univCertifyRequestDto.toJson();
+            certifyRequestDto certifyRequestDto = new certifyRequestDto(univCertAPIkey,
+                    univRequestDto.getUniv_name(), univRequestDto.getUniv_email(), univ_check);
+            String univRequestJson = certifyRequestDto.toJson();
             System.out.println("[univCertCertify] univRequestJson : " + univRequestJson);
 
             // 요청 본문을 전송하기 위한 OutputStream을 얻어옴
@@ -58,17 +74,22 @@ public class UnivService {
 
             univCertifySuccess = element.getAsJsonObject().get("success").getAsString();
             System.out.println("[univCertCertify] 인증번호 발송 성공 여부 univCertifySuccess : " + univCertifySuccess);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return univCertifySuccess;
+        return UnivResponseDto.builder()
+                .success(univCertifySuccess)
+                .build();
     }
 
-    public String univCertCertifyCode(String univ_name, String univ_email, int code) {
+    public UnivResponseDto univCertCertifyCode(UnivCodeRequestDto univCodeRequestDto) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
         String univCertifyCodeSuccess = "";
         String reqURL = "https://univcert.com/api/v1/certifycode";
+
+        String loginUserEmail = SecurityUtil.getLoginUsername();
 
         try {
             URL url = new URL(reqURL);
@@ -77,7 +98,10 @@ public class UnivService {
             conn.setRequestProperty("Content-Type", "application/json"); // JSON 데이터를 보내기
             conn.setDoOutput(true);
 
-            UnivCertifyCodeRequestDto codeRequestDto = new UnivCertifyCodeRequestDto(univCertAPI, univ_name, univ_email, code);
+            certifyCodeRequestDto codeRequestDto = new certifyCodeRequestDto(univCertAPIkey,
+                    univCodeRequestDto.getUniv_name(),
+                    univCodeRequestDto.getUniv_email(),
+                    univCodeRequestDto.getCode());
             String codeRequestJson = codeRequestDto.toJson();
             System.out.println("[univCertCertifyCode] codeRequestJson : " + codeRequestJson);
 
@@ -108,11 +132,21 @@ public class UnivService {
             univCertifyCodeSuccess = element.getAsJsonObject().get("success").getAsString();
             System.out.println("[univCertCertifyCode] 인증번호 일치 성공 여부 univCertifyCodeSuccess : " + univCertifyCodeSuccess);
 
+            //성공이면 유저 학교 관련 정보 업데이트 로직 추가
+            if (univCertifyCodeSuccess.equals("true")) {
+                String certified_date = element.getAsJsonObject().get("certified_date").getAsString();
+                LocalDateTime user_univ_auth = LocalDateTime.parse(certified_date);
+                user.updateUniv(element.getAsJsonObject().get("univName").getAsString(),
+                        user_univ_auth, true);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return univCertifyCodeSuccess;
+        return UnivResponseDto.builder()
+                .success(univCertifyCodeSuccess)
+                .build();
     }
 
     public String univCertClear() {
@@ -126,7 +160,7 @@ public class UnivService {
             conn.setRequestProperty("Content-Type", "application/json"); // JSON 데이터를 보내기
             conn.setDoOutput(true);
 
-            String clearRequestJson = "{\"key\":\"" + univCertAPI + "\"}";
+            String clearRequestJson = "{\"key\":\"" + univCertAPIkey + "\"}";
             System.out.println("[univCertClear] codeRequestJson : " + clearRequestJson);
 
             // 요청 본문을 전송하기 위한 OutputStream을 얻어옴

@@ -5,6 +5,7 @@ import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,17 +20,15 @@ import java.util.Date;
 public class JwtTokenProvider {
     private final CustomUserDetailsService customUserDetailsService;
 
-
-    //다른 걸로 숨길 예정
-    private String secretKey =
-            "c7lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK";
+    @Value("${jwt.token.key}")
+    private String secretKey;
 
     // 토큰 유효시간 1시간
     private final long tokenValidTime = 60 * 60 * 1000L;
     // refresh token 유효시간 7일
     private final long refreshTokenValidTime = 7 * 24 * 60 * 60 * 1000L;
 
-    // 객체 초기화, secretKey 를 Base64로 인코딩합니다.
+    // 객체 초기화, secretKey 를 Base64로 인코딩
     @PostConstruct //스프링이 빈을 생성한 후 자동으로 호출
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -59,7 +58,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // JWT 토큰에서 인증 정보 조회
+    // JWT 토큰에서 인증 정보 조회  DB 조회 1번 일어남
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(this.getUserEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -78,11 +77,12 @@ public class JwtTokenProvider {
         return request.getHeader("X-REFRESH-TOKEN");
     }
 
-    // access token의 만료일자 가져오기
-    // public Long getExpiration(String accessToken){
-
-    //     return 1L;
-    // }
+//     access token의 만료일자 가져오기
+     public Long getExpiration(String accessToken){
+        Date expiration = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody().getExpiration();
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
+     }
 
     // Access Token의 유효성 + 만료일자 확인
     public boolean validateAccessToken(String accessToken) {

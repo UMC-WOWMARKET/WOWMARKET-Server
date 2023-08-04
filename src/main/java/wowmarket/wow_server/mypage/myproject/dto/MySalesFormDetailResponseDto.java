@@ -15,28 +15,28 @@ public class MySalesFormDetailResponseDto {
     private String projectname;
     private String description;
 //    private String mainimg;
+    private String category;
     private List<MySalesItemDto> itemList;
     private LocalDate startdate;
     private LocalDate enddate;
     private String receive_type;
-    private String bank;
-    private String account;
-    private String email;
-    private String phone;
-    private String category;
+    private String seller_bank;
+    private String seller_account;
+    private String seller_account_name;
+    private String seller_nickname;
 
     public MySalesFormDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
         this.projectid = project.getId();
         this.projectname = project.getName();
         this.description = project.getDescription();
+        this.category = project.getCategory().getName();
         this.itemList = itemDtos;
         this.startdate = project.getStart_date();
         this.enddate = project.getEnd_date();
         this.receive_type = project.getReceive_type();
-        this.bank = project.getBank();
-        this.account = project.getAccount();
-        this.email = project.getInquired_email();
-        this.phone = project.getInquired_phone();
-        this.category = project.getCategory().getName();
+        this.seller_bank = project.getBank();
+        this.seller_account = project.getAccount();
+        this.seller_account_name = project.getAccount_holder_name();
+        this.seller_nickname = project.getNickname();
     }
 }

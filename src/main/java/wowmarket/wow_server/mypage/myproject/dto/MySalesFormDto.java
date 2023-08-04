@@ -13,14 +13,12 @@ public class MySalesFormDto {
     private Long projectid;
     private String name;
     private LocalDateTime createdtime;
-    private boolean isdel;
-    private boolean isend;
+    private boolean is_end;
 
     public MySalesFormDto(Project project){
         this.projectid = project.getId();
         this.name = project.getName();
         this.createdtime = project.getCreated_time();
-        this.isdel = project.is_del();
-        this.isend = project.is_end();
+        this.is_end = project.is_end();
     }
 }

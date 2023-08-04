@@ -61,14 +61,15 @@ public class MyProjectController {
         return myProjectService.findAllMyDemandForm(user_id, pageable);
     }
 
-    @PutMapping("/{user_id}/myproject/demand/{demand_order_id}")
-    public ResponseEntity updateMyDemandFormStatus(@PathVariable Long user_id, @PathVariable Long demand_order_id){
-        myProjectService.updateMyDemandFormStatus(demand_order_id);
+    @PutMapping("/{user_id}/myproject/demand/{demand_project_id}")
+    public ResponseEntity updateMyDemandFormStatus(@PathVariable Long user_id, @PathVariable Long demand_project_id){
+        myProjectService.updateMyDemandFormStatus(demand_project_id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-//    @GetMapping("/{user_id/myproject/demand/{demand_order_id}")
-//    public
-
+    @GetMapping("/{user_id}/myproject/demand/detail/{demand_project_id}")
+    public MyDemandDetailResponseDto getMyDemandDetailForm(@PathVariable Long user_id, @PathVariable Long demand_project_id){
+        return myProjectService.findMyDemandFormDetail(demand_project_id);
+    }
 
 }

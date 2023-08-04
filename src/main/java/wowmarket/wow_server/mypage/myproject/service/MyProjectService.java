@@ -23,6 +23,7 @@ public class MyProjectService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final DemandProjectRepository demandProjectRepository;
+    private final DemandItemRepository demandItemRepository;
 
     @Transactional(readOnly = true)
     public MySalesListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
@@ -102,6 +103,15 @@ public class MyProjectService {
         DemandProject demandProject = demandProjectRepository.findById(demand_project_id).get();
         if (demandProject.is_end() == false)
             demandProject.set_end(true);
+    }
+
+    @Transactional(readOnly = true)
+    public MyDemandDetailResponseDto findMyDemandFormDetail(Long demand_project_id){
+        DemandProject project = demandProjectRepository.findById(demand_project_id).get();
+        List<DemandItem> demandItems = demandItemRepository.findDemandItemByDemandProject_Id(demand_project_id);
+        List<MyDemandItemDto> itemList = demandItems.stream().map(MyDemandItemDto::new).collect(Collectors.toList());
+        MyDemandDetailResponseDto responseDto = new MyDemandDetailResponseDto(itemList, project);
+        return responseDto;
     }
 
 }

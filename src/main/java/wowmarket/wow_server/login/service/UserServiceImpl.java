@@ -129,8 +129,8 @@ public class UserServiceImpl implements UserService{
             }
         }
         return TokenResponseDto.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .jwtAccessToken(accessToken)
+                .jwtRefreshToken(refreshToken)
                 .build();
     }
 }

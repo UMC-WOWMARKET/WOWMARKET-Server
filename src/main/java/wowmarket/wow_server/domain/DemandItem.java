@@ -23,7 +23,7 @@ public class DemandItem extends BaseEntity{
 
     private String name;
     private Long price;
-    private int goal;
+    private int goal = 0;
 
     public void setDemandProject(DemandProject demandProject){
         this.demand_project=demandProject;

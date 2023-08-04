@@ -19,7 +19,7 @@ public class Item {
 
     private String name;
     private Long price;
-    private int goal;
+    private int goal = 0;
 
     public void setProject(Project project){
         this.project = project;

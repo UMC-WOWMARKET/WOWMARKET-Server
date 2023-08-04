@@ -23,6 +23,6 @@ public class DemandDetail extends BaseEntity{
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
     private User user;
 
-    private int count;
+    private int count = 0;
 
 }

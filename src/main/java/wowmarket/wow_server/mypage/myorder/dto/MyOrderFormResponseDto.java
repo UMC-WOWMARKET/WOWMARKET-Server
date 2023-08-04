@@ -13,13 +13,13 @@ public class MyOrderFormResponseDto {
     private String name;
     private LocalDateTime createdtime;
     private int status;
-    private boolean is_del;
+    private boolean isdel;
 
     public MyOrderFormResponseDto(Orders order){
         this.orderid = order.getId();
         this.name = order.getProject().getName();
         this.createdtime = order.getCreated_time();
         this.status = order.getOrder_status();
-        this.is_del = order.isDel();
+        this.isdel = order.isDel();
     }
 }

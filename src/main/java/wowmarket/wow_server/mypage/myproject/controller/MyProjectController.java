@@ -58,5 +58,11 @@ public class MyProjectController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/{user_id}/myproject/demand")
+    public MyDemandOrderResponseDto getMyDemandList(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1", required = false)int page){
+        Pageable pageable = PageRequest.of(page - 1, 10);
+        return myProjectService.findAllMyDemandForm(user_id, pageable);
+    }
+
 
 }

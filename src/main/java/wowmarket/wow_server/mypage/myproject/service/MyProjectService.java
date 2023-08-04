@@ -6,15 +6,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wowmarket.wow_server.domain.Item;
-import wowmarket.wow_server.domain.OrderDetail;
-import wowmarket.wow_server.domain.Orders;
-import wowmarket.wow_server.domain.Project;
+import wowmarket.wow_server.domain.*;
 import wowmarket.wow_server.mypage.myproject.dto.*;
-import wowmarket.wow_server.repository.ItemRepository;
-import wowmarket.wow_server.repository.OrderDetailRepository;
-import wowmarket.wow_server.repository.OrderRepository;
-import wowmarket.wow_server.repository.ProjectRepository;
+import wowmarket.wow_server.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +22,7 @@ public class MyProjectService {
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final DemandProjectRepository demandProjectRepository;
 
     @Transactional(readOnly = true)
     public MySalesFormListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
@@ -92,6 +87,14 @@ public class MyProjectService {
         Orders orders = orderRepository.findById(order_id).get();
         if (orders.isDel() == false)
             orders.setDel(true);
+    }
+
+    @Transactional(readOnly = true)
+    public MyDemandOrderResponseDto findAllMyDemandForm(Long seller_id, Pageable pageable){
+        Page<DemandProject> demandProjects = demandProjectRepository.findDemandProjectByUser_Id(seller_id, pageable);
+        Page<MyDemandOrderDto> demandOrderDtos = demandProjects.map(MyDemandOrderDto::new);
+        MyDemandOrderResponseDto responseDto = new MyDemandOrderResponseDto(demandOrderDtos.getContent(), demandOrderDtos.getTotalPages(), demandOrderDtos.getNumber() + 1);
+        return responseDto;
     }
 
 }

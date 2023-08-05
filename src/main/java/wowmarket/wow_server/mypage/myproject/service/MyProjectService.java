@@ -6,15 +6,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wowmarket.wow_server.domain.Item;
-import wowmarket.wow_server.domain.OrderDetail;
-import wowmarket.wow_server.domain.Orders;
-import wowmarket.wow_server.domain.Project;
+import wowmarket.wow_server.domain.*;
 import wowmarket.wow_server.mypage.myproject.dto.*;
-import wowmarket.wow_server.repository.ItemRepository;
-import wowmarket.wow_server.repository.OrderDetailRepository;
-import wowmarket.wow_server.repository.OrderRepository;
-import wowmarket.wow_server.repository.ProjectRepository;
+import wowmarket.wow_server.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +22,14 @@ public class MyProjectService {
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final DemandProjectRepository demandProjectRepository;
+    private final DemandItemRepository demandItemRepository;
 
     @Transactional(readOnly = true)
-    public MySalesFormListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
+    public MySalesListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
         Page<Project> projects = projectRepository.findByUser_Id(user_id, pageable);
         Page<MySalesFormDto> mySalesFormDtos = projects.map(MySalesFormDto::new);
-        MySalesFormListResponseDto responseDto = new MySalesFormListResponseDto(mySalesFormDtos.getContent(),
+        MySalesListResponseDto responseDto = new MySalesListResponseDto(mySalesFormDtos.getContent(),
                 mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber());
         return responseDto;
     }
@@ -46,12 +42,12 @@ public class MyProjectService {
     }
 
     @Transactional(readOnly = true)
-    public MySalesFormDetailResponseDto findMySalesDetail(Long project_id){
+    public MySalesDetailResponseDto findMySalesDetail(Long project_id){
         Project project = projectRepository.findById(project_id).get();
         List<Item> itemList = itemRepository.findByProject_Id(project_id);
         List<MySalesItemDto> itemDtos = itemList.stream().map(MySalesItemDto::new).collect(Collectors.toList());
 
-        MySalesFormDetailResponseDto responseDto = new MySalesFormDetailResponseDto(project, itemDtos);
+        MySalesDetailResponseDto responseDto = new MySalesDetailResponseDto(project, itemDtos);
         return responseDto;
     }
 
@@ -92,6 +88,30 @@ public class MyProjectService {
         Orders orders = orderRepository.findById(order_id).get();
         if (orders.isDel() == false)
             orders.setDel(true);
+    }
+
+    @Transactional(readOnly = true)
+    public MyDemandResponseDto findAllMyDemandForm(Long seller_id, Pageable pageable){
+        Page<DemandProject> demandProjects = demandProjectRepository.findDemandProjectByUser_Id(seller_id, pageable);
+        Page<MyDemandDto> demandOrderDtos = demandProjects.map(MyDemandDto::new);
+        MyDemandResponseDto responseDto = new MyDemandResponseDto(demandOrderDtos.getContent(), demandOrderDtos.getTotalPages(), demandOrderDtos.getNumber() + 1);
+        return responseDto;
+    }
+
+    @Transactional
+    public void updateMyDemandFormStatus(Long demand_project_id){
+        DemandProject demandProject = demandProjectRepository.findById(demand_project_id).get();
+        if (demandProject.is_end() == false)
+            demandProject.set_end(true);
+    }
+
+    @Transactional(readOnly = true)
+    public MyDemandDetailResponseDto findMyDemandFormDetail(Long demand_project_id){
+        DemandProject project = demandProjectRepository.findById(demand_project_id).get();
+        List<DemandItem> demandItems = demandItemRepository.findDemandItemByDemandProject_Id(demand_project_id);
+        List<MyDemandItemDto> itemList = demandItems.stream().map(MyDemandItemDto::new).collect(Collectors.toList());
+        MyDemandDetailResponseDto responseDto = new MyDemandDetailResponseDto(itemList, project);
+        return responseDto;
     }
 
 }

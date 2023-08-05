@@ -5,12 +5,11 @@ import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.Project;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class MySalesFormDetailResponseDto {
+public class MySalesDetailResponseDto {
     private Long projectid;
     private String projectname;
     private String description;
@@ -25,7 +24,7 @@ public class MySalesFormDetailResponseDto {
     private String seller_account_name;
     private String seller_nickname;
 
-    public MySalesFormDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
+    public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
         this.projectid = project.getId();
         this.projectname = project.getName();
         this.description = project.getDescription();

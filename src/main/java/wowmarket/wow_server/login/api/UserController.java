@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.login.dto.TokenResponseDto;
 import wowmarket.wow_server.login.dto.UserSignInRequestDto;
 import wowmarket.wow_server.login.dto.UserSignUpRequestDto;
@@ -29,6 +30,11 @@ public class UserController {
 //        return userService.signIn(request);
         return ResponseEntity.ok().body(userService.signIn(request)).getBody();
     }
+    @GetMapping("/loginCheck")
+    @ResponseStatus(HttpStatus.OK)
+    public String jwtCheck(){
+        return SecurityUtil.getLoginUsername();
+    }
 
     @PostMapping("/sendTempPw")
     @ResponseStatus(HttpStatus.OK)
@@ -41,6 +47,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public Long resetPw(@Valid @RequestBody UserSignInRequestDto request){
         return userService.updatePassword(request.getEmail(), request.getPassword(), false);
+    }
+
+    @PostMapping ("/logout")
+    public ResponseEntity logout(HttpServletRequest request){
+       return userService.logout(request);
     }
 
     @PutMapping("/newAccess")

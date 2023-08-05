@@ -38,6 +38,7 @@ public class DemandProject extends BaseEntity{
     private String image3;
 
     @Setter
+    @Column(columnDefinition="tinyint(0) default 0")
     private boolean is_end;
 
     @Column(columnDefinition = "integer default 0", nullable = false)

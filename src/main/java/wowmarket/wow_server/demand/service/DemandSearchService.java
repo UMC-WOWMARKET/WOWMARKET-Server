@@ -1,8 +1,10 @@
 package wowmarket.wow_server.demand.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.demand.dto.DemandDto;
 import wowmarket.wow_server.demand.dto.DemandResponseDto;
 import wowmarket.wow_server.domain.DemandProject;
@@ -44,12 +46,16 @@ public class DemandSearchService {
         }
 
         //학교 필터링
-        if (user_univ_check && univ.equals("myUniv")) { // 학교 인증 확인
-            String stream_user_univ = user_univ;
-            univDemandProjects = searchDemandProjects.stream()
-                    .filter(demandProject -> demandProject.getUser().getUniv().equals(stream_user_univ))
-                    .toList();
-            System.out.println("[findDemandProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
+        if (univ.equals("myUniv")) { // 학교 인증 확인
+            if (!loginUserEmail.equals("anonymousUser") && !user_univ_check) { // 로그인 O && 학교인증 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
+            } else if (user_univ_check) {
+                String stream_user_univ = user_univ;
+                univDemandProjects = searchDemandProjects.stream()
+                        .filter(demandProject -> demandProject.getUser().getUniv().equals(stream_user_univ))
+                        .toList();
+                System.out.println("[findDemandProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
+            }
         } else {
             univDemandProjects = searchDemandProjects;
             System.out.println("[findDemandProjectSearch] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");

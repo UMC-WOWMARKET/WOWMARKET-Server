@@ -24,14 +24,14 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class UnivService {
+    private final static boolean univ_check = true; //true : 대학 재학, false : 메일 소유
     private final UserRepository userRepository;
     @Value("${api-key.univCert}")
     private String univCertAPIkey;
-    private final static boolean univ_check = true; //true : 대학 재학, false : 메일 소유
 
     public UnivResponseDto univCertCertify(UnivRequestDto univRequestDto) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자 식별 정보 없음"));
 
         String univCertifySuccess = "";
         String reqURL = "https://univcert.com/api/v1/certify";
@@ -60,7 +60,12 @@ public class UnivService {
             int responseCode = conn.getResponseCode();
             System.out.println("[univCertCertify] 상태코드 반환 : " + responseCode);
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader br;
+            if (responseCode >= 200 && responseCode < 300) { // 정상적인 응답인 경우
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else { // 에러 응답인 경우
+                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
             String line = "";
             String result = "";
             while ((line = br.readLine()) != null) {
@@ -74,6 +79,12 @@ public class UnivService {
 
             univCertifySuccess = element.getAsJsonObject().get("success").getAsString();
             System.out.println("[univCertCertify] 인증번호 발송 성공 여부 univCertifySuccess : " + univCertifySuccess);
+            if (element.getAsJsonObject().get("code").getAsString().equals("400") &&
+                    element.getAsJsonObject().has("message") &&
+                    element.getAsJsonObject().get("message").getAsString().equals("이미 완료된 요청입니다.")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "이미 인증이 완료되었습니다!");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,6 +142,11 @@ public class UnivService {
 
             univCertifyCodeSuccess = element.getAsJsonObject().get("success").getAsString();
             System.out.println("[univCertCertifyCode] 인증번호 일치 성공 여부 univCertifyCodeSuccess : " + univCertifyCodeSuccess);
+            if (element.getAsJsonObject().get("code").getAsString().equals("400") &&
+                    element.getAsJsonObject().has("message") &&
+                    element.getAsJsonObject().get("message").getAsString().equals("일치하지 않는 인증코드입니다.")) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "일치하지 않는 인증코드입니다.");
+            }
 
             //성공이면 유저 학교 관련 정보 업데이트 로직 추가
             if (univCertifyCodeSuccess.equals("true")) {

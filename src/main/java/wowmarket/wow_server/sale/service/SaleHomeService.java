@@ -1,8 +1,10 @@
 package wowmarket.wow_server.sale.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
@@ -27,11 +29,10 @@ public class SaleHomeService {
     public SaleResponseDto findProjectHome(String univ, String orderby, Long lastpostid, int size) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
-        List<Project> allProjects = projectRepository.findAll();
+        String loginUserEmail = SecurityUtil.getLoginUsername();
+
         List<Project> univProjects = new ArrayList<>();
         List<Project> sortedProjects = new ArrayList<>();
-
-        String loginUserEmail = SecurityUtil.getLoginUsername();
 
         //로그인 상태에 따른 처리
         if (!loginUserEmail.equals("anonymousUser")) { //로그인 된 상태
@@ -43,15 +44,15 @@ public class SaleHomeService {
             System.out.println("[findProjectHome] 로그인 X - 사용자 : " + loginUserEmail);
         }
 
-        //사용자의 학교 인증 미완 시 학교 필터 all만 가능 myUniv 불가 -> 프론트에서 사용자애게 알려주기
-        if (user_univ_check && univ.equals("myUniv")) {
-            String stream_user_univ = user_univ;
-            univProjects = allProjects.stream()
-                    .filter(project -> project.getUser().getUniv().equals(stream_user_univ))
-                    .toList();
-            System.out.println("[findProjectHome] 소속학교 필터 : 학교 인증 && myUniv");
+        if (univ.equals("myUniv")) {
+            if (!loginUserEmail.equals("anonymousUser") && !user_univ_check) { // 로그인 O && 학교인증 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
+            } else if (user_univ_check) {
+                univProjects = projectRepository.findProjectByUserUniv(user_univ);
+                System.out.println("[findProjectHome] 소속학교 필터 : 학교 인증 && myUniv");
+            }
         } else { // !user.isUniv_check() || univ.equals("allUniv")
-            univProjects = allProjects;
+            univProjects = projectRepository.findAll();
             System.out.println("[findProjectHome] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");
         }
 
@@ -70,10 +71,17 @@ public class SaleHomeService {
             System.out.println("[findProjectHome] 인기순 정렬");
         }
 
+        univProjects.stream().map(project -> {
+            int achieved = itemRepository.getTotalOrderCountByProject(project);
+            int goal = itemRepository.getTotalGoalByProject(project);
+            return achieved / goal;
+        }).sorted(Comparator.comparing()).toList();
+
+
         //size만큼 개수 반환
-        List<Project> sizedProjects = sortedProjects.stream()
-                .skip(0)
-                .limit(size).toList();
+//        List<Project> sizedProjects = sortedProjects.stream()
+//                .skip(0)
+//                .limit(size).toList();
 
         List<SaleDto> projectDtos = sortedProjects.stream()
                 .map(project -> new SaleDto(project,

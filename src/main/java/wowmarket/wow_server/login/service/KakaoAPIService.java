@@ -93,12 +93,7 @@ public class KakaoAPIService {
             int responseCode = conn.getResponseCode();
             System.out.println("[getUserInfo] 상태코드 반환 : " + responseCode);
 
-            BufferedReader br;
-            if (responseCode >= 200 && responseCode < 300) { // 정상적인 응답인 경우
-                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            } else { // 에러 응답인 경우
-                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
             while ((line = br.readLine()) != null) {
@@ -172,12 +167,7 @@ public class KakaoAPIService {
             int responseCode = conn.getResponseCode();
             System.out.println("[unLink] 상태코드 반환 : " + responseCode);
 
-            BufferedReader br;
-            if (responseCode >= 200 && responseCode < 300) { // 정상적인 응답인 경우
-                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            } else { // 에러 응답인 경우
-                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
             while ((line = br.readLine()) != null) {
@@ -203,12 +193,7 @@ public class KakaoAPIService {
             int responseCode = conn.getResponseCode();
             System.out.println("[logout] 상태코드 반환 : " + responseCode);
 
-            BufferedReader br;
-            if (responseCode >= 200 && responseCode < 300) { // 정상적인 응답인 경우
-                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            } else { // 에러 응답인 경우
-                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
             while ((line = br.readLine()) != null) {

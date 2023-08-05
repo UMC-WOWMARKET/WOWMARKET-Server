@@ -1,7 +1,6 @@
 package wowmarket.wow_server.sale.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.sale.dto.SaleResponseDto;
 import wowmarket.wow_server.sale.service.SaleHomeService;
@@ -24,8 +23,9 @@ public class SaleController {
             @RequestParam(name = "lastpostid") Long lastpostid, //무한스크롤 구현을 위해 현재 보고 있는 상품의 마지막 id
             @RequestParam(name = "size", defaultValue = "9", required = true) int size) { //상품 몇 개씩 보여줄지 size
         System.out.println("\n[GetSaleProjectListHome Controller] 판매 홈 페이지 로직\n");
-        return ResponseEntity.ok().body(saleHomeService.findProjectHome(univ, orderby, lastpostid, size)).getBody();
+        return saleHomeService.findProjectHome(univ, orderby, lastpostid, size);
     }
+
 
     @GetMapping
 //     /wowmarket/sale?search={search}&univ=${univ}&orderby=${orderby}&lastpostid=${lastpostid}&size=${size}
@@ -36,7 +36,7 @@ public class SaleController {
             @RequestParam("lastpostid") Long lastpostid, //무한스크롤 구현을 위해 현재 보고 있는 상품의 마지막 id
             @RequestParam(name = "size", defaultValue = "9", required = true) int size) {
         System.out.println("\n[GetSaleProjectListSearch Controller] 판매 검색 페이지 로직\n");
-        return ResponseEntity.ok().body(saleSearchService.findProjectSearch(search, univ, orderby)).getBody();
+        return saleSearchService.findProjectSearch(search, univ, orderby);//로그인 유무와 유저 정보 필요!!
     }
 }
 

@@ -3,17 +3,12 @@ package wowmarket.wow_server.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import wowmarket.wow_server.domain.Project;
 
 import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByNameContaining(String name);
-
-    @Query("SELECT p FROM PROJECT p WHERE p.user.univ = :user_univ")
-    List<Project> findProjectByUserUniv(@Param("user_univ") String user_univ);
 
     Page<Project> findByUser_Id(Long sellerId, Pageable pageable);
 

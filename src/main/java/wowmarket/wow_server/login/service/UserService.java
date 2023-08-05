@@ -3,7 +3,6 @@ package wowmarket.wow_server.login.service;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import wowmarket.wow_server.login.dto.TokenResponseDto;
-import wowmarket.wow_server.login.dto.UserLogoutRequestDto;
 import wowmarket.wow_server.login.dto.UserSignInRequestDto;
 import wowmarket.wow_server.login.dto.UserSignUpRequestDto;
 

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -94,4 +96,16 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+/////***
+//    //== 회원탈퇴 -> 작성한 게시물, 댓글 모두 삭제 ==//
+//    @OneToMany(mappedBy = "writer", cascade = ALL, orphanRemoval = true)
+//    private List<Notice> noticeList = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "writer", cascade = ALL, orphanRemoval = true)
+//    private List<Question> questionList = new ArrayList<>();
+//
+
+
 }

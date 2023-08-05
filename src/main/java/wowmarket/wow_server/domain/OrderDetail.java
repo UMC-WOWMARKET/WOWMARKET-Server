@@ -24,7 +24,7 @@ public class OrderDetail {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private int count;
+    private int count = 0;
 
     public void updateOrderDetail(MyOrderFormItemListRequestDto requestDto){
         this.count = requestDto.getCount();

@@ -24,7 +24,7 @@ public class SaleHomeService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
 
-    public SaleResponseDto findProjectHome(String univ, String orderby) {
+    public SaleResponseDto findProjectHome(String univ, String orderby, Long lastpostid, int size) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
         List<Project> allProjects = projectRepository.findAll();
@@ -69,6 +69,11 @@ public class SaleHomeService {
                     .sorted(Comparator.comparing(Project::getView).reversed()).toList();
             System.out.println("[findProjectHome] 인기순 정렬");
         }
+
+        //size만큼 개수 반환
+        List<Project> sizedProjects = sortedProjects.stream()
+                .skip(0)
+                .limit(size).toList();
 
         List<SaleDto> projectDtos = sortedProjects.stream()
                 .map(project -> new SaleDto(project,

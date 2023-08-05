@@ -27,7 +27,7 @@ public class DemandHomeService {
     //로그인 O && 학교인증 O -> 소속학교 + 마감임박순
     //로그인 X || 학교인증 X -> 전체 학교 + 마감임박순
     public DemandResponseDto findDemandProjectHome(String univ, String orderby) {
-        String user_univ = "";
+        String user_univ = "allUniv";
         boolean user_univ_check = false;
         String loginUserEmail = SecurityUtil.getLoginUsername();
 

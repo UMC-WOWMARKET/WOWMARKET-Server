@@ -14,7 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT SUM(i.goal) FROM Item i WHERE i.project = :project")
     int getTotalGoalByProject(@Param("project") Project project);
 
-    @Query("SELECT SUM(od.count) FROM OrderDetail od WHERE od.item.project = :project")
+    @Query("SELECT COALESCE(SUM(od.count), 0) FROM OrderDetail od WHERE od.item.project = :project")
     int getTotalOrderCountByProject(@Param("project") Project project);
     //OrderDetail이 아닌 Item에서 주문 개수를 고려하여 프로젝트 별 주문 개수의 합을 구하는 쿼리
 

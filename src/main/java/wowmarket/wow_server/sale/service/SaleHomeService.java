@@ -48,14 +48,13 @@ public class SaleHomeService {
         }
 
         if (univ.equals("myUniv")) {
-            if (!loginUserEmail.equals("anonymousUser") && !user_univ_check) { // 로그인 O && 학교인증 X
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
-            } else if (user_univ_check) {
+            if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+            } else if (user_univ_check) { // 학교인증 O -> 로그인 O
                 univProjects = projectRepository.findProjectByUserUniv(user_univ);
                 System.out.println("[findProjectHome] 소속학교 필터 : 학교 인증 && myUniv");
-            } else {
-                univProjects = projectRepository.findAll();
-                System.out.println("[findProjectHome] 전체학교 필터 : 로그인 O && 학교 인증 X -> allUniv");
+            } else { //학교인증 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else { // !user.isUniv_check() || univ.equals("allUniv")
             univProjects = projectRepository.findAll();

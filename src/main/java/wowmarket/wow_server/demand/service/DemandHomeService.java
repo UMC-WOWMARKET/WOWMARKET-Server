@@ -1,8 +1,10 @@
 package wowmarket.wow_server.demand.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.demand.dto.DemandDto;
 import wowmarket.wow_server.demand.dto.DemandResponseDto;
 import wowmarket.wow_server.domain.DemandProject;
@@ -31,7 +33,6 @@ public class DemandHomeService {
         boolean user_univ_check = false;
         String loginUserEmail = SecurityUtil.getLoginUsername();
 
-        List<DemandProject> allDemandProjects = demandProjectRepository.findAll();
         List<DemandProject> univDemandProjects = new ArrayList<>();
         List<DemandProject> sortedDemandProjects = new ArrayList<>();
 
@@ -39,21 +40,26 @@ public class DemandHomeService {
         if (!loginUserEmail.equals("anonymousUser")) { //로그인 된 상태
             System.out.println("[findDemandProjectHome] 로그인 O - 사용자 : " + loginUserEmail);
             User user = userRepository.findByEmail(loginUserEmail).get();
-            user_univ = user.getUniv();
             user_univ_check = user.isUniv_check();
+            if (user_univ_check) {
+                user_univ = user.getUniv();
+            }
         } else { //로그인 안 된 상태
             System.out.println("[findDemandProjectHome] 로그인 X - 사용자 : " + loginUserEmail);
         }
 
         //학교 필터링
-        if (user_univ_check && univ.equals("myUniv")) {
-            String stream_user_univ = user_univ;
-            univDemandProjects = allDemandProjects.stream()
-                    .filter(demandProject -> demandProject.getUser().getUniv().equals(stream_user_univ))
-                    .toList();
-            System.out.println("[findDemandProjectHome] 소속학교 필터 : 학교 인증 && myUniv");
+        if (univ.equals("myUniv")) {
+            if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+            } else if (user_univ_check) { //학교인증 O -> 로그인 O
+                univDemandProjects = demandProjectRepository.findDemandProjectByUserUniv(user_univ);
+                System.out.println("[findDemandProjectHome] 소속학교 필터 : 학교 인증 && myUniv");
+            } else { //학교인증 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
+            }
         } else { //학교인증 X || allUniv
-            univDemandProjects = allDemandProjects;
+            univDemandProjects = demandProjectRepository.findAll();
             System.out.println("[findDemandProjectHome] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");
         }
 

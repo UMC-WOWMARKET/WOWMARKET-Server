@@ -49,17 +49,16 @@ public class SaleSearchService {
 
         //학교 필터링
         if (univ.equals("myUniv")) { // 학교 인증 확인
-            if (!loginUserEmail.equals("anonymousUser") && !user_univ_check) { // 로그인 O && 학교인증 X
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
-            } else if (user_univ_check) {
+            if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+            } else if (user_univ_check) { // 학교인증 O -> 로그인 O
                 String stream_user_univ = user_univ;
                 univProjects = searchProjects.stream()
                         .filter(project -> project.getUser().getUniv().equals(stream_user_univ))
                         .toList();
                 System.out.println("[findProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
-            } else {
-                univProjects = searchProjects;
-                System.out.println("[findProjectSearch] 전체학교 필터 : 로그인 O && 학교 인증 X -> allUniv");
+            } else { // 학교인증 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else {
             univProjects = searchProjects;

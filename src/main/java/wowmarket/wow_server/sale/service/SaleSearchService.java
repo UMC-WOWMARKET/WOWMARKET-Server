@@ -1,9 +1,10 @@
 package wowmarket.wow_server.sale.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wowmarket.wow_server.domain.DemandProject;
+import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
@@ -25,8 +26,6 @@ public class SaleSearchService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
 
-    //로그인 O && 학교인증 O -> 소속학교 + 마감임박순
-    //로그인 X || 학교인증 X -> 전체 학교 + 마감임박순
     public SaleResponseDto findProjectSearch(String search, String univ, String orderby) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
@@ -40,19 +39,28 @@ public class SaleSearchService {
         if (!loginUserEmail.equals("anonymousUser")) { //로그인 된 상태 + 학교 인증 : 소속학교 + 마감임박순
             System.out.println("[findProjectSearch] 로그인 O - 사용자 : " + loginUserEmail);
             User user = userRepository.findByEmail(loginUserEmail).get();
-            user_univ = user.getUniv();
             user_univ_check = user.isUniv_check();
+            if (user_univ_check) {
+                user_univ = user.getUniv();
+            }
         } else { //로그인이 안 된 상태이거나 학교 인증 미완 : 전체학교 + 마감임박순
             System.out.println("[findProjectSearch] 로그인 X - 사용자 : " + loginUserEmail);
         }
 
         //학교 필터링
-        if (user_univ_check && univ.equals("myUniv")) { // 학교 인증 확인
-            String stream_user_univ = user_univ;
-            univProjects = searchProjects.stream()
-                    .filter(project -> project.getUser().getUniv().equals(stream_user_univ))
-                    .toList();
-            System.out.println("[findProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
+        if (univ.equals("myUniv")) { // 학교 인증 확인
+            if (!loginUserEmail.equals("anonymousUser") && !user_univ_check) { // 로그인 O && 학교인증 X
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
+            } else if (user_univ_check) {
+                String stream_user_univ = user_univ;
+                univProjects = searchProjects.stream()
+                        .filter(project -> project.getUser().getUniv().equals(stream_user_univ))
+                        .toList();
+                System.out.println("[findProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
+            } else {
+                univProjects = searchProjects;
+                System.out.println("[findProjectSearch] 전체학교 필터 : 로그인 O && 학교 인증 X -> allUniv");
+            }
         } else {
             univProjects = searchProjects;
             System.out.println("[findProjectSearch] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");

@@ -34,7 +34,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
     private String univ;
-    private LocalDateTime univ_auth;
+    private String univ_certified_date;
     private boolean univ_check = false;
     private boolean marketing_agree = false;
 
@@ -46,9 +46,9 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Login_Method login_method;
 
-    public void updateUniv(String univ, LocalDateTime univ_auth, boolean univ_check) {
+    public void updateUniv(String univ, String univ_certified_date, boolean univ_check) {
         this.univ = univ;
-        this.univ_auth = univ_auth;
+        this.univ_certified_date = univ_certified_date;
         this.univ_check = univ_check;
     }
 

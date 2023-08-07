@@ -1,14 +1,75 @@
 package wowmarket.wow_server.register.service;
-import org.springframework.web.multipart.MultipartFile;
-import wowmarket.wow_server.domain.Category;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+import wowmarket.wow_server.domain.*;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.register.dto.RegisterDemandProjectDto;
 import wowmarket.wow_server.register.dto.RegisterProjectDto;
+import wowmarket.wow_server.repository.*;
 
 import java.util.List;
 
-public interface RegisterService {
-    public Long registerProject(RegisterProjectDto requestDto, List<String> uploaded) throws Exception;
-    public List<Category> findCategories();
 
-    public Long registerDemand(RegisterDemandProjectDto requestDto, List<String> uploaded) throws Exception;
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class RegisterService {
+
+    private final ProjectRepository projectRepository;
+    private final ItemRepository itemRepository;
+    private final DemandProjectRepository demandProjectRepository;
+    private final DemandItemRepository demandItemRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+
+
+    public Long registerProject(RegisterProjectDto requestDto) throws Exception {
+        Project project = requestDto.toEntity();
+
+        //category 연관관계 설정
+        project.setCategory(categoryRepository.findById(requestDto.getCategory_id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+        //user 연관관계 설정
+        project.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+
+        projectRepository.save(project);
+
+        for (int i = 0; i < requestDto.getItem().size(); i++) {
+            Item item = requestDto.getItem().get(i).toItemEntity();
+            item.setProject(project);
+            itemRepository.save(item);
+        }
+        return project.getId();
+    }
+    public List<Category> findCategories(){
+        return categoryRepository.findAll();
+    }
+
+
+
+    public Long registerDemand(RegisterDemandProjectDto requestDto) throws Exception {
+        DemandProject demandProject = requestDto.toEntity();
+
+        //category 연관관계 설정
+        demandProject.setCategory(categoryRepository.findById(requestDto.getCategory_id())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+        //user 연관관계 설정
+        demandProject.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+
+        demandProjectRepository.save(demandProject);
+
+        for (int i = 0; i < requestDto.getItem().size(); i++) {
+            DemandItem demandItem = requestDto.getItem().get(i).toDemandItemEntity();
+            demandItem.setDemandProject(demandProject);
+            demandItemRepository.save(demandItem);
+        }
+
+        return demandProject.getId();
+    }
 }

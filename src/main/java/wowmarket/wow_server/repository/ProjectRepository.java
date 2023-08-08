@@ -11,25 +11,22 @@ import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
-            "WHERE p.user.univ = :user_univ " +
-            "AND p.isDel = false " +
-            "AND p.isEnd = false")
+            "WHERE p.isDel = false AND p.isEnd = false " +
+            "AND  p.user.univ = :user_univ")
     List<Project> findProjectByUserUniv(@Param("user_univ") String user_univ);
 
     @Query("SELECT p FROM Project p WHERE p.isDel = false AND p.isEnd = false")
     List<Project> findAllProjectNotDelNotEnd();
 
     @Query("SELECT p FROM Project p " +
-            "WHERE p.user.univ = :user_univ " +
+            "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.name LIKE CONCAT('%', :search, '%') " +
-            "AND p.isDel = false " +
-            "AND p.isEnd = false")
-    List<Project> findProjectByUserUnivAndSearch(@Param("user_univ") String user_univ, @Param("search") String search);
+            "AND p.user.univ = :user_univ")
+    List<Project> findProjectBySearchAndUserUniv(@Param("user_univ") String user_univ, @Param("search") String search);
 
     @Query("SELECT p FROM Project p " +
-            "WHERE p.name LIKE CONCAT('%', :search, '%') " +
-            "AND p.isDel = false " +
-            "AND p.isEnd = false")
+            "WHERE p.isDel = false AND p.isEnd = false " +
+            "AND p.name LIKE CONCAT('%', :search, '%')")
     List<Project> findProjectBySearch(@Param("search") String search);
 
     Page<Project> findByUser_Id(Long sellerId, Pageable pageable);

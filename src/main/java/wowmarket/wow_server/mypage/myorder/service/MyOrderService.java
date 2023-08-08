@@ -3,15 +3,20 @@ package wowmarket.wow_server.mypage.myorder.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.OrderDetail;
 import wowmarket.wow_server.domain.Orders;
 import wowmarket.wow_server.domain.Project;
+import wowmarket.wow_server.domain.User;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.mypage.myorder.dto.*;
 import wowmarket.wow_server.repository.OrderDetailRepository;
 import wowmarket.wow_server.repository.OrderRepository;
 import wowmarket.wow_server.repository.ProjectRepository;
+import wowmarket.wow_server.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +26,13 @@ import java.util.stream.Collectors;
 public class MyOrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MyOrderFormListResponseDto findAllMyOrderForm(Long user_id, Pageable pageable){
-        Page<Orders> orders = orderRepository.findByUser_Id(user_id, pageable);
+    public MyOrderFormListResponseDto findAllMyOrderForm(Pageable pageable){
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Page<Orders> orders = orderRepository.findByUser_Id(user.getId(), pageable);
         Page<MyOrderFormResponseDto> orderformDtos = orders.map(MyOrderFormResponseDto::new);
         MyOrderFormListResponseDto responseDto = new MyOrderFormListResponseDto(orderformDtos.getContent(),
                 orderformDtos.getTotalPages(), orderformDtos.getNumber());

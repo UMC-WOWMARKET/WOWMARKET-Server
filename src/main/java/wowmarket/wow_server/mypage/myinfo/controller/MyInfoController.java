@@ -15,9 +15,9 @@ import wowmarket.wow_server.mypage.myinfo.service.MyInfoService;
 public class MyInfoController {
     private final MyInfoService myInfoService;
 
-    @GetMapping("/{user_id}")
-    public MyInfoResponseDto getMyInfo(@PathVariable Long user_id){
-        return myInfoService.findMyInfo(user_id);
+    @GetMapping()
+    public MyInfoResponseDto getMyInfo(){
+        return myInfoService.findMyInfo();
     }
 
 }

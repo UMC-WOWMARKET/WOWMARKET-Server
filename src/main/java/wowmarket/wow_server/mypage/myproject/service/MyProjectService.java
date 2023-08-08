@@ -30,8 +30,10 @@ public class MyProjectService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MySalesOrderListResponseDto findMySalesOrderForms(Long user_id, Pageable pageable){
-        List<Project> projects = projectRepository.findByUser_Id(user_id); //해당 유저가 판매하는 모든 프로젝트 가져오기
+    public MySalesOrderListResponseDto findMySalesOrderForms(Pageable pageable){
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        List<Project> projects = projectRepository.findByUser_Id(user.getId()); //해당 유저가 판매하는 모든 프로젝트 가져오기
         List<MySalesOrderDto> orderDtoList = new ArrayList<>();
         for(Project p : projects){
             List<Orders> orders = orderRepository.findByProject_Id(p.getId());

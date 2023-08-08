@@ -24,7 +24,7 @@ public class MyProjectService {
     private final DemandProjectRepository demandProjectRepository;
     private final DemandItemRepository demandItemRepository;
 
-    @Transactional(readOnly = true)
+  
     public MyDemandResponseDto findAllMyDemandForm(Long seller_id, Pageable pageable){
         Page<DemandProject> demandProjects = demandProjectRepository.findDemandProjectByUser_Id(seller_id, pageable);
         Page<MyDemandDto> demandOrderDtos = demandProjects.map(MyDemandDto::new);

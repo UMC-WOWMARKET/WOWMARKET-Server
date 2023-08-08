@@ -12,6 +12,10 @@ import java.util.List;
 public interface DemandProjectRepository extends JpaRepository<DemandProject, Long> {
     List<DemandProject> findByNameContaining(String name);
 
+    @Query("SELECT dp FROM DemandProject dp WHERE dp.user.univ = :user_univ " +
+            "and dp.name like CONCAT('%', :search, '%')")
+    List<DemandProject> findProjectByNameContainingAndUserUniv(@Param("user_univ") String user_univ, @Param("search") String search);
+
     @Query("SELECT dp FROM DemandProject dp WHERE dp.user.univ = :user_univ")
     List<DemandProject> findDemandProjectByUserUniv(@Param("user_univ") String user_univ);
 

@@ -19,6 +19,6 @@ public class MySalesFormDto {
         this.projectid = project.getId();
         this.name = project.getName();
         this.createdtime = project.getCreated_time();
-        this.isend = project.is_end();
+        this.isend = project.isEnd();
     }
 }

@@ -3,7 +3,6 @@ package wowmarket.wow_server.mypage.myproject.MySalesProject.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.Project;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesItemDto;
 
 import java.time.LocalDate;
 import java.util.List;

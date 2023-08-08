@@ -12,8 +12,8 @@ import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesFormDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesItemDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesFormDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesItemDto;
 import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesListResponseDto;
 import wowmarket.wow_server.repository.*;
 

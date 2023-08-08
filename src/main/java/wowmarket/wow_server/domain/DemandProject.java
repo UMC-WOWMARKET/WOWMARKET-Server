@@ -39,7 +39,7 @@ public class DemandProject extends BaseEntity{
 
     @Setter
     @Column(columnDefinition="tinyint(0) default 0")
-    private boolean is_end;
+    private boolean isEnd;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수

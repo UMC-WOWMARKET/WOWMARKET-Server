@@ -41,8 +41,8 @@ public class MySalesProjectService {
     @Transactional
     public void finishMySalesForm(Long project_id){
         Project project = projectRepository.findById(project_id).get();
-        if (project.is_end() == false)
-            project.set_end(true);
+        if (project.isEnd() == false)
+            project.setEnd(true);
     }
 
     @Transactional(readOnly = true)

@@ -35,8 +35,8 @@ public class MyProjectService {
     @Transactional
     public void updateMyDemandFormStatus(Long demand_project_id){
         DemandProject demandProject = demandProjectRepository.findById(demand_project_id).get();
-        if (demandProject.is_end() == false)
-            demandProject.set_end(true);
+        if (demandProject.isEnd() == false)
+            demandProject.setEnd(true);
     }
 
     @Transactional(readOnly = true)

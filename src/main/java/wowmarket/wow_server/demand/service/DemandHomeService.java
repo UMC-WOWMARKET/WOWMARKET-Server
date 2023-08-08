@@ -59,7 +59,7 @@ public class DemandHomeService {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else { //학교인증 X || allUniv
-            univDemandProjects = demandProjectRepository.findAll();
+            univDemandProjects = demandProjectRepository.findAllDemandProjectNotEnd();
             System.out.println("[findDemandProjectHome] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");
         }
 

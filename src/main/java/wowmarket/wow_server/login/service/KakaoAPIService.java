@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.Login_Method;
@@ -16,7 +17,6 @@ import wowmarket.wow_server.repository.UserRepository;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 
 /**
  * 인증 코드로 Access_Token을 받아올 작업을 수행할 Service 클래스 생성
@@ -27,6 +27,12 @@ import java.util.HashMap;
 public class KakaoAPIService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Value("${kakao.client_id}")
+    private String client_id;
+
+    @Value("${kakao.redirect_uri}")
+    private String redirect_uri;
 
     public String getAccessToken(String authorize_code) {
         String access_token = "";
@@ -43,8 +49,8 @@ public class KakaoAPIService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=394cbd2e5e0ad400adbc202784ad624b");
-            sb.append("&redirect_uri=http://localhost:8080/wowmarket/users/login/kakao");
+            sb.append("&client_id=" + client_id);
+            sb.append("&redirect_uri=" + redirect_uri);
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -52,7 +58,12 @@ public class KakaoAPIService {
             int responseCode = conn.getResponseCode();
             System.out.println("[getAccessToken] 상태코드 반환 : " + responseCode);
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader br;
+            if (responseCode >= 200 && responseCode < 300) { // 정상적인 응답인 경우
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else { // 에러 응답인 경우
+                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
             String line = "";
             String result = "";
             while ((line = br.readLine()) != null) {
@@ -93,7 +104,12 @@ public class KakaoAPIService {
             int responseCode = conn.getResponseCode();
             System.out.println("[getUserInfo] 상태코드 반환 : " + responseCode);
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader br;
+            if (responseCode >= 200 && responseCode < 300) { // 정상적인 응답인 경우
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else { // 에러 응답인 경우
+                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
             String line = "";
             String result = "";
             while ((line = br.readLine()) != null) {
@@ -114,7 +130,7 @@ public class KakaoAPIService {
             System.out.println("[getUserInfo] email = " + email);
 
             //findByEmail로 값이 없으면 DB에 저장 userRepository.findByEmail(email).isEmpty()
-            if (userRepository.findByEmail(email).isEmpty()) {
+            if (userRepository.findByEmail(email).isEmpty()) { // 회원가입
                 System.out.println("[getUserInfo] nickname과 email 값 잘 넘어왔고 DB에 해당 email 없어서 DB에 저장하는 로직 실행");
 
                 User user = User.builder()
@@ -131,7 +147,7 @@ public class KakaoAPIService {
                 System.out.println("[getUserInfo] jwtAccessToken 생성 & jwtRrefreshToken DB에 저장");
 
                 System.out.println("[getUserInfo] DB 저장 후 User 테이블 userId 확인 userRepository.findByEmail(email).get().getId() : " + userRepository.findByEmail(email).get().getId());
-            } else {
+            } else { // 로그인
                 System.out.println("[getUserInfo] DB에 해당 email 이미 저장되어 있어서 DB에 저장하는 로직 실행하지 않음");
 
                 User user = userRepository.findByEmail(email).get();

@@ -21,8 +21,6 @@ import wowmarket.wow_server.repository.UserRepository;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -103,7 +101,7 @@ public class UnivService {
     @Transactional
     public UnivResponseDto univCertCertifyCode(UnivCodeRequestDto univCodeRequestDto) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자 식별 정보 없음"));
         String univCertifyCodeSuccess = "";
         String reqURL = "https://univcert.com/api/v1/certifycode";
 

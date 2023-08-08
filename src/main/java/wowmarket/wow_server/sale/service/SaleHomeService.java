@@ -17,7 +17,6 @@ import wowmarket.wow_server.sale.dto.SaleDto;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +56,7 @@ public class SaleHomeService {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else { // !user.isUniv_check() || univ.equals("allUniv")
-            univProjects = projectRepository.findAll();
+            univProjects = projectRepository.findAllProjectNotDelNotEnd();
             System.out.println("[findProjectHome] 전체학교 필터 : 학교 인증 X || 로그인 X || allUniv");
         }
 

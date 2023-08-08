@@ -31,7 +31,7 @@ public class SaleSearchService {
         boolean user_univ_check = false;
         String loginUserEmail = SecurityUtil.getLoginUsername();
 
-        List<Project> searchProjects = projectRepository.findByNameContaining(search);
+//        List<Project> searchProjects = projectRepository.findByNameContaining(search);
         List<Project> univProjects = new ArrayList<>();
         List<Project> sortedProjects = new ArrayList<>();
 
@@ -52,16 +52,13 @@ public class SaleSearchService {
             if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { // 학교인증 O -> 로그인 O
-                String stream_user_univ = user_univ;
-                univProjects = searchProjects.stream()
-                        .filter(project -> project.getUser().getUniv().equals(stream_user_univ))
-                        .toList();
+                univProjects = projectRepository.findProjectByUserUnivAndSearch(user_univ, search);
                 System.out.println("[findProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
             } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else {
-            univProjects = searchProjects;
+            univProjects = projectRepository.findProjectBySearch(search);
             System.out.println("[findProjectSearch] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");
         }
 

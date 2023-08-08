@@ -5,7 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.data.redis.core.RedisTemplate;
+//import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
@@ -18,11 +18,11 @@ import java.io.IOException;
  */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtAuthenticationProvider;
-    private final RedisTemplate redisTemplate;
+//    private final RedisTemplate redisTemplate;
 
-    public JwtAuthenticationFilter(JwtTokenProvider provider, RedisTemplate template) {
+    public JwtAuthenticationFilter(JwtTokenProvider provider) {
         this.jwtAuthenticationProvider = provider;
-        this.redisTemplate = template;
+//        this.redisTemplate = template;
     }
 
     /**

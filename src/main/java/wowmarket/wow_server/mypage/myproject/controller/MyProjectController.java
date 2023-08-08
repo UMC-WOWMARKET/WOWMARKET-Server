@@ -10,25 +10,25 @@ import wowmarket.wow_server.mypage.myproject.dto.*;
 import wowmarket.wow_server.mypage.myproject.service.MyProjectService;
 
 @RestController
-@RequestMapping("/wowmarket/mypage")
+@RequestMapping("/wowmarket/mypage/myproject")
 @RequiredArgsConstructor
 public class MyProjectController {
     private final MyProjectService myProjectService;
 
-    @GetMapping("/myproject")
+    @GetMapping()
     public MySalesListResponseDto getMySalesList(@RequestParam(value = "page", defaultValue = "1", required = false)int page){
         Pageable pageable = PageRequest.of(page - 1, 10);
         return myProjectService.findAllMySalesForm(pageable);
     }
 
-    @PutMapping("/{user_id}/myproject/{project_id}")
+    @PutMapping("/{project_id}")
     public ResponseEntity finishMySales(@PathVariable Long project_id){
         myProjectService.finishMySalesForm(project_id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/{user_id}/myproject/detail/{project_id}")
-    public MySalesDetailResponseDto getMySalesDetail(@PathVariable Long user_id, @PathVariable Long project_id){
+    @GetMapping("/detail/{project_id}")
+    public MySalesDetailResponseDto getMySalesDetail(@PathVariable Long project_id){
         return myProjectService.findMySalesDetail(project_id);
     }
 

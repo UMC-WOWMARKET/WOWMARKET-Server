@@ -15,28 +15,7 @@ import wowmarket.wow_server.mypage.myproject.service.MyProjectService;
 public class MyProjectController {
     private final MyProjectService myProjectService;
 
-    @GetMapping("/order")
-    public MySalesOrderListResponseDto getMySalesOrderForms(@RequestParam(value = "page", defaultValue = "1", required = false)int page){
-        Pageable pageable = PageRequest.of(page - 1, 10);
-        return myProjectService.findMySalesOrderForms(pageable);
-    }
 
-    @PutMapping("/order/{order_id}")
-    public ResponseEntity updateMySalesOrderFormStatus(@PathVariable Long order_id, @RequestBody MySalesOrderStatusRequestDto requestDto){
-        myProjectService.updateMySalesOrderStatus(order_id, requestDto);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @GetMapping("/order/detail/{order_id}")
-    public MySalesOrderDetailResponseDto getMySalesOrderDetail(@PathVariable Long order_id){
-        return myProjectService.findMySalesOrderDetail(order_id);
-    }
-
-    @DeleteMapping("/order/detail/{order_id}")
-    public ResponseEntity deleteMySalesOrderForm(@PathVariable Long order_id){
-        myProjectService.deleteMySalesOrder(order_id);
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
     @GetMapping("/{user_id}/myproject/demand")
     public MyDemandResponseDto getMyDemandList(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1", required = false)int page){

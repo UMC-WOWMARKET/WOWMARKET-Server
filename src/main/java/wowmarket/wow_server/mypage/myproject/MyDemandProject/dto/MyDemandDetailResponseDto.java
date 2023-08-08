@@ -1,9 +1,8 @@
-package wowmarket.wow_server.mypage.myproject.dto;
+package wowmarket.wow_server.mypage.myproject.MyDemandProject.dto;
 
 import lombok.Getter;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
 import wowmarket.wow_server.domain.DemandProject;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandItemDto;
 
 import java.time.LocalDate;
 import java.util.List;

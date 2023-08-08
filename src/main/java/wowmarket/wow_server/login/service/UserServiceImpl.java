@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final JavaMailSender mailSender;
-    private final RedisTemplate redisTemplate;
+//    private final RedisTemplate redisTemplate;
 
     @Override
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception {
@@ -113,17 +113,17 @@ public class UserServiceImpl implements UserService{
     }
 
     public ResponseEntity logout(HttpServletRequest request){
-        String token = jwtTokenProvider.resolveAccessToken(request);
-
-        //aceess token으로 가져온 유저의 refresh token 삭제
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-        user.updateRefreshToken(null);
-        userRepository.save(user);
-
-        // access token의 유효시간 가져와서 블랙리스트 등록
-        Long expiration = jwtTokenProvider.getExpiration(token);
-        redisTemplate.opsForValue().set(token, "logout", expiration, TimeUnit.MILLISECONDS);
+//        String token = jwtTokenProvider.resolveAccessToken(request);
+//
+//        //aceess token으로 가져온 유저의 refresh token 삭제
+//        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+//        user.updateRefreshToken(null);
+//        userRepository.save(user);
+//
+//        // access token의 유효시간 가져와서 블랙리스트 등록
+//        Long expiration = jwtTokenProvider.getExpiration(token);
+//        redisTemplate.opsForValue().set(token, "logout", expiration, TimeUnit.MILLISECONDS);
         return ResponseEntity.ok().build();
     }
 

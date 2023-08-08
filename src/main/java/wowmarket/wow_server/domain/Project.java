@@ -34,11 +34,11 @@ public class Project extends BaseEntity{
 
     @Column(columnDefinition="tinyint(0) default 0")
     @Setter
-    private boolean is_del;
+    private boolean isDel;
 
     @Column(columnDefinition="tinyint(0) default 0")
     @Setter
-    private boolean is_end;
+    private boolean isEnd;
 
     private String thumbnail;
     private String image1;

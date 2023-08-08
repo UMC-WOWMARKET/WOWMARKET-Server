@@ -17,7 +17,7 @@ public class DemandDetail extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "demand_item_id", referencedColumnName = "demand_item_id")
-    private DemandItem demand_item;
+    private DemandItem demandItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")

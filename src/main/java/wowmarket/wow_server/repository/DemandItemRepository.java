@@ -13,7 +13,7 @@ public interface DemandItemRepository extends JpaRepository<DemandItem, Long> {
     @Query("SELECT SUM(di.goal) FROM DemandItem di WHERE di.demandProject = :demand_project")
     int getTotalGoalByDemandProject(@Param("demand_project") DemandProject demandProject);
 
-    @Query("SELECT COALESCE(SUM(dd.count), 0) FROM DemandDetail dd WHERE dd.demand_item.demandProject = :demand_project")
+    @Query("SELECT COALESCE(SUM(dd.count), 0) FROM DemandDetail dd WHERE dd.demandItem.demandProject = :demand_project")
     int getTotalOrderCountByDemandProject(@Param("demand_project") DemandProject demandProject);
 
     List<DemandItem> findDemandItemByDemandProject_Id(Long demand_project_id);

@@ -21,19 +21,19 @@ public class MyProjectController {
         return myProjectService.findMySalesOrderForms(pageable);
     }
 
-    @PutMapping("/{user_id}/myproject/order/{order_id}")
-    public ResponseEntity updateMySalesOrderFormStatus(@PathVariable Long user_id, @PathVariable Long order_id, @RequestBody MySalesOrderStatusRequestDto requestDto){
+    @PutMapping("/order/{order_id}")
+    public ResponseEntity updateMySalesOrderFormStatus(@PathVariable Long order_id, @RequestBody MySalesOrderStatusRequestDto requestDto){
         myProjectService.updateMySalesOrderStatus(order_id, requestDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/{user_id}/myproject/order/detail/{order_id}")
-    public MySalesOrderDetailResponseDto getMySalesOrderDetail(@PathVariable Long user_id, @PathVariable Long order_id){
+    @GetMapping("/order/detail/{order_id}")
+    public MySalesOrderDetailResponseDto getMySalesOrderDetail(@PathVariable Long order_id){
         return myProjectService.findMySalesOrderDetail(order_id);
     }
 
-    @DeleteMapping("/{user_id}/myproject/order/detail/{order_id}")
-    public ResponseEntity deleteMySalesOrderForm(@PathVariable Long user_id, @PathVariable Long order_id){
+    @DeleteMapping("/order/detail/{order_id}")
+    public ResponseEntity deleteMySalesOrderForm(@PathVariable Long order_id){
         myProjectService.deleteMySalesOrder(order_id);
         return new ResponseEntity(HttpStatus.OK);
     }

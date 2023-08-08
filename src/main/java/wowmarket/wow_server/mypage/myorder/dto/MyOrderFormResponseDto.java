@@ -2,6 +2,7 @@ package wowmarket.wow_server.mypage.myorder.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
 import wowmarket.wow_server.domain.Orders;
 
 import java.time.LocalDateTime;

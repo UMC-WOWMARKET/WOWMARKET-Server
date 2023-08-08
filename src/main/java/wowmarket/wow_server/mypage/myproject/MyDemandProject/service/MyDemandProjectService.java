@@ -1,32 +1,39 @@
-package wowmarket.wow_server.mypage.myproject.service;
+package wowmarket.wow_server.mypage.myproject.MyDemandProject.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import wowmarket.wow_server.domain.*;
+import wowmarket.wow_server.domain.DemandItem;
+import wowmarket.wow_server.domain.DemandProject;
+import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
-import wowmarket.wow_server.mypage.myproject.dto.*;
-import wowmarket.wow_server.repository.*;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandDetailResponseDto;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandDto;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandItemDto;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandResponseDto;
+import wowmarket.wow_server.repository.DemandItemRepository;
+import wowmarket.wow_server.repository.DemandProjectRepository;
+import wowmarket.wow_server.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MyProjectService {
-
+public class MyDemandProjectService {
     private final DemandProjectRepository demandProjectRepository;
     private final DemandItemRepository demandItemRepository;
+    private final UserRepository userRepository;
 
-  
-    public MyDemandResponseDto findAllMyDemandForm(Long seller_id, Pageable pageable){
-        Page<DemandProject> demandProjects = demandProjectRepository.findDemandProjectByUser_Id(seller_id, pageable);
+    @Transactional(readOnly = true)
+    public MyDemandResponseDto findAllMyDemandForm(Pageable pageable){
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Page<DemandProject> demandProjects = demandProjectRepository.findDemandProjectByUser_Id(user.getId(), pageable);
         Page<MyDemandDto> demandOrderDtos = demandProjects.map(MyDemandDto::new);
         MyDemandResponseDto responseDto = new MyDemandResponseDto(demandOrderDtos.getContent(), demandOrderDtos.getTotalPages(), demandOrderDtos.getNumber() + 1);
         return responseDto;

@@ -1,8 +1,7 @@
-package wowmarket.wow_server.mypage.myproject.mysales.dto;
+package wowmarket.wow_server.mypage.myproject.MySalesProject.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesFormDto;
 
 import java.util.List;
 

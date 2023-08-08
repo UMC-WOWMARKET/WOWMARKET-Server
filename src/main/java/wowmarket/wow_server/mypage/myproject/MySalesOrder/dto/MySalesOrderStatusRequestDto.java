@@ -1,4 +1,4 @@
-package wowmarket.wow_server.mypage.myproject.mysalesorder.dto;
+package wowmarket.wow_server.mypage.myproject.MySalesOrder.dto;
 
 import lombok.Getter;
 

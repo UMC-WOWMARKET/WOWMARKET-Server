@@ -1,4 +1,4 @@
-package wowmarket.wow_server.mypage.myproject.mysales.service;
+package wowmarket.wow_server.mypage.myproject.MySalesProject.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,10 +11,10 @@ import wowmarket.wow_server.domain.Item;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
-import wowmarket.wow_server.mypage.myproject.mysales.dto.MySalesDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesFormDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesItemDto;
-import wowmarket.wow_server.mypage.myproject.mysales.dto.MySalesListResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesDetailResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesFormDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesItemDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesListResponseDto;
 import wowmarket.wow_server.repository.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package wowmarket.wow_server.mypage.myproject.mysalesorder.controller;
+package wowmarket.wow_server.mypage.myproject.MySalesOrder.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -6,10 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wowmarket.wow_server.mypage.myproject.mysalesorder.dto.MySalesOrderDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.mysalesorder.dto.MySalesOrderListResponseDto;
-import wowmarket.wow_server.mypage.myproject.mysalesorder.dto.MySalesOrderStatusRequestDto;
-import wowmarket.wow_server.mypage.myproject.mysalesorder.service.MySalesOrderService;
+import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.MySalesOrderDetailResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.MySalesOrderListResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.MySalesOrderStatusRequestDto;
+import wowmarket.wow_server.mypage.myproject.MySalesOrder.service.MySalesOrderService;
 
 @RestController
 @RequestMapping("/wowmarket/mypage/myproject/order")

@@ -14,4 +14,5 @@ public class TokenResponseDto {
     private String grantType;
     private String jwtAccessToken;
     private String jwtRefreshToken;
+    private String univ;
 }

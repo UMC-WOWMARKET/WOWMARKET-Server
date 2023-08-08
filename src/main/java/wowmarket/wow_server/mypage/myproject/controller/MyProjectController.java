@@ -15,10 +15,10 @@ import wowmarket.wow_server.mypage.myproject.service.MyProjectService;
 public class MyProjectController {
     private final MyProjectService myProjectService;
 
-    @GetMapping("/{user_id}/myproject")
-    public MySalesListResponseDto getMySalesList(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1", required = false)int page){
+    @GetMapping("/myproject")
+    public MySalesListResponseDto getMySalesList(@RequestParam(value = "page", defaultValue = "1", required = false)int page){
         Pageable pageable = PageRequest.of(page - 1, 10);
-        return myProjectService.findAllMySalesForm(user_id, pageable);
+        return myProjectService.findAllMySalesForm(pageable);
     }
 
     @PutMapping("/{user_id}/myproject/{project_id}")

@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.*;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.mypage.myproject.dto.*;
 import wowmarket.wow_server.repository.*;
 
@@ -24,10 +27,13 @@ public class MyProjectService {
     private final OrderDetailRepository orderDetailRepository;
     private final DemandProjectRepository demandProjectRepository;
     private final DemandItemRepository demandItemRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MySalesListResponseDto findAllMySalesForm(Long user_id, Pageable pageable){
-        Page<Project> projects = projectRepository.findByUser_Id(user_id, pageable);
+    public MySalesListResponseDto findAllMySalesForm(Pageable pageable){
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Page<Project> projects = projectRepository.findByUser_Id(user.getId(), pageable);
         Page<MySalesFormDto> mySalesFormDtos = projects.map(MySalesFormDto::new);
         MySalesListResponseDto responseDto = new MySalesListResponseDto(mySalesFormDtos.getContent(),
                 mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber());

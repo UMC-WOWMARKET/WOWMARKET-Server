@@ -21,9 +21,9 @@ public class MyInfoService {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
         MyInfoResponseDto responseDto = MyInfoResponseDto.builder()
-                .userid(user.getId())
-                .email(user.getEmail())
                 .name(user.getName())
+                .email(user.getEmail())
+                .univ(user.getUniv())
                 .build();
         return responseDto;
     }

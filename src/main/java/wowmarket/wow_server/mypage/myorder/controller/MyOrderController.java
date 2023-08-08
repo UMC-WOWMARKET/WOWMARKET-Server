@@ -23,13 +23,13 @@ public class MyOrderController {
         return myOrderService.findAllMyOrderForm(pageable);
     }
 
-    @GetMapping("/{user_id}/myorder/detail/{order_id}")
-    public MyOrderFormDetailResponseDto getMyDetailOrder(@PathVariable Long user_id, @PathVariable Long order_id){
+    @GetMapping("/myorder/detail/{order_id}")
+    public MyOrderFormDetailResponseDto getMyDetailOrder(@PathVariable Long order_id){
         return myOrderService.findMyOrderFormDetail(order_id);
     }
 
-    @DeleteMapping("/{user_id}/myorder/detail/{order_id}")
-    public ResponseEntity deleteMyOrder(@PathVariable Long user_id, @PathVariable Long order_id){
+    @DeleteMapping("/myorder/detail/{order_id}")
+    public ResponseEntity deleteMyOrder(@PathVariable Long order_id){
         myOrderService.deleteMyOrderFormDetail(order_id);
         return new ResponseEntity(HttpStatus.OK);
     }

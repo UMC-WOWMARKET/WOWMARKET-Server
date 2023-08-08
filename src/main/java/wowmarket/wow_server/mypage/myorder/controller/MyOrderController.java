@@ -17,10 +17,10 @@ public class MyOrderController {
 
     private final MyOrderService myOrderService;
 
-    @GetMapping("/{user_id}/myorder")
-    public MyOrderFormListResponseDto getMyOrderList(@PathVariable Long user_id, @RequestParam(value = "page", defaultValue = "1", required = false)int page){
+    @GetMapping("/myorder")
+    public MyOrderFormListResponseDto getMyOrderList(@RequestParam(value = "page", defaultValue = "1", required = false)int page){
         Pageable pageable = PageRequest.of(page - 1, 10);
-        return myOrderService.findAllMyOrderForm(user_id, pageable);
+        return myOrderService.findAllMyOrderForm(pageable);
     }
 
     @GetMapping("/{user_id}/myorder/detail/{order_id}")

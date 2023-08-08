@@ -11,12 +11,4 @@ public class MyInfoResponseDto {
     private Long userid;
     private String name;
     private String email;
-
-
-//    public MyInfoResponseDto(User user){
-//        this.userid = user.getId();
-//        this.name = user.getName();
-//        this.email = user.getEmail();
-//    }
-
 }

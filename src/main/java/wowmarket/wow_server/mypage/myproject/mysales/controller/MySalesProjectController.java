@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.dto.MySalesListResponseDto;
+import wowmarket.wow_server.mypage.myproject.mysales.dto.MySalesDetailResponseDto;
+import wowmarket.wow_server.mypage.myproject.mysales.dto.MySalesListResponseDto;
 import wowmarket.wow_server.mypage.myproject.mysales.service.MySalesProjectService;
 
 @RestController

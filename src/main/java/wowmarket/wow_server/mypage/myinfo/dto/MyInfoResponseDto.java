@@ -8,7 +8,7 @@ import wowmarket.wow_server.domain.User;
 @Getter
 @Builder
 public class MyInfoResponseDto {
-    private Long userid;
     private String name;
     private String email;
+    private String univ;
 }

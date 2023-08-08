@@ -30,34 +30,6 @@ public class MyProjectService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MySalesListResponseDto findAllMySalesForm(Pageable pageable){
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
-        Page<Project> projects = projectRepository.findByUser_Id(user.getId(), pageable);
-        Page<MySalesFormDto> mySalesFormDtos = projects.map(MySalesFormDto::new);
-        MySalesListResponseDto responseDto = new MySalesListResponseDto(mySalesFormDtos.getContent(),
-                mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber());
-        return responseDto;
-    }
-
-    @Transactional
-    public void finishMySalesForm(Long project_id){
-        Project project = projectRepository.findById(project_id).get();
-        if (project.is_end() == false)
-            project.set_end(true);
-    }
-
-    @Transactional(readOnly = true)
-    public MySalesDetailResponseDto findMySalesDetail(Long project_id){
-        Project project = projectRepository.findById(project_id).get();
-        List<Item> itemList = itemRepository.findByProject_Id(project_id);
-        List<MySalesItemDto> itemDtos = itemList.stream().map(MySalesItemDto::new).collect(Collectors.toList());
-
-        MySalesDetailResponseDto responseDto = new MySalesDetailResponseDto(project, itemDtos);
-        return responseDto;
-    }
-
-    @Transactional(readOnly = true)
     public MySalesOrderListResponseDto findMySalesOrderForms(Long user_id, Pageable pageable){
         List<Project> projects = projectRepository.findByUser_Id(user_id); //해당 유저가 판매하는 모든 프로젝트 가져오기
         List<MySalesOrderDto> orderDtoList = new ArrayList<>();

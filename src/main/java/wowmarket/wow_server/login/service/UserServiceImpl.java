@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService{
                 .grantType("Bearer")
                 .jwtAccessToken(accessToken)
                 .jwtRefreshToken(refreshToken)
+                .univ(user.getUniv())
                 .build();
     }
 

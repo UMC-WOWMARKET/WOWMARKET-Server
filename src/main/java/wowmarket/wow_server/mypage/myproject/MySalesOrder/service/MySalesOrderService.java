@@ -1,4 +1,4 @@
-package wowmarket.wow_server.mypage.myproject.mysalesorder.service;
+package wowmarket.wow_server.mypage.myproject.MySalesOrder.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,7 @@ import wowmarket.wow_server.domain.Orders;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
-import wowmarket.wow_server.mypage.myproject.mysalesorder.dto.*;
+import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.*;
 import wowmarket.wow_server.repository.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package wowmarket.wow_server.mypage.myproject.mysales.controller;
+package wowmarket.wow_server.mypage.myproject.MySalesProject.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wowmarket.wow_server.mypage.myproject.mysales.dto.MySalesDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.mysales.dto.MySalesListResponseDto;
-import wowmarket.wow_server.mypage.myproject.mysales.service.MySalesProjectService;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesDetailResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesListResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.service.MySalesProjectService;
 
 @RestController
 @RequestMapping("/wowmarket/mypage/myproject")

@@ -21,6 +21,9 @@ public class RegisterProjectDto {
     private LocalDate start_date;
     private LocalDate end_date;
     private String receive_type;
+    private String address;
+    private String address_detail;
+    private String zipcode;
     private String bank;
     private String account;
     private String account_holder_name;
@@ -37,6 +40,9 @@ public class RegisterProjectDto {
                 .isDel(Boolean.FALSE)
                 .isEnd(Boolean.FALSE)
                 .receive_type(receive_type)
+                .address(address)
+                .address_detail(address_detail)
+                .zipcode(zipcode)
                 .bank(bank)
                 .account(account)
                 .account_holder_name(account_holder_name)

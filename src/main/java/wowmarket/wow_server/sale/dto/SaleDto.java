@@ -22,8 +22,8 @@ public class SaleDto {
         this.project_id = project.getId();
         this.project_name = project.getName();
         this.seller_name = project.getNickname();
-        this.start_date = project.getStart_date();
-        this.end_date = project.getEnd_date();
+        this.start_date = project.getStartDate();
+        this.end_date = project.getEndDate();
         this.achieved = project_total_count;
         this.goal = project_total_goal;
     }

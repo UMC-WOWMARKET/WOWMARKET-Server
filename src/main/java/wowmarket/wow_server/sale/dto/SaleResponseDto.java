@@ -9,10 +9,14 @@ import java.util.List;
 @NoArgsConstructor
 public class SaleResponseDto {
     private String univ;
+    private int total_page;
+    private int current_page;
     private List<SaleDto> project_list;
 
-    public SaleResponseDto(String univ, List<SaleDto> newDtos) {
-        this.univ = univ;
+    public SaleResponseDto(String user_univ, int total_page, int current_page, List<SaleDto> newDtos) {
+        this.univ = user_univ;
+        this.total_page = total_page;
+        this.current_page = current_page;
         project_list = newDtos;
     }
 }

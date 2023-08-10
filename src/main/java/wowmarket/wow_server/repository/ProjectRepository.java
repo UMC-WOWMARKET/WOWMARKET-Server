@@ -13,21 +13,21 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND  p.user.univ = :user_univ")
-    List<Project> findProjectByUserUniv(@Param("user_univ") String user_univ);
+    Page<Project> findByUserUniv(@Param("user_univ") String user_univ, Pageable pageable);
 
     @Query("SELECT p FROM Project p WHERE p.isDel = false AND p.isEnd = false")
-    List<Project> findAllProjectNotDelNotEnd();
+    Page<Project> findAllNotDelNotEnd(Pageable pageable);
 
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.name LIKE CONCAT('%', :search, '%') " +
             "AND p.user.univ = :user_univ")
-    List<Project> findProjectBySearchAndUserUniv(@Param("user_univ") String user_univ, @Param("search") String search);
+    Page<Project> findBySearchUserUniv(@Param("search") String search, @Param("user_univ") String user_univ, Pageable pageable);
 
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.name LIKE CONCAT('%', :search, '%')")
-    List<Project> findProjectBySearch(@Param("search") String search);
+    Page<Project> findBySearch(@Param("search") String search, Pageable pageable);
 
     Page<Project> findByUser_Id(Long sellerId, Pageable pageable);
 

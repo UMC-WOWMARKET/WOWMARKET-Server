@@ -12,7 +12,7 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
-            "AND  p.user.univ = :user_univ")
+            "AND p.user.univ = :user_univ")
     Page<Project> findByUserUniv(@Param("user_univ") String user_univ, Pageable pageable);
 
     @Query("SELECT p FROM Project p WHERE p.isDel = false AND p.isEnd = false")

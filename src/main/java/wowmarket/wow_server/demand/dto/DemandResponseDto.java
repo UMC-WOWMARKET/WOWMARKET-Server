@@ -10,10 +10,14 @@ import java.util.List;
 @Getter
 public class DemandResponseDto {
     private String univ;
+    private int total_page;
+    private int current_page;
     private List<DemandDto> demand_project_list;
 
-    public DemandResponseDto(String univ, List<DemandDto> newDtos) {
+    public DemandResponseDto(String univ, int total_page, int current_page, List<DemandDto> newDtos) {
         this.univ = univ;
+        this.total_page = total_page;
+        this.current_page = current_page;
         demand_project_list = newDtos;
     }
 }

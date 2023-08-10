@@ -55,10 +55,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public TokenResponseDto signIn(UserSignInRequestDto requestDto) throws Exception {
         User user = userRepository.findByEmail(requestDto.getEmail())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"잘못된 이메일입니다"));
 
         if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 비밀번호입니다");
         }
 
         String accessToken = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole().name());
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService{
         // 메일 전송
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setFrom("admin@wowmarket.com"); //이걸로 했는데 왜 안보내지냐
+        message.setFrom("admin@wowmarket.com");
         message.setSubject("와우상점 임시 비밀번호 안내입니다.");
         message.setText("안녕하세요. 와우상점 임시 비밀번호 안내 관련 이메일 입니다. 회원님의 임시 비밀번호는 "
                 + str + " 입니다. 로그인 후에 비밀번호를 변경을 해주세요.");
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long updatePassword(String email, String str, Boolean temp) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 이메일입니다"));
         user.updatePassword(passwordEncoder.encode(str),temp);
         return user.getId();
     }
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService{
                 log.info("refresh token 유효");
 
                 User user = userRepository.findByEmail(jwtTokenProvider.getUserEmail(refreshToken))
-                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+                        .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 이메일입니다"));
 
                 // refresh token의 값이 같다면
                 if(refreshToken.equals(user.getRefreshToken())){

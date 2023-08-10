@@ -28,8 +28,8 @@ public class Project extends BaseEntity{
     private Category category;
 
 
-    private LocalDate start_date;
-    private LocalDate end_date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private int participant_number;
 
     @Column(columnDefinition="tinyint(0) default 0")

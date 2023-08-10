@@ -30,8 +30,8 @@ public class MySalesDetailResponseDto {
         this.description = project.getDescription();
         this.category = project.getCategory().getName();
         this.itemList = itemDtos;
-        this.startdate = project.getStart_date();
-        this.enddate = project.getEnd_date();
+        this.startdate = project.getStartDate();
+        this.enddate = project.getEndDate();
         this.receive_type = project.getReceive_type();
         this.seller_bank = project.getBank();
         this.seller_account = project.getAccount();

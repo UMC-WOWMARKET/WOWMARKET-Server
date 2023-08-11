@@ -15,6 +15,6 @@ public interface UserService {
     public Long updatePassword(String str, String email, Boolean temp);
     public String getTempPassword();
 
-    public ResponseEntity logout(HttpServletRequest request);
+    public void logout(HttpServletRequest request);
     public TokenResponseDto issueAccessToken(HttpServletRequest request);
 }

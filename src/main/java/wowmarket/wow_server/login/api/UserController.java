@@ -32,9 +32,9 @@ public class UserController {
     }
 
     @PostMapping("/sendTempPw")
-    @ResponseStatus(HttpStatus.OK)
-    public void sendTempPw(String email){
+    public ResponseEntity sendTempPw(String email){
         userService.sendMailAndChangePassword(email);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/resetPw")
@@ -46,11 +46,12 @@ public class UserController {
     @PostMapping ("/logout")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(HttpServletRequest request){
-       return userService.logout(request);
+        userService.logout(request);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/newAccess")
-    public TokenResponseDto issueAccessToken(HttpServletRequest request){
-        return userService.issueAccessToken(request);
+    public ResponseEntity issueAccessToken(HttpServletRequest request){
+        return new ResponseEntity(userService.issueAccessToken(request), HttpStatus.OK);
     }
 }

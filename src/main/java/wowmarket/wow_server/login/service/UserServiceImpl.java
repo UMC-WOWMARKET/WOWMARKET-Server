@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.joining());
     }
 
-    public ResponseEntity logout(HttpServletRequest request){
+    public void logout(HttpServletRequest request){
         String token = jwtTokenProvider.resolveAccessToken(request);
 
         //aceess token으로 가져온 유저의 refresh token 삭제
@@ -126,7 +126,6 @@ public class UserServiceImpl implements UserService{
         // access token의 유효시간 가져와서 블랙리스트 등록
         Long expiration = jwtTokenProvider.getExpiration(token);
         redisTemplate.opsForValue().set(token, "logout", expiration, TimeUnit.MILLISECONDS);
-        return ResponseEntity.ok().build();
     }
 
     @Override

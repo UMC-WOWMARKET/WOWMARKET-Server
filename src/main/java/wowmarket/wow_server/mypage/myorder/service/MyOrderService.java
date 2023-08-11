@@ -4,18 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.OrderDetail;
 import wowmarket.wow_server.domain.Orders;
-import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.mypage.myorder.dto.*;
 import wowmarket.wow_server.repository.OrderDetailRepository;
 import wowmarket.wow_server.repository.OrderRepository;
-import wowmarket.wow_server.repository.ProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class MyOrderService {
         Page<Orders> orders = orderRepository.findByUser_Id(user.getId(), pageable);
         Page<MyOrderFormResponseDto> orderformDtos = orders.map(MyOrderFormResponseDto::new);
         MyOrderFormListResponseDto responseDto = new MyOrderFormListResponseDto(orderformDtos.getContent(),
-                orderformDtos.getTotalPages(), orderformDtos.getNumber());
+                orderformDtos.getTotalPages(), orderformDtos.getNumber() + 1);
         return responseDto;
     }
 
@@ -50,9 +49,11 @@ public class MyOrderService {
     }
 
     @Transactional
-    public void deleteMyOrderFormDetail(Long order_id){
-        Orders orders = orderRepository.findById(order_id).get();
+    public ResponseEntity deleteMyOrderFormDetail(Long order_id){
+        Orders orders = orderRepository.findById(order_id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
         if (orders.isDel() == false)
             orders.setDel(true);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -7,13 +7,13 @@ import wowmarket.wow_server.domain.DemandItem;
 @Getter
 @NoArgsConstructor
 public class MyDemandItemDto {
-    private Long itemid;
+    private Long itemId;
     private String name;
     private Long price;
     private int goal;
-    //사진추가하기
+
     public MyDemandItemDto(DemandItem demandItem){
-        this.itemid = demandItem.getId();
+        this.itemId = demandItem.getId();
         this.name = demandItem.getName();
         this.price = demandItem.getPrice();
         this.goal = demandItem.getGoal();

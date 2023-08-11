@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class MyOrderFormResponseDto {
-    private Long orderid;
+    private Long orderId;
     private String name;
     private LocalDateTime createdtime;
     private int status;
     private boolean isdel;
 
     public MyOrderFormResponseDto(Orders order){
-        this.orderid = order.getId();
+        this.orderId = order.getId();
         this.name = order.getProject().getName();
         this.createdtime = order.getCreated_time();
         this.status = order.getOrder_status();

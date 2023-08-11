@@ -13,7 +13,6 @@ public class MySalesOrderDetailResponseDto {
     private List<MySalesOrderDetailDto> itemList;
     private String receiver;
     private String address;
-    private String address_detail;
     private String zipcode;
     private String message;
     private String phone;
@@ -29,7 +28,6 @@ public class MySalesOrderDetailResponseDto {
         this.itemList = newDtos;
         this.receiver = orders.getReceiver();
         this.address = orders.getAddress();
-        this.address_detail = orders.getAddress_detail();
         this.zipcode = orders.getZipcode();
         this.message = orders.getDelivery_msg();
         this.phone = orders.getPhone();

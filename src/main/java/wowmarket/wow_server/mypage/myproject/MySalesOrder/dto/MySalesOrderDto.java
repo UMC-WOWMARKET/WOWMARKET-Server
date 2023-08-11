@@ -9,16 +9,16 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class MySalesOrderDto {
-    private Long projectid;
-    private Long orderid;
+    private Long projectId;
+    private Long orderId;
     private String projectname;
     private LocalDateTime createddate;
     private int order_status;
     private boolean isdel;
 
     public MySalesOrderDto(Orders orders){
-        this.projectid = orders.getProject().getId();
-        this.orderid = orders.getId();
+        this.projectId = orders.getProject().getId();
+        this.orderId = orders.getId();
         this.projectname = orders.getProject().getName();
         this.createddate = orders.getCreated_time();
         this.order_status = orders.getOrder_status();

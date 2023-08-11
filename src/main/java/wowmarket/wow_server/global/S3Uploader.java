@@ -39,7 +39,7 @@ public class S3Uploader {
 
         Date expiration = new Date();
         long expTimeMillis = expiration.getTime();
-        expTimeMillis += 1000 * 60 * 2; //2분
+        expTimeMillis += 1000 * 60 * 60; //60분
         expiration.setTime(expTimeMillis);
 
 

@@ -29,8 +29,8 @@ public class DemandProject extends BaseEntity{
 
     private String name;
     private String description;
-    private LocalDate start_date;
-    private LocalDate end_date;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     private String thumbnail;
     private String image1;

@@ -1,6 +1,9 @@
 package wowmarket.wow_server.sale.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +18,6 @@ import wowmarket.wow_server.sale.dto.SaleResponseDto;
 import wowmarket.wow_server.sale.dto.SaleDto;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +27,12 @@ public class SaleHomeService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
 
-    public SaleResponseDto findProjectHome(String univ, String orderby, Long lastpostid, int size) {
+    public SaleResponseDto findProjectHome(Pageable pageable, String univ) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
         String loginUserEmail = SecurityUtil.getLoginUsername();
 
-        List<Project> univProjects = new ArrayList<>();
-        List<Project> sortedProjects = new ArrayList<>();
+        Page<Project> findProjects = new PageImpl<>(new ArrayList<>(), pageable, 0);
 
         //로그인 상태에 따른 처리
         if (!loginUserEmail.equals("anonymousUser")) { //로그인 된 상태
@@ -50,50 +50,21 @@ public class SaleHomeService {
             if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { // 학교인증 O -> 로그인 O
-                univProjects = projectRepository.findProjectByUserUniv(user_univ);
+                findProjects = projectRepository.findByUserUniv(user_univ, pageable);
                 System.out.println("[findProjectHome] 소속학교 필터 : 학교 인증 && myUniv");
             } else { //학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else { // !user.isUniv_check() || univ.equals("allUniv")
-            univProjects = projectRepository.findAllProjectNotDelNotEnd();
+            findProjects = projectRepository.findAllNotDelNotEnd(pageable);
             System.out.println("[findProjectHome] 전체학교 필터 : 학교 인증 X || 로그인 X || allUniv");
         }
 
-        //정렬 처리 - endDate, popularity, startDate
-        if (orderby.equals("endDate")) { //default
-            sortedProjects = univProjects.stream()
-                    .sorted(Comparator.comparing(Project::getEnd_date)).toList();
-            System.out.println("[findProjectHome] 마감임박순 정렬");
-        } else if (orderby.equals("startDate")) {
-            sortedProjects = univProjects.stream()
-                    .sorted(Comparator.comparing(Project::getStart_date)).toList();
-            System.out.println("[findProjectHome] 시작일자순 정렬");
-        } else { //popularity
-            sortedProjects = univProjects.stream()
-                    .sorted(Comparator.comparing(Project::getView).reversed()).toList();
-            System.out.println("[findProjectHome] 인기순 정렬");
-        }
-
-//        univProjects.stream().map(project -> {
-//            int achieved = itemRepository.getTotalOrderCountByProject(project);
-//            int goal = itemRepository.getTotalGoalByProject(project);
-//            return achieved / goal;
-//        }).sorted(Comparator.comparing()).toList();
-
-
-        //size만큼 개수 반환
-//        List<Project> sizedProjects = sortedProjects.stream()
-//                .skip(0)
-//                .limit(size).toList();
-
-        List<SaleDto> projectDtos = sortedProjects.stream()
-                .map(project -> new SaleDto(project,
+        Page<SaleDto> projectDtos = findProjects.map(project -> new SaleDto(project,
                         itemRepository.getTotalOrderCountByProject(project),
-                        itemRepository.getTotalGoalByProject(project)))
-                .toList();
-        System.out.println("[findProjectHome] List<SaleDto> projectDtos 생성");
+                        itemRepository.getTotalGoalByProject(project)));
 
-        return new SaleResponseDto(user_univ, projectDtos);
+        return new SaleResponseDto(user_univ,
+                projectDtos.getTotalPages(), projectDtos.getNumber() + 1, projectDtos.getContent());
     }
 }

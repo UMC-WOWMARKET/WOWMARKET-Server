@@ -28,8 +28,8 @@ public class RegisterDemandProjectDto {
         return DemandProject.builder()
                 .name(project_name)
                 .description(description)
-                .start_date(start_date)
-                .end_date(end_date)
+                .startDate(start_date)
+                .endDate(end_date)
                 .nickname(nickname)
                 .build();
     }

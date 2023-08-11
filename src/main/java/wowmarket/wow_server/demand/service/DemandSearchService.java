@@ -1,6 +1,9 @@
 package wowmarket.wow_server.demand.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,26 +18,22 @@ import wowmarket.wow_server.repository.DemandProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class DemandSearchService {
-        private final DemandProjectRepository demandProjectRepository;
-        private final DemandItemRepository demandItemRepository;
-        private final UserRepository userRepository;
+    private final DemandProjectRepository demandProjectRepository;
+    private final DemandItemRepository demandItemRepository;
+    private final UserRepository userRepository;
 
-    public DemandResponseDto findDemandProjectSearch(String search, String univ, String orderby) {
+    public DemandResponseDto findDemandProjectSearch(String search, Pageable pageable, String univ) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
         String loginUserEmail = SecurityUtil.getLoginUsername();
 
-        List<DemandProject> univDemandProjects = new ArrayList<>();
-        List<DemandProject> sortedDemandProjects = new ArrayList<>();
+        Page<DemandProject> findDemandProjects = new PageImpl<>(new ArrayList<>(), pageable, 0);
 
-        //로그인 상태에 따른 처리
         if (!loginUserEmail.equals("anonymousUser")) {
             System.out.println("[findDemandProjectSearch] 로그인 O - 사용자 : " + loginUserEmail);
             User user = userRepository.findByEmail(loginUserEmail).get();
@@ -46,45 +45,27 @@ public class DemandSearchService {
             System.out.println("[findDemandProjectSearch] 로그인 X - 사용자 : " + loginUserEmail);
         }
 
-        //학교 필터링
         if (univ.equals("myUniv")) { // 학교 인증 확인
             if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { //학교인증 O -> 로그인 O
-                univDemandProjects = demandProjectRepository.findDemandProjectBySearchAndUserUniv(user_univ, search);
+                findDemandProjects = demandProjectRepository.findBySearchUserUniv(search, user_univ, pageable);
                 System.out.println("[findDemandProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
             } else { //학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else {
-            univDemandProjects = demandProjectRepository.findDemandProjectBySearch(search);
+            findDemandProjects = demandProjectRepository.findBySearch(search, pageable);
             System.out.println("[findDemandProjectSearch] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");
         }
 
-        //정렬 처리
-        if (orderby.equals("endDate")) { //default
-            sortedDemandProjects = univDemandProjects.stream()
-                    .sorted(Comparator.comparing(DemandProject::getEnd_date))
-                    .toList();
-            System.out.println("[findDemandProjectSearch] 마감임박순 정렬");
-        } else if (orderby.equals("startDate")) {
-            sortedDemandProjects = univDemandProjects.stream()
-                    .sorted(Comparator.comparing(DemandProject::getStart_date))
-                    .toList();
-            System.out.println("[findDemandProjectSearch] 시작일자순 정렬");
-        } else { //popularity
-            sortedDemandProjects = univDemandProjects.stream()
-                    .sorted(Comparator.comparing(DemandProject::getView))
-                    .toList();
-            System.out.println("[findDemandProjectSearch] 인기순 정렬");
-        }
+        Page<DemandDto> demandProjectDtos = findDemandProjects.map(demandProject -> new DemandDto(demandProject,
+                demandItemRepository.getTotalOrderCountByDemandProject(demandProject),
+                demandItemRepository.getTotalGoalByDemandProject(demandProject)));
 
-        List<DemandDto> demandProjectDtos = sortedDemandProjects.stream().map(demandProject -> new DemandDto(demandProject,
-                        demandItemRepository.getTotalOrderCountByDemandProject(demandProject),
-                        demandItemRepository.getTotalGoalByDemandProject(demandProject)))
-                .toList();
-        System.out.println("[findDemandProjectSearch] List<DemandDto> demandProjectDtos 생성");
-
-        return new DemandResponseDto(user_univ, demandProjectDtos);
+        return new DemandResponseDto(user_univ,
+                demandProjectDtos.getTotalPages(),
+                demandProjectDtos.getNumber() + 1,
+                demandProjectDtos.getContent());
     }
 }

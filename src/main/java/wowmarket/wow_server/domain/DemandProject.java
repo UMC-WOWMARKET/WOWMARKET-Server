@@ -27,15 +27,16 @@ public class DemandProject extends BaseEntity{
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
+    private String thumbnail;
+    private String image1;
+    private String image2;
+    private String image3;
+
     private String name;
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    private String thumbnail;
-    private String image1;
-    private String image2;
-    private String image3;
 
     @Setter
     @Column(columnDefinition="tinyint(0) default 0")

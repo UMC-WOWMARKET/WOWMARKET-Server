@@ -24,8 +24,8 @@ public class MyDemandDetailResponseDto {
         this.description = demandProject.getDescription();
         this.itemList = itemList;
         this.category = demandProject.getCategory().getName();
-        this.startdate = demandProject.getStart_date();
-        this.enddate = demandProject.getEnd_date();
+        this.startdate = demandProject.getStartDate();
+        this.enddate = demandProject.getEndDate();
         this.seller_nickname = demandProject.getNickname();
     }
 

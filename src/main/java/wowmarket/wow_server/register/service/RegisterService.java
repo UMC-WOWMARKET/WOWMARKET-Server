@@ -27,15 +27,16 @@ public class RegisterService {
     private final CategoryRepository categoryRepository;
 
 
-    public Long registerProject(RegisterProjectDto requestDto) throws Exception {
+    public Long registerProject(RegisterProjectDto requestDto, User user) throws Exception {
         Project project = requestDto.toEntity();
 
         //category 연관관계 설정
         project.setCategory(categoryRepository.findById(requestDto.getCategory_id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "일치하는 카테고리가 없습니다")));
         //user 연관관계 설정
-        project.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다")));
+//        project.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
+//                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다")));
+        project.setUser(user);
 
         projectRepository.save(project);
 
@@ -51,7 +52,7 @@ public class RegisterService {
     }
 
 
-    public Long registerDemand(RegisterDemandProjectDto requestDto) throws Exception {
+    public Long registerDemand(RegisterDemandProjectDto requestDto, User user) throws Exception {
         DemandProject demandProject = requestDto.toEntity();
 
         //category 연관관계 설정

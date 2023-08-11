@@ -114,12 +114,7 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.joining());
     }
 
-    public void logout(HttpServletRequest request){
-        String token = jwtTokenProvider.resolveAccessToken(request);
-
-        //aceess token으로 가져온 유저의 refresh token 삭제
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저 정보를 찾을 수 없습니다"));
+    public void logout(String token, User user){
         user.updateRefreshToken(null);
         userRepository.save(user);
 

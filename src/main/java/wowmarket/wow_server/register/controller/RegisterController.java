@@ -4,9 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import wowmarket.wow_server.domain.Category;
+import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.S3Uploader;
 import wowmarket.wow_server.register.dto.RegisterDemandProjectDto;
 import wowmarket.wow_server.register.dto.RegisterProjectDto;
@@ -24,14 +26,14 @@ public class RegisterController {
     private final S3Uploader awsS3Uploader;
 
     @PostMapping("/project")
-    public ResponseEntity registerProject(@Valid @RequestBody RegisterProjectDto request) throws Exception {
-        registerService.registerProject(request);
+    public ResponseEntity registerProject(@Valid @RequestBody RegisterProjectDto request, @AuthenticationPrincipal User user) throws Exception {
+        registerService.registerProject(request, user);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/demand")
-    public ResponseEntity registerDemand(@Valid @RequestBody RegisterDemandProjectDto request) throws Exception {
-        registerService.registerDemand(request);
+    public ResponseEntity registerDemand(@Valid @RequestBody RegisterDemandProjectDto request, @AuthenticationPrincipal User user) throws Exception {
+        registerService.registerDemand(request, user);
         return new ResponseEntity(HttpStatus.OK);
     }
 

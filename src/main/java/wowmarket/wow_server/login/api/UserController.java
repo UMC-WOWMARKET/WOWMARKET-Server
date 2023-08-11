@@ -5,7 +5,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.domain.User;
+import wowmarket.wow_server.global.jwt.JwtTokenProvider;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.login.dto.TokenResponseDto;
 import wowmarket.wow_server.login.dto.UserSignInRequestDto;
@@ -17,6 +20,7 @@ import wowmarket.wow_server.login.service.UserService;
 @RestController
 public class UserController {
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.OK)
@@ -45,8 +49,10 @@ public class UserController {
 
     @PostMapping ("/logout")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity logout(HttpServletRequest request){
-        userService.logout(request);
+    public ResponseEntity logout(HttpServletRequest request, @AuthenticationPrincipal User user){
+        String token = jwtTokenProvider.resolveAccessToken(request);
+        userService.logout(token, user);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

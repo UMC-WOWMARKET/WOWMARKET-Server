@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -48,9 +49,11 @@ public class MyOrderService {
     }
 
     @Transactional
-    public void deleteMyOrderFormDetail(Long order_id){
-        Orders orders = orderRepository.findById(order_id).get();
+    public ResponseEntity deleteMyOrderFormDetail(Long order_id){
+        Orders orders = orderRepository.findById(order_id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
         if (orders.isDel() == false)
             orders.setDel(true);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

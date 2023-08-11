@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -39,10 +40,12 @@ public class MySalesProjectService {
     }
 
     @Transactional
-    public void finishMySalesForm(Long project_id){
-        Project project = projectRepository.findById(project_id).get();
+    public ResponseEntity finishMySalesForm(Long project_id){
+        Project project = projectRepository.findById(project_id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
         if (project.isEnd() == false)
             project.setEnd(true);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)

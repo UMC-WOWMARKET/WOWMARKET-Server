@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -48,14 +49,17 @@ public class MySalesOrderService {
     }
 
     @Transactional
-    public void updateMySalesOrderStatus(Long order_id, MySalesOrderStatusRequestDto requestDto){
-        Orders orders = orderRepository.findById(order_id).get();
+    public ResponseEntity updateMySalesOrderStatus(Long order_id, MySalesOrderStatusRequestDto requestDto){
+        Orders orders = orderRepository.findById(order_id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
         orders.setOrder_status(requestDto.getOrder_status());
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional
     public MySalesOrderDetailResponseDto findMySalesOrderDetail(Long order_id){
-        Orders orders = orderRepository.findById(order_id).get();
+        Orders orders = orderRepository.findById(order_id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));;
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_Id(order_id);
         List<MySalesOrderDetailDto> orderDetailDtos = orderDetails.stream().map(MySalesOrderDetailDto::new).collect(Collectors.toList());
         MySalesOrderDetailResponseDto responseDto = new MySalesOrderDetailResponseDto(orderDetailDtos, orders);
@@ -63,9 +67,11 @@ public class MySalesOrderService {
     }
 
     @Transactional
-    public void deleteMySalesOrder(Long order_id){
-        Orders orders = orderRepository.findById(order_id).get();
+    public ResponseEntity deleteMySalesOrder(Long order_id){
+        Orders orders = orderRepository.findById(order_id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));;
         if (orders.isDel() == false)
             orders.setDel(true);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

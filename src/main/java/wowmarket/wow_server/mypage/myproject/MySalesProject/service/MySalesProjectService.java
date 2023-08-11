@@ -34,7 +34,7 @@ public class MySalesProjectService {
         Page<Project> projects = projectRepository.findByUser_Id(user.getId(), pageable);
         Page<MySalesFormDto> mySalesFormDtos = projects.map(MySalesFormDto::new);
         MySalesListResponseDto responseDto = new MySalesListResponseDto(mySalesFormDtos.getContent(),
-                mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber());
+                mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber() + 1);
         return responseDto;
     }
 

@@ -33,7 +33,7 @@ public class MyOrderService {
         Page<Orders> orders = orderRepository.findByUser_Id(user.getId(), pageable);
         Page<MyOrderFormResponseDto> orderformDtos = orders.map(MyOrderFormResponseDto::new);
         MyOrderFormListResponseDto responseDto = new MyOrderFormListResponseDto(orderformDtos.getContent(),
-                orderformDtos.getTotalPages(), orderformDtos.getNumber());
+                orderformDtos.getTotalPages(), orderformDtos.getNumber() + 1);
         return responseDto;
     }
 

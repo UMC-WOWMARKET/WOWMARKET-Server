@@ -3,6 +3,7 @@ package wowmarket.wow_server.register.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,16 +25,15 @@ public class RegisterController {
     private final S3Uploader awsS3Uploader;
 
     @PostMapping("/project")
-    @ResponseStatus(HttpStatus.OK)
-    public Long registerProject(@Valid @RequestBody RegisterProjectDto request) throws Exception {
-        Long project_id = registerService.registerProject(request);
-        return project_id;
+    public ResponseEntity registerProject(@Valid @RequestBody RegisterProjectDto request) throws Exception {
+        registerService.registerProject(request);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/demand")
-    @ResponseStatus(HttpStatus.OK)
-    public Long registerDemand(@Valid @RequestBody RegisterDemandProjectDto request) throws Exception {
-        return registerService.registerDemand(request);
+    public ResponseEntity registerDemand(@Valid @RequestBody RegisterDemandProjectDto request) throws Exception {
+        registerService.registerDemand(request);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -42,15 +42,13 @@ public class RegisterController {
      * @return presigned url
      */
     @GetMapping("/image")
-    @ResponseStatus(HttpStatus.OK)
-    public String RegisterProject(String dirname){
-        return awsS3Uploader.getPreSignedURL(dirname);
+    public ResponseEntity RegisterProject(String dirname){
+        return new ResponseEntity(awsS3Uploader.getPreSignedURL(dirname), HttpStatus.OK);
     }
 
     @GetMapping(value = {"/project", "/demand"})
-    @ResponseStatus(HttpStatus.OK)
-    public List<Category> sendCategories(){
-        return registerService.findCategories();
+    public ResponseEntity sendCategories(){
+        return new ResponseEntity<>(registerService.findCategories(), HttpStatus.OK);
     }
 
 

@@ -20,20 +20,15 @@ public class UserController {
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.OK)
-    public Long join (@Valid @RequestBody UserSignUpRequestDto request) throws Exception {
-        return userService.signUp(request);
+    public ResponseEntity join (@Valid @RequestBody UserSignUpRequestDto request) throws Exception {
+        userService.signUp(request);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public TokenResponseDto login(@Valid @RequestBody UserSignInRequestDto request) throws Exception {
-//        return userService.signIn(request);
-        return ResponseEntity.ok().body(userService.signIn(request)).getBody();
-    }
-    @GetMapping("/loginCheck")
-    @ResponseStatus(HttpStatus.OK)
-    public String jwtCheck(){
-        return SecurityUtil.getLoginUsername();
+    public ResponseEntity login(@Valid @RequestBody UserSignInRequestDto request) throws Exception {
+        return new ResponseEntity<>(userService.signIn(request), HttpStatus.OK);
     }
 
     @PostMapping("/sendTempPw")
@@ -42,14 +37,14 @@ public class UserController {
         userService.sendMailAndChangePassword(email);
     }
 
-
     @PostMapping("/resetPw")
-    @ResponseStatus(HttpStatus.OK)
-    public Long resetPw(@Valid @RequestBody UserSignInRequestDto request){
-        return userService.updatePassword(request.getEmail(), request.getPassword(), false);
+    public ResponseEntity resetPw(@Valid @RequestBody UserSignInRequestDto request){
+        userService.updatePassword(request.getEmail(), request.getPassword(), false);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping ("/logout")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(HttpServletRequest request){
        return userService.logout(request);
     }

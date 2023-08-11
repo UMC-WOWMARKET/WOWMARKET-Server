@@ -13,6 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000") // 이 설정 없으면 모든 origin에 대해 허용
+                .allowedOrigins("http://13.125.190.15:8080")
 //                .allowedMethods("*") // 기타 설정
 //                .allowedHeaders("*");
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(",")) //허용할 메소드

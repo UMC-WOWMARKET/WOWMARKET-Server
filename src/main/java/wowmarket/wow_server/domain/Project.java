@@ -46,6 +46,9 @@ public class Project extends BaseEntity{
     private String image3;
 
     private String receive_type;
+    private String address;
+    private String address_detail;
+    private String zipcode;
 
     private String bank;
     private String account;

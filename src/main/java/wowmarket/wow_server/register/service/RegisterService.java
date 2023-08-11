@@ -32,10 +32,10 @@ public class RegisterService {
 
         //category 연관관계 설정
         project.setCategory(categoryRepository.findById(requestDto.getCategory_id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "일치하는 카테고리가 없습니다")));
         //user 연관관계 설정
         project.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다")));
 
         projectRepository.save(project);
 
@@ -51,16 +51,15 @@ public class RegisterService {
     }
 
 
-
     public Long registerDemand(RegisterDemandProjectDto requestDto) throws Exception {
         DemandProject demandProject = requestDto.toEntity();
 
         //category 연관관계 설정
         demandProject.setCategory(categoryRepository.findById(requestDto.getCategory_id())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "일치하는 카테고리가 없습니다")));
         //user 연관관계 설정
         demandProject.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST)));
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다")));
 
         demandProjectRepository.save(demandProject);
 

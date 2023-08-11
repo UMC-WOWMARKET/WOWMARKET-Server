@@ -27,6 +27,10 @@ public class Project extends BaseEntity{
     @JoinColumn(name = "category_id")
     private Category category;
 
+    private String thumbnail;
+    private String image1;
+    private String image2;
+    private String image3;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -40,10 +44,7 @@ public class Project extends BaseEntity{
     @Setter
     private boolean isEnd;
 
-    private String thumbnail;
-    private String image1;
-    private String image2;
-    private String image3;
+
 
     private String receive_type;
     private String address;

@@ -35,17 +35,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = jwtAuthenticationProvider.resolveAccessToken(request); //request 헤더에서 토큰을 가져옴
 
         if (token != null && jwtAuthenticationProvider.validateAccessToken(token)) {
-            //logout된 jwt 검증 로직, 추후에 추가 예정
-//            String isLogout = (String)redisTemplate.opsForValue().get(token);
-//            if(ObjectUtils.isEmpty(isLogout)){
-//            }
 
-            //유효한 토큰이면 JwtTokenProvider를 통해 Authentication 객체를 생성
-            Authentication authentication = jwtAuthenticationProvider.getAuthentication(token);
+            //logout된 jwt 검증 로직
+            String isLogout = (String)redisTemplate.opsForValue().get(token);
+            if(ObjectUtils.isEmpty(isLogout)){
+                //유효한 토큰이면 JwtTokenProvider를 통해 Authentication 객체를 생성
+                Authentication authentication = jwtAuthenticationProvider.getAuthentication(token);
 
-            // 현재 스레드의 Security Context에 인증 정보를 저장 -> 해당 요청을 처리하는 동안 인증된 사용자로서 권한이 부여
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+                // 현재 스레드의 Security Context에 인증 정보를 저장 -> 해당 요청을 처리하는 동안 인증된 사용자로서 권한이 부여
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
 
         }
 

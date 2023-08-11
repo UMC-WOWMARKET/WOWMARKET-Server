@@ -9,13 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.OrderDetail;
 import wowmarket.wow_server.domain.Orders;
-import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.mypage.myorder.dto.*;
 import wowmarket.wow_server.repository.OrderDetailRepository;
 import wowmarket.wow_server.repository.OrderRepository;
-import wowmarket.wow_server.repository.ProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
 
 import java.util.List;

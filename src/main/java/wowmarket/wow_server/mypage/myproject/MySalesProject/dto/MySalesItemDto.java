@@ -7,14 +7,13 @@ import wowmarket.wow_server.domain.Item;
 @Getter
 @NoArgsConstructor
 public class MySalesItemDto {
-    private Long itemid;
+    private Long itemId;
     private String name;
     private Long price;
     private int goal;
-//    private String img;
 
     public MySalesItemDto(Item item){
-        this.itemid = item.getId();
+        this.itemId = item.getId();
         this.name = item.getName();
         this.price = item.getPrice();
         this.goal = item.getGoal();

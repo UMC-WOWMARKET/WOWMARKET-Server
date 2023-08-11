@@ -30,8 +30,7 @@ public class MyOrderController {
 
     @DeleteMapping("/detail/{order_id}")
     public ResponseEntity deleteMyOrder(@PathVariable Long order_id){
-        myOrderService.deleteMyOrderFormDetail(order_id);
-        return new ResponseEntity(HttpStatus.OK);
+        return myOrderService.deleteMyOrderFormDetail(order_id);
     }
 
 }

@@ -24,8 +24,7 @@ public class MySalesProjectController {
 
     @PutMapping("/{project_id}")
     public ResponseEntity finishMySales(@PathVariable Long project_id){
-        mySalesProjectService.finishMySalesForm(project_id);
-        return new ResponseEntity(HttpStatus.OK);
+        return mySalesProjectService.finishMySalesForm(project_id);
     }
 
     @GetMapping("/detail/{project_id}")

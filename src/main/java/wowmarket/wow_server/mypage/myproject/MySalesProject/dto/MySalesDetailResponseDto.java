@@ -10,11 +10,14 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class MySalesDetailResponseDto {
-    private Long projectid;
+    private Long projectId;
     private String projectname;
     private String description;
-//    private String mainimg;
+    private String thumbnail;
     private String category;
+    private String image1;
+    private String image2;
+    private String image3;
     private List<MySalesItemDto> itemList;
     private LocalDate startdate;
     private LocalDate enddate;
@@ -25,9 +28,13 @@ public class MySalesDetailResponseDto {
     private String seller_nickname;
 
     public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
-        this.projectid = project.getId();
+        this.projectId = project.getId();
         this.projectname = project.getName();
         this.description = project.getDescription();
+        this.thumbnail = project.getThumbnail();
+        this.image1 = project.getImage1();
+        this.image2 = project.getImage2();
+        this.image3 = project.getImage3();
         this.category = project.getCategory().getName();
         this.itemList = itemDtos;
         this.startdate = project.getStartDate();

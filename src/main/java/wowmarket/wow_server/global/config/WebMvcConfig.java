@@ -12,6 +12,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("GET","HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS","TRACE") //허용할 메소드
+                .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
     }

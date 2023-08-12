@@ -18,6 +18,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import wowmarket.wow_server.global.jwt.JwtAuthenticationFilter;
 import wowmarket.wow_server.global.jwt.JwtTokenProvider;
 
+import java.time.Duration;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors().configurationSource(corsConfigurationSource()).and()
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeRequests() // 요청에 대한 접근 권한을 설정하는 메서드
                 .requestMatchers("/mypage/**").authenticated()
                 .requestMatchers("wowmarket/register/**").authenticated()
@@ -70,6 +72,7 @@ public class SecurityConfig {
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(Duration.ofSeconds(3600));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

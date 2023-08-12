@@ -35,6 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .authorizeRequests() // 요청에 대한 접근 권한을 설정하는 메서드
                 .requestMatchers("/mypage/**").authenticated()
                 .requestMatchers("wowmarket/register/**").authenticated()
@@ -62,14 +63,15 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // @Bean
-    // public CorsConfigurationSource corsConfigurationSource() {
-    //     CorsConfiguration configuration = new CorsConfiguration();
-    //     configuration.addAllowedOrigin("*");
-    //     configuration.addAllowedMethod("*");
-    //     configuration.addAllowedHeader("*");
-    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //     source.registerCorsConfiguration("/**", configuration);
-    //     return source;
-    // }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }

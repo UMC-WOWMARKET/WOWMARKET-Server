@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.repository.ItemRepository;
 import wowmarket.wow_server.repository.ProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
@@ -27,37 +26,29 @@ public class SaleSearchService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
 
-    public SaleResponseDto findProjectHome(String search, Pageable pageable, String univ) {
+    public SaleResponseDto findProjectHome(String search, Pageable pageable, String univ, User user) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
-        String loginUserEmail = SecurityUtil.getLoginUsername();
 
         Page<Project> findProjects = new PageImpl<>(new ArrayList<>(), pageable, 0);
 
-        //로그인 상태에 따른 처리
-        if (!loginUserEmail.equals("anonymousUser")) { //로그인 된 상태
-            System.out.println("[findProjectSearch] 로그인 O - 사용자 : " + loginUserEmail);
-            User user = userRepository.findByEmail(loginUserEmail).get();
+        if (user != null) {
             user_univ_check = user.isUniv_check();
             if (user_univ_check) {
                 user_univ = user.getUniv();
             }
-        } else {
-            System.out.println("[findProjectSearch] 로그인 X - 사용자 : " + loginUserEmail);
         }
 
         if (univ.equals("myUniv")) {
-            if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
+            if (user == null) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { // 학교인증 O -> 로그인 O
                 findProjects = projectRepository.findBySearchUserUniv(search, user_univ, pageable);
-                System.out.println("[findProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
-            } else { //학교인증 X
+            } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
-        } else { // !user.isUniv_check() || univ.equals("allUniv")
+        } else { // univ.equals("allUniv")
             findProjects = projectRepository.findBySearch(search, pageable);
-            System.out.println("[findProjectSearch] 전체학교 필터 : 학교 인증 X || 로그인 X || allUniv");
         }
 
         Page<SaleDto> projectDtos = findProjects.map(project -> new SaleDto(project,

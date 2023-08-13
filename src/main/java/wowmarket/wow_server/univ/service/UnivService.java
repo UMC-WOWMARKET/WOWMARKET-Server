@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.univ.dto.UnivCodeRequestDto;
 import wowmarket.wow_server.univ.dto.UnivRequestDto;
 import wowmarket.wow_server.univ.dto.UnivResponseDto;
@@ -21,6 +20,7 @@ import wowmarket.wow_server.repository.UserRepository;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,12 +29,12 @@ public class UnivService {
     private final static boolean univ_check = true; //true : 대학 재학, false : 메일 소유
     private final UserRepository userRepository;
     private final EntityManager em;
+
     @Value("${api-key.univCert}")
     private String univCertAPIkey;
 
-    public UnivResponseDto univCertCertify(UnivRequestDto univRequestDto) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자 식별 정보 없음"));
+    public UnivResponseDto univCertCertify(UnivRequestDto univRequestDto, User user) {
+        Optional.ofNullable(user).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자 식별 정보 없음"));
 
         String univCertifySuccess = "";
         String reqURL = "https://univcert.com/api/v1/certify";
@@ -99,13 +99,10 @@ public class UnivService {
     }
 
     @Transactional
-    public UnivResponseDto univCertCertifyCode(UnivCodeRequestDto univCodeRequestDto) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자 식별 정보 없음"));
+    public UnivResponseDto univCertCertifyCode(UnivCodeRequestDto univCodeRequestDto, User user) {
+        Optional.ofNullable(user).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자 식별 정보 없음"));
         String univCertifyCodeSuccess = "";
         String reqURL = "https://univcert.com/api/v1/certifycode";
-
-        String loginUserEmail = SecurityUtil.getLoginUsername();
 
         try {
             URL url = new URL(reqURL);
@@ -161,13 +158,8 @@ public class UnivService {
 
             //성공이면 유저 학교 관련 정보 업데이트 로직 추가
             if (univCertifyCodeSuccess.equals("true")) {
-                System.out.println("[univCertCertifyCode] 헉쓰 왜 유저 정보 업데이트 안 되냐");
                 user.updateUniv(element.getAsJsonObject().get("univName").getAsString(),
                         element.getAsJsonObject().get("certified_date").getAsString(), true);
-                System.out.println("[univCertCertifyCode] 값은 잘 나왔낫" +
-                        "\n\telement.getAsJsonObject().get(\"univName\").getAsString() : " + element.getAsJsonObject().get("univName").getAsString() +
-                        "\n\tuser_univ_auth : " + element.getAsJsonObject().get("certified_date").getAsString() +
-                        "\n\tuniv_check : true");
             }
 
         } catch (IOException e) {

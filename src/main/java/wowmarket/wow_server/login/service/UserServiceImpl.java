@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST); //이메일 중복 시 400 에러 반환
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "중복된 이메일입니다"); //이메일 중복 시 400 에러 반환
         }
 
         User User = userRepository.save(requestDto.toEntity());
@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService{
 
         return User.getId();
     }
+
 
     @Override
     public TokenResponseDto signIn(UserSignInRequestDto requestDto) throws Exception {
@@ -78,6 +79,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void sendMailAndChangePassword(String email) {
+
         //비밀번호 재설정
         String str = getTempPassword();
         updatePassword(email, str, true);
@@ -112,19 +114,13 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.joining());
     }
 
-    public ResponseEntity logout(HttpServletRequest request){
-        String token = jwtTokenProvider.resolveAccessToken(request);
-
-        //aceess token으로 가져온 유저의 refresh token 삭제
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    public void logout(String token, User user){
         user.updateRefreshToken(null);
         userRepository.save(user);
 
         // access token의 유효시간 가져와서 블랙리스트 등록
         Long expiration = jwtTokenProvider.getExpiration(token);
         redisTemplate.opsForValue().set(token, "logout", expiration, TimeUnit.MILLISECONDS);
-        return ResponseEntity.ok().build();
     }
 
     @Override

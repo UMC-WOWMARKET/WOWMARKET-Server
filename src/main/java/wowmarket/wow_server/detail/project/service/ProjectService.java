@@ -1,22 +1,11 @@
 package wowmarket.wow_server.detail.project.service;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
-import wowmarket.wow_server.detail.notice.dto.NoticeRequestDto;
-import wowmarket.wow_server.detail.notice.dto.NoticeResponseDto;
 import wowmarket.wow_server.detail.project.dto.ProjectImgResponseDto;
 import wowmarket.wow_server.detail.project.dto.ProjectInfoResponseDto;
-import wowmarket.wow_server.domain.Notice;
 import wowmarket.wow_server.domain.Project;
-import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.global.jwt.SecurityUtil;
-import wowmarket.wow_server.repository.NoticeRepository;
 import wowmarket.wow_server.repository.ProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
-
-import java.util.List;
 
 @Service
 public class ProjectService {

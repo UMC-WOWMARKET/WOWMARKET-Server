@@ -1,4 +1,4 @@
-package wowmarket.wow_server.detail.notice.dto;
+package wowmarket.wow_server.detail.project.notice.dto;
 
 import lombok.Getter;
 

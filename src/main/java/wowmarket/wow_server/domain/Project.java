@@ -62,10 +62,6 @@ public class Project extends BaseEntity{
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
 
-    public void increaseView(Long project_id) {
-        this.view += 1;
-    }
-
     public void setUser(User user){
         this.user = user;
     }

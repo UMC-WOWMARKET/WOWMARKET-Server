@@ -36,6 +36,9 @@ public class DemandProject extends BaseEntity{
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
+    
+    private int participant_number;
+    private Long final_achievement_rate;
 
 
     @Setter
@@ -44,10 +47,6 @@ public class DemandProject extends BaseEntity{
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
-
-    public void increaseView(Long demand_project_id) {
-        this.view += 1;
-    }
 
     public void setUser(User user){ this.user = user;}
     public void setCategory(Category category){

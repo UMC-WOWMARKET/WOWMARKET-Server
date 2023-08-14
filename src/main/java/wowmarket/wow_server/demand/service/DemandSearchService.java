@@ -27,36 +27,29 @@ public class DemandSearchService {
     private final DemandItemRepository demandItemRepository;
     private final UserRepository userRepository;
 
-    public DemandResponseDto findDemandProjectSearch(String search, Pageable pageable, String univ) {
+    public DemandResponseDto findDemandProjectSearch(String search, Pageable pageable, String univ, User user) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
-        String loginUserEmail = SecurityUtil.getLoginUsername();
 
         Page<DemandProject> findDemandProjects = new PageImpl<>(new ArrayList<>(), pageable, 0);
 
-        if (!loginUserEmail.equals("anonymousUser")) {
-            System.out.println("[findDemandProjectSearch] 로그인 O - 사용자 : " + loginUserEmail);
-            User user = userRepository.findByEmail(loginUserEmail).get();
+        if (user != null) {
             user_univ_check = user.isUniv_check();
             if (user_univ_check) {
                 user_univ = user.getUniv();
             }
-        } else {
-            System.out.println("[findDemandProjectSearch] 로그인 X - 사용자 : " + loginUserEmail);
         }
 
-        if (univ.equals("myUniv")) { // 학교 인증 확인
-            if (loginUserEmail.equals("anonymousUser")) { // 로그인 X
+        if (univ.equals("myUniv")) {
+            if (user == null) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
-            } else if (user_univ_check) { //학교인증 O -> 로그인 O
+            } else if (user_univ_check) { // 학교인증 O -> 로그인 O
                 findDemandProjects = demandProjectRepository.findBySearchUserUniv(search, user_univ, pageable);
-                System.out.println("[findDemandProjectSearch] 소속학교 필터 : 학교 인증 && myUniv");
-            } else { //학교인증 X
+            } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else {
             findDemandProjects = demandProjectRepository.findBySearch(search, pageable);
-            System.out.println("[findDemandProjectSearch] 전체학교 필터 : 학교 인증 X || 당연히 로그인 X || allUniv");
         }
 
         Page<DemandDto> demandProjectDtos = findDemandProjects.map(demandProject -> new DemandDto(demandProject,

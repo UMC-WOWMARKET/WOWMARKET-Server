@@ -18,10 +18,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * 인증 코드로 Access_Token을 받아올 작업을 수행할 Service 클래스 생성
- * 및 getAccessToken메소드 작성
- */
 @Service
 @RequiredArgsConstructor
 public class KakaoAPIService {
@@ -91,6 +87,7 @@ public class KakaoAPIService {
 
     @Transactional
     public KakaoResponseDto getUserInfo(String access_token) {
+        String univ = "";
         String jwtAccessToken = "";
         String jwtRefreshToken = "";
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -131,7 +128,7 @@ public class KakaoAPIService {
 
             //findByEmail로 값이 없으면 DB에 저장 userRepository.findByEmail(email).isEmpty()
             if (userRepository.findByEmail(email).isEmpty()) { // 회원가입
-                System.out.println("[getUserInfo] nickname과 email 값 잘 넘어왔고 DB에 해당 email 없어서 DB에 저장하는 로직 실행");
+                System.out.println("[getUserInfo] 회원가입");
 
                 User user = User.builder()
                         .name(nickname)
@@ -144,18 +141,16 @@ public class KakaoAPIService {
                 jwtAccessToken = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole().name());
                 jwtRefreshToken = jwtTokenProvider.createRefreshToken();
                 user.updateRefreshToken(jwtRefreshToken); //refreshToken DB에 저장
-                System.out.println("[getUserInfo] jwtAccessToken 생성 & jwtRrefreshToken DB에 저장");
 
-                System.out.println("[getUserInfo] DB 저장 후 User 테이블 userId 확인 userRepository.findByEmail(email).get().getId() : " + userRepository.findByEmail(email).get().getId());
             } else { // 로그인
-                System.out.println("[getUserInfo] DB에 해당 email 이미 저장되어 있어서 DB에 저장하는 로직 실행하지 않음");
+                System.out.println("[getUserInfo] 로그인");
 
                 User user = userRepository.findByEmail(email).get();
+                univ = user.getUniv();
 
                 jwtAccessToken = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole().name());
                 jwtRefreshToken = jwtTokenProvider.createRefreshToken();
                 user.updateRefreshToken(jwtRefreshToken); //jwtRrefreshToken DB에 저장
-                System.out.println("[getUserInfo] jwtAccessToken 생성 & jwtRrefreshToken DB에 저장");
             }
 
             br.close();
@@ -168,6 +163,7 @@ public class KakaoAPIService {
                 .grantType("Bearer")
                 .jwtAccessToken(jwtAccessToken)
                 .jwtRefreshToken(jwtRefreshToken)
+                .univ(univ)
                 .build();
     }
 

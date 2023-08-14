@@ -3,7 +3,8 @@ package wowmarket.wow_server.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import wowmarket.wow_server.detail.notice.dto.NoticeRequestDto;
+import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
+
 
 @Entity
 @Getter
@@ -15,9 +16,8 @@ public class Notice extends BaseEntity{
     @Column(name = "notice_id")
     private Long id;
 
-    //User 테이블 관련 로직
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User user;
 
     @Column(name = "notice_title", nullable=false)
@@ -26,15 +26,20 @@ public class Notice extends BaseEntity{
     @Column(name = "notice_content", nullable=false, length=500)
     private String content;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "project_id", referencedColumnName = "project_id")
+    private Project project;
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
     // 게시글 작성
-    public Notice(NoticeRequestDto requestDto) {
+    public Notice(Project project, User user, NoticeRequestDto requestDto) {
+        this.project = project;
+        this.user = user;
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
     }
 
-//    // 게시글 수정
-//    public void update(NoticeRequestDto requestDto) {
-//        this.title = requestDto.getTitle();
-//        this.content = requestDto.getContent();
-//    }
 }

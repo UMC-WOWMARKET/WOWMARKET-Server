@@ -1,12 +1,12 @@
-package wowmarket.wow_server.detail.project.dto;
+package wowmarket.wow_server.detail.demandproject.dto;
 
 import lombok.Getter;
-import wowmarket.wow_server.domain.Project;
+import wowmarket.wow_server.domain.DemandProject;
 
 import java.time.LocalDate;
 
 @Getter
-public class ProjectInfoResponseDto {
+public class DemandProjectInfoResponseDto {
     private String thumbnail; //대표이미지
     private String category; //카테고리
     private String name; //프로젝트 이름
@@ -18,7 +18,7 @@ public class ProjectInfoResponseDto {
     private Long final_achievement_rate; //달성률
     private int participant_number; //참여인원
 
-    public ProjectInfoResponseDto(Project project) {
+    public DemandProjectInfoResponseDto(DemandProject project) {
         this.thumbnail = project.getThumbnail(); //대표이미지
         this.category = project.getCategory().getName(); //카테고리
         this.name = project.getName(); //프로젝트 이름

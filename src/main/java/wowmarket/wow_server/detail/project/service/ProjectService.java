@@ -28,13 +28,13 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    //프로젝트: 굿즈 소개(이미지 3개) 조회
+    //주문폼: 굿즈 소개(이미지 3개) 조회
     public ProjectImgResponseDto getProjectImg(Long project_id){
         Project project = projectRepository.findByProject_Id(project_id);
         return new ProjectImgResponseDto(project);
     }
 
-    //프로젝트: 상세 정보 조회
+    //주문폼: 상세 정보 조회
     public ProjectInfoResponseDto getProjectInfo(Long project_id){
         Project project = projectRepository.findByProject_Id(project_id);
         projectRepository.updateView(project_id); //상세정보 조회할 때마다 조회수 +1

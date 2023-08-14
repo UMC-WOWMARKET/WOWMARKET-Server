@@ -56,7 +56,6 @@ public class Project extends BaseEntity{
     private String account_holder_name;
 
 
-    private int re_progress;
     private Long final_achievement_rate;
 
     @Column(columnDefinition = "integer default 0", nullable = false)

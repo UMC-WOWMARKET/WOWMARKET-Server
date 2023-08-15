@@ -1,12 +1,13 @@
 package wowmarket.wow_server.detail.demandproject.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wowmarket.wow_server.detail.demandproject.dto.DemandItemResponseDto;
-import wowmarket.wow_server.detail.demandproject.dto.DemandProjectImgResponseDto;
-import wowmarket.wow_server.detail.demandproject.dto.DemandProjectInfoResponseDto;
+import wowmarket.wow_server.detail.demandproject.dto.*;
 import wowmarket.wow_server.detail.demandproject.service.DemandItemService;
 import wowmarket.wow_server.detail.demandproject.service.DemandProjectService;
+import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
+import wowmarket.wow_server.detail.demandproject.service.DemandDetailService;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class DemandProjectController {
     private final DemandProjectService demandProjectService;
     private final DemandItemService demandItemService;
+    private final DemandDetailService demandDetailService;
 
 
     //참여폼: 상세 정보 조회
@@ -34,6 +36,12 @@ public class DemandProjectController {
     @GetMapping("/{demand_project_id}/item") //path 수정해야함
     public List<DemandItemResponseDto> getItemInfo(@PathVariable Long demand_project_id){
         return demandItemService.getDemandItemInfo(demand_project_id);
+    }
+
+    //참여폼: 폼 등록
+    @PostMapping("/{demand_project_id}")
+    public DemandDetailRequestDto createDemandForm(@PathVariable Long demand_project_id, @RequestBody List<DemandDetailRequestDto> requestDto){
+        return demandDetailService.createDemandForm(demand_project_id, requestDto);
     }
 
 }

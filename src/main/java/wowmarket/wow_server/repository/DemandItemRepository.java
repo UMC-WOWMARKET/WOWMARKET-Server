@@ -18,4 +18,9 @@ public interface DemandItemRepository extends JpaRepository<DemandItem, Long> {
     int getTotalOrderCountByDemandProject(@Param("demand_project") DemandProject demandProject);
 
     List<DemandItem> findDemandItemByDemandProject_Id(Long demand_project_id);
+
+    DemandItem findDemandItemById(Long demand_item_id); //demand_item_id로 찾기
+
+    //DemandItem findDemandItemByName(Long demand_item_id); //demand_item_id로 찾기
+
 }

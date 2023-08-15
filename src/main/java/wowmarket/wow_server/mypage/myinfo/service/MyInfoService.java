@@ -17,9 +17,9 @@ public class MyInfoService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MyInfoResponseDto findMyInfo(){
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    public MyInfoResponseDto findMyInfo(User user){
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자 정보 없음");
         MyInfoResponseDto responseDto = MyInfoResponseDto.builder()
                 .name(user.getName())
                 .email(user.getEmail())

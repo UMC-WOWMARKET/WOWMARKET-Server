@@ -30,9 +30,9 @@ public class MySalesOrderService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MySalesOrderListResponseDto findMySalesOrderForms(Pageable pageable){
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    public MySalesOrderListResponseDto findMySalesOrderForms(Pageable pageable, User user){
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         List<Project> projects = projectRepository.findByUser_Id(user.getId()); //해당 유저가 판매하는 모든 프로젝트 가져오기
         List<MySalesOrderDto> orderDtoList = new ArrayList<>();
         for(Project p : projects){
@@ -44,7 +44,7 @@ public class MySalesOrderService {
         int start = Math.min(Math.max(pageable.getPageSize() * (pageable.getPageNumber()), 0), orderDtoList.size());
         int end = Math.min(start + pageable.getPageSize(), orderDtoList.size());
         Page<MySalesOrderDto> orderDtoPage = new PageImpl<>(orderDtoList.subList(start,end), pageable, orderDtoList.size());
-        MySalesOrderListResponseDto responseDto = new MySalesOrderListResponseDto(orderDtoPage.getContent(), orderDtoPage.getTotalPages(), orderDtoPage.getNumber() + 1);
+        MySalesOrderListResponseDto responseDto = new MySalesOrderListResponseDto(orderDtoPage.getContent(), orderDtoPage.getTotalPages(), orderDtoPage.getNumber());
         return responseDto;
     }
 

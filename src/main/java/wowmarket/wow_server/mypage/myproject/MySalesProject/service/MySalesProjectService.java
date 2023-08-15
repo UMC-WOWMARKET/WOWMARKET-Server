@@ -29,13 +29,13 @@ public class MySalesProjectService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MySalesListResponseDto findAllMySalesForm(Pageable pageable){
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    public MySalesListResponseDto findAllMySalesForm(Pageable pageable, User user){
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Page<Project> projects = projectRepository.findByUser_Id(user.getId(), pageable);
         Page<MySalesFormDto> mySalesFormDtos = projects.map(MySalesFormDto::new);
         MySalesListResponseDto responseDto = new MySalesListResponseDto(mySalesFormDtos.getContent(),
-                mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber() + 1);
+                mySalesFormDtos.getTotalPages(), mySalesFormDtos.getNumber());
         return responseDto;
     }
 

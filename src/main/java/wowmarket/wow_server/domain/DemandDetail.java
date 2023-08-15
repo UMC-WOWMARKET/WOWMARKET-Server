@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,5 +25,12 @@ public class DemandDetail extends BaseEntity{
     private User user;
 
     private int count = 0;
+
+    @Builder
+    public DemandDetail(User user, DemandItem demandItem, int count){
+        this.user = user;
+        this.demandItem = demandItem;
+        this.count = count;
+    }
 
 }

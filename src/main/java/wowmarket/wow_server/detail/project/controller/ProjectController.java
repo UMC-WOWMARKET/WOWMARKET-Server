@@ -2,12 +2,12 @@ package wowmarket.wow_server.detail.project.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import wowmarket.wow_server.detail.project.dto.ItemResponseDto;
-import wowmarket.wow_server.detail.project.dto.OrderResponseDto;
-import wowmarket.wow_server.detail.project.dto.ProjectInfoResponseDto;
+import wowmarket.wow_server.detail.demandproject.dto.DemandDetailRequestDto;
+import wowmarket.wow_server.detail.project.dto.*;
 import wowmarket.wow_server.detail.project.service.ItemService;
+import wowmarket.wow_server.detail.project.service.OrderService;
 import wowmarket.wow_server.detail.project.service.ProjectService;
-import wowmarket.wow_server.detail.project.dto.ProjectImgResponseDto;
+
 import java.util.List;
 
 @RestController
@@ -16,6 +16,7 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
     private final ItemService itemService;
+    private final OrderService orderService;
 
     //주문폼: 상세 정보 조회
     @GetMapping("/{project_id}")
@@ -42,7 +43,10 @@ public class ProjectController {
         return itemService.getItemInfo(project_id);
     }
 
-    //주문폼: 등록하기
-    //@PostMapping("/{project_id}/ ??? )
+    //주문폼: 폼 등록
+    @PostMapping("/{project_id}")
+    public OrderFormRequestDto createDemandForm(@PathVariable Long project_id, @RequestBody OrderFormRequestDto requestDto){
+        return orderService.createOrderForm(project_id, requestDto);
+    }
 
 }

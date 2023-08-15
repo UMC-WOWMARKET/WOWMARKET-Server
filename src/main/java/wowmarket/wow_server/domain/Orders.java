@@ -1,10 +1,7 @@
 package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -22,15 +19,18 @@ public class Orders extends BaseEntity {
 
     private int total_price;
     private String receiver;
-    private String address;
-    private String address_detail;
-    private String zipcode;
+
     private String delivery_msg;
     private String phone;
+
     private String bank;
     private String account;
     private String depositor;
     private LocalDateTime depositTime;
+
+    private String address;
+    private String address_detail;
+    private String zipcode;
 
     @Setter
     private int order_status;
@@ -47,9 +47,19 @@ public class Orders extends BaseEntity {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @Builder
+    public Orders(Project project, User user, String receiver, String zipcode, String address, String address_detail, String phone, String depositor, LocalDateTime depositTime, String bank, String account){
+        this.project = project;
+        this.user = user;
+        this.receiver = receiver;
+        this.zipcode = zipcode;
+        this.address = address;
+        this.address_detail = address_detail;
+        this.phone = phone;
+        this.depositor = depositor;
+        this.depositTime = depositTime;
+        this.bank = bank;
+        this.account = account;
+    }
 
-//    아직 주문상세 안 만들어서 주석처리
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "order_detail_id")
-//    private Order_detail order_detail;
 }

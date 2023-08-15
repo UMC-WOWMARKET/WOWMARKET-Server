@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -28,7 +29,11 @@ public class OrderDetail {
     @ColumnDefault("0")
     private int count;
 
-    public void updateOrderDetail(MyOrderFormItemListRequestDto requestDto){
-        this.count = requestDto.getCount();
+    @Builder
+    public OrderDetail(Orders orders, Item item, int count){
+        this.orders = orders;
+        this.item = item;
+        this.count = count;
     }
+
 }

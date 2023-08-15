@@ -1,5 +1,6 @@
 package wowmarket.wow_server.register.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,16 +15,25 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RegisterDemandProjectDto {
+    @NotNull
     private String project_name;
+    @NotNull
     private String description;
+    @NotNull
     private Long category_id;
+    @NotNull
     private String thumbnail;
+    @NotNull
     private String image1;
     private String image2;
     private String image3;
+    @NotNull
     private List<RegisterItemDto> item;
+    @NotNull
     private LocalDate start_date;
+    @NotNull
     private LocalDate end_date;
+    @NotNull
     private String nickname;
 
 

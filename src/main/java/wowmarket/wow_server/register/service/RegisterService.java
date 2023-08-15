@@ -2,6 +2,7 @@ package wowmarket.wow_server.register.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,7 +24,6 @@ public class RegisterService {
     private final ItemRepository itemRepository;
     private final DemandProjectRepository demandProjectRepository;
     private final DemandItemRepository demandItemRepository;
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
 
@@ -34,9 +34,8 @@ public class RegisterService {
         project.setCategory(categoryRepository.findById(requestDto.getCategory_id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "일치하는 카테고리가 없습니다")));
         //user 연관관계 설정
-//        project.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
-//                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다")));
-        project.setUser(user);
+        if(user != null) project.setUser(user);
+        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다"); //유저 없을 시 400 에러 반환
 
         projectRepository.save(project);
 
@@ -59,8 +58,8 @@ public class RegisterService {
         demandProject.setCategory(categoryRepository.findById(requestDto.getCategory_id())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "일치하는 카테고리가 없습니다")));
         //user 연관관계 설정
-        demandProject.setUser(userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다")));
+        if(user != null) demandProject.setUser(user);
+        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다"); //유저 없을 시 400 에러 반환
 
         demandProjectRepository.save(demandProject);
 

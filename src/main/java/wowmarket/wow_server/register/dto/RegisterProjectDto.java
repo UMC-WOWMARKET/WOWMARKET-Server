@@ -1,5 +1,6 @@
 package wowmarket.wow_server.register.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,26 +15,39 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RegisterProjectDto {
+    @NotNull
     private String project_name;
+    @NotNull
     private String description;
+    @NotNull
     private Long category_id;
 
+    @NotNull
     private String thumbnail;
+    @NotNull
     private String image1;
     private String image2;
     private String image3;
 
+    @NotNull
     private List<RegisterItemDto> item;
+    @NotNull
     private LocalDate start_date;
+    @NotNull
     private LocalDate end_date;
+    @NotNull
     private String receive_type;
     private String address;
     private Long delivery_fee;
 //    private String address_detail; 추후에 추가 예정
 //    private String zipcode;
+    @NotNull
     private String bank;
+    @NotNull
     private String account;
+    @NotNull
     private String account_holder_name;
+    @NotNull
     private String nickname;
 
 

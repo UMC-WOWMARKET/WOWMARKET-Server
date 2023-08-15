@@ -3,6 +3,7 @@ package wowmarket.wow_server.detail.project.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.detail.project.dto.ItemResponseDto;
+import wowmarket.wow_server.detail.project.dto.OrderResponseDto;
 import wowmarket.wow_server.detail.project.dto.ProjectInfoResponseDto;
 import wowmarket.wow_server.detail.project.service.ItemService;
 import wowmarket.wow_server.detail.project.service.ProjectService;
@@ -29,10 +30,19 @@ public class ProjectController {
     }
 
 
-    //주문폼: 우측 폼 정보 불러오기(상품명, 판매가)
+//    //주문폼: 우측 폼 정보 불러오기(상품명, 판매가)
+//    @GetMapping("/{project_id}/item") //path 수정해야함
+//    public List<ItemResponseDto> getItemInfo(@PathVariable Long project_id){
+//        return itemService.getItemInfo(project_id);
+//    }
+
+    //주문폼: 우측 폼 정보 불러오기
     @GetMapping("/{project_id}/item") //path 수정해야함
-    public List<ItemResponseDto> getItemInfo(@PathVariable Long project_id){
+    public OrderResponseDto getItemInfo(@PathVariable Long project_id){
         return itemService.getItemInfo(project_id);
     }
+
+    //주문폼: 등록하기
+    //@PostMapping("/{project_id}/ ??? )
 
 }

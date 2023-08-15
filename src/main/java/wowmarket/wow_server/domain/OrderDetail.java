@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormItemListRequestDto;
 
 @Entity
@@ -24,7 +25,8 @@ public class OrderDetail {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private int count = 0;
+    @ColumnDefault("0")
+    private int count;
 
     public void updateOrderDetail(MyOrderFormItemListRequestDto requestDto){
         this.count = requestDto.getCount();

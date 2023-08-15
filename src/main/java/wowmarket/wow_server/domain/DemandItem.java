@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +24,9 @@ public class DemandItem extends BaseEntity{
 
     private String name;
     private Long price;
-    private int goal = 0;
+
+    @ColumnDefault("0")
+    private int goal;
 
     public void setDemandProject(DemandProject demandProject){
         this.demandProject=demandProject;

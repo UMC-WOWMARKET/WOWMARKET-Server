@@ -2,17 +2,15 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -24,6 +22,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String email;
+
     private String password;
     private String name;
     private String address;
@@ -31,11 +32,12 @@ public class User extends BaseEntity implements UserDetails {
     private String bank;
     private String account;
     private String phone;
-    @Column(unique = true, nullable = false)
-    private String email;
+
     private String univ;
     private String univ_certified_date;
+    @ColumnDefault("false")
     private boolean univ_check = false;
+    @ColumnDefault("false")
     private boolean marketing_agree = false;
 
     @Enumerated(EnumType.STRING)

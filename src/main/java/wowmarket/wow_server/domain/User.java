@@ -35,15 +35,17 @@ public class User extends BaseEntity implements UserDetails {
 
     private String univ;
     private String univ_certified_date;
-    @ColumnDefault("false")
-    private boolean univ_check = false;
-    @ColumnDefault("false")
-    private boolean marketing_agree = false;
+    @Column(columnDefinition="tinyint(0) default 0")
+    private boolean univ_check;
+    @Column(columnDefinition="tinyint(0) default 0")
+    private boolean marketing_agree;
 
     @Enumerated(EnumType.STRING)
     private Role role;
     private String refreshToken;
-    private boolean temporary_password = false;
+
+    @Column(columnDefinition="tinyint(0) default 0")
+    private boolean temporary_password;
 
     @Enumerated(EnumType.STRING)
     private Login_Method login_method;

@@ -6,7 +6,7 @@ import wowmarket.wow_server.login.dto.KakaoResponseDto;
 import wowmarket.wow_server.login.service.KakaoAPIService;
 
 @RestController
-@RequestMapping("/wowmarket/users/kakao")
+@RequestMapping("/users/kakao")
 @RequiredArgsConstructor
 public class KakaoController {
     private final KakaoAPIService kakaoAPI;

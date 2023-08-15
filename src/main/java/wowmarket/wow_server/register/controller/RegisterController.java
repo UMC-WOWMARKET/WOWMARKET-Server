@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @RequiredArgsConstructor
-@RequestMapping("/wowmarket/register")
+@RequestMapping("/register")
 @RestController
 public class RegisterController {
 

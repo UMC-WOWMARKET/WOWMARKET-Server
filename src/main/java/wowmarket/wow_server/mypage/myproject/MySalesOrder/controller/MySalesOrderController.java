@@ -5,22 +5,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.MySalesOrderDetailResponseDto;
 import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.MySalesOrderListResponseDto;
 import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.MySalesOrderStatusRequestDto;
 import wowmarket.wow_server.mypage.myproject.MySalesOrder.service.MySalesOrderService;
 
 @RestController
-@RequestMapping("/wowmarket/mypage/myproject/order")
+@RequestMapping("/mypage/myproject/order")
 @RequiredArgsConstructor
 public class MySalesOrderController {
 
     private final MySalesOrderService mySalesOrderService;
     @GetMapping
-    public MySalesOrderListResponseDto getMySalesOrderForms(@RequestParam(value = "page", defaultValue = "1", required = false)int page){
+    public MySalesOrderListResponseDto getMySalesOrderForms(@RequestParam(value = "page", defaultValue = "1", required = false)int page, @AuthenticationPrincipal User user){
         Pageable pageable = PageRequest.of(page - 1, 10);
-        return mySalesOrderService.findMySalesOrderForms(pageable);
+        return mySalesOrderService.findMySalesOrderForms(pageable, user);
     }
 
     @PutMapping("/{order_id}")

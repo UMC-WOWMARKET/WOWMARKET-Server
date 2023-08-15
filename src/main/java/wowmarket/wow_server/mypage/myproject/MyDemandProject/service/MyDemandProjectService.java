@@ -31,12 +31,12 @@ public class MyDemandProjectService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MyDemandResponseDto findAllMyDemandForm(Pageable pageable){
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    public MyDemandResponseDto findAllMyDemandForm(Pageable pageable, User user){
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Page<DemandProject> demandProjects = demandProjectRepository.findDemandProjectByUser_Id(user.getId(), pageable);
         Page<MyDemandDto> demandOrderDtos = demandProjects.map(MyDemandDto::new);
-        MyDemandResponseDto responseDto = new MyDemandResponseDto(demandOrderDtos.getContent(), demandOrderDtos.getTotalPages(), demandOrderDtos.getNumber() + 1);
+        MyDemandResponseDto responseDto = new MyDemandResponseDto(demandOrderDtos.getContent(), demandOrderDtos.getTotalPages(), demandOrderDtos.getNumber());
         return responseDto;
     }
 

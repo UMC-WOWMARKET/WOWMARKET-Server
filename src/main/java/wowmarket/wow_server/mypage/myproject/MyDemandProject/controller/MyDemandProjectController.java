@@ -5,22 +5,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandDetailResponseDto;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandResponseDto;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.service.MyDemandProjectService;
 
 @RestController
-@RequestMapping("/wowmarket/mypage/myproject/demand")
+@RequestMapping("/mypage/myproject/demand")
 @RequiredArgsConstructor
 public class MyDemandProjectController {
 
     private final MyDemandProjectService myDemandProjectService;
 
     @GetMapping
-    public MyDemandResponseDto getMyDemandList(@RequestParam(value = "page", defaultValue = "1", required = false)int page){
+    public MyDemandResponseDto getMyDemandList(@RequestParam(value = "page", defaultValue = "1", required = false)int page, @AuthenticationPrincipal User user){
         Pageable pageable = PageRequest.of(page - 1, 10);
-        return myDemandProjectService.findAllMyDemandForm(pageable);
+        return myDemandProjectService.findAllMyDemandForm(pageable, user);
     }
 
     @PutMapping("/{demand_project_id}")

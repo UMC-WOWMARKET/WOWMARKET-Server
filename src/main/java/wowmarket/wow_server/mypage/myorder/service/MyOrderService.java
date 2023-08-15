@@ -28,13 +28,13 @@ public class MyOrderService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MyOrderFormListResponseDto findAllMyOrderForm(Pageable pageable){
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    public MyOrderFormListResponseDto findAllMyOrderForm(Pageable pageable, User user){
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Page<Orders> orders = orderRepository.findByUser_Id(user.getId(), pageable);
         Page<MyOrderFormResponseDto> orderformDtos = orders.map(MyOrderFormResponseDto::new);
         MyOrderFormListResponseDto responseDto = new MyOrderFormListResponseDto(orderformDtos.getContent(),
-                orderformDtos.getTotalPages(), orderformDtos.getNumber() + 1);
+                orderformDtos.getTotalPages(), orderformDtos.getNumber());
         return responseDto;
     }
 

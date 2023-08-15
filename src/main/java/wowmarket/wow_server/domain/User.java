@@ -50,12 +50,6 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Login_Method login_method;
 
-    public void updateUniv(String univ, String univ_certified_date, boolean univ_check) {
-        this.univ = univ;
-        this.univ_certified_date = univ_certified_date;
-        this.univ_check = univ_check;
-    }
-
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
     }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeResponseDto;
+import wowmarket.wow_server.detail.project.notice.dto.NoticeSelectResponseDto;
 import wowmarket.wow_server.domain.Notice;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
@@ -42,19 +43,19 @@ public class NoticeService {
         else return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
-    // 공지 전체 조회
+    // 공지 목록 조회
     public List<NoticeResponseDto> getNoticeList(Long project_id) {
         return noticeRepository.findByProjectIdByOrderByCreated_timeDesc(project_id).stream()  // DB 에서 조회한 List -> stream 으로 변환
-                .map(NoticeResponseDto::new)  // stream 처리를 통해, Board 객체 -> BoardResponseDto 로 변환
+                .map(NoticeResponseDto::new)  // stream 처리를 통해, Notice 객체 -> NoticeResponseDto 로 변환
                 .toList(); // 다시 stream -> List 로 변환
     }
 
     // 공지 선택 조회
-    public NoticeResponseDto getNotice(Long notice_id) {
+    public NoticeSelectResponseDto getNotice(Long notice_id) {
         Notice notice = noticeRepository.findByNoticeId(notice_id).orElseThrow(
                 () -> new IllegalArgumentException("공지 아이디가 존재하지 않습니다.")
         );
         // 해당 id 가 있을 경우
-        return new NoticeResponseDto(notice);
+        return new NoticeSelectResponseDto(notice);
     }
 }

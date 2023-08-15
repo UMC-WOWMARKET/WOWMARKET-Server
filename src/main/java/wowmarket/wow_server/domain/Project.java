@@ -2,7 +2,6 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,9 +45,9 @@ public class Project extends BaseEntity{
     private boolean isEnd;
 
 
-
-    private String receive_type;
-    private String address;
+    private String receive_type; //delivery, pickup
+    private String receive_address; //직접수령 시 픽업장소
+    private Long delivery_fee; //배송비
     private String address_detail;
     private String zipcode;
 

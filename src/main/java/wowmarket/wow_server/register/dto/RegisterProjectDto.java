@@ -28,6 +28,7 @@ public class RegisterProjectDto {
     private LocalDate end_date;
     private String receive_type;
     private String address;
+    private Long delivery_fee;
 //    private String address_detail; 추후에 추가 예정
 //    private String zipcode;
     private String bank;
@@ -50,7 +51,8 @@ public class RegisterProjectDto {
                 .isDel(Boolean.FALSE)
                 .isEnd(Boolean.FALSE)
                 .receive_type(receive_type)
-                .address(address)
+                .receive_address(address)
+                .delivery_fee(delivery_fee)
                 .bank(bank)
                 .account(account)
                 .account_holder_name(account_holder_name)

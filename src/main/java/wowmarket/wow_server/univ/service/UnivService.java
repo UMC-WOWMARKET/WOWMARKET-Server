@@ -41,8 +41,13 @@ public class UnivService {
                 univCodeRequestDto.getUniv_email(), univCodeRequestDto.getUniv_name(), univCodeRequestDto.getCode());
 
         if ((boolean) response.get("success")) {
-            user.updateUniv(response.get("univName").toString(),
-                    response.get("certified_date").toString(), true);
+            em.createQuery("update User u set " +
+                            "u.univ = :univName, u.univ_certified_date = :certified_date, u.univ_check = true " +
+                            "where u.id = :id")
+                    .setParameter("univName", response.get("univName").toString())
+                    .setParameter("certified_date", response.get("certified_date").toString())
+                    .setParameter("id", user.getId())
+                    .executeUpdate();
         }
 
         return new JSONObject(response);

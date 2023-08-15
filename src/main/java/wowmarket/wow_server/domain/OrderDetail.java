@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormItemListRequestDto;
@@ -26,7 +27,11 @@ public class OrderDetail {
 
     private int count = 0;
 
-    public void updateOrderDetail(MyOrderFormItemListRequestDto requestDto){
-        this.count = requestDto.getCount();
+    @Builder
+    public OrderDetail(Orders orders, Item item, int count){
+        this.orders = orders;
+        this.item = item;
+        this.count = count;
     }
+
 }

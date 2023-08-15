@@ -1,0 +1,69 @@
+package wowmarket.wow_server.detail.project.service;
+import lombok.Builder;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import wowmarket.wow_server.detail.demandproject.dto.DemandDetailRequestDto;
+import wowmarket.wow_server.detail.project.dto.OrderFormRequestDto;
+import wowmarket.wow_server.detail.project.dto.OrderRequestDto;
+import wowmarket.wow_server.domain.*;
+import wowmarket.wow_server.global.jwt.SecurityUtil;
+import wowmarket.wow_server.repository.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+public class OrderService {
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
+    private final ProjectRepository projectRepository;
+    private final OrderDetailRepository orderDetailRepository;
+
+
+    public OrderService(ProjectRepository projectRepository, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository, ItemRepository itemRepository, UserRepository userRepository) {
+        this.projectRepository = projectRepository;
+        this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
+    }
+
+
+    public OrderFormRequestDto createOrderForm(Long project_id, OrderFormRequestDto requestDto) {
+        Project project = projectRepository.findByProject_Id(project_id);
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
+        Orders order = Orders.builder()
+                .project(project)
+                .user(user)
+                .receiver(requestDto.getReceiver())
+                .zipcode(requestDto.getZipcode())
+                .address(requestDto.getAddress())
+                .address_detail(requestDto.getAddress_detail())
+                .phone(requestDto.getPhone())
+                .depositor(requestDto.getDepositor())
+                .depositTime(requestDto.getDepositTime())
+                .bank(requestDto.getBank())
+                .account(requestDto.getAccount())
+                .build();
+        orderRepository.save(order);
+
+        //같은 order_id로 매핑되게 어떻게 하지..?
+        for (int i = 0; i < requestDto.getOrderRequestDtoList().size(); i++) {
+            Item item = itemRepository.findItemById(requestDto.getOrderRequestDtoList().get(i).getItemId());
+            int count = requestDto.getOrderRequestDtoList().get(i).getCount();
+            OrderDetail orderDetail = OrderDetail.builder()
+                    .orders(order)
+                    .item(item)
+                    .count(count)
+                    .build();
+            orderDetailRepository.save(orderDetail);
+
+        }
+        return null;
+    }
+
+}

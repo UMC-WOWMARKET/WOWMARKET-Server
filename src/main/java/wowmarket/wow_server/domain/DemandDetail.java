@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +24,7 @@ public class DemandDetail extends BaseEntity{
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
     private User user;
 
-    private int count = 0;
+    @ColumnDefault("0")
+    private int count;
 
 }

@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -19,7 +20,9 @@ public class Item {
 
     private String name;
     private Long price;
-    private int goal = 0;
+
+    @ColumnDefault("0")
+    private int goal;
 
     public void setProject(Project project){
         this.project = project;

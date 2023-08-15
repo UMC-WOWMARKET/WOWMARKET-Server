@@ -12,14 +12,14 @@ import wowmarket.wow_server.sale.service.SaleHomeService;
 import wowmarket.wow_server.sale.service.SaleSearchService;
 
 @RestController
-@RequestMapping("/wowmarket/sale")
+@RequestMapping("/sale")
 @RequiredArgsConstructor
 public class SaleController {
     private final SaleHomeService saleHomeService;
     private final SaleSearchService saleSearchService;
 
     @GetMapping("/home")
-//    /wowmarket/sale/home?pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
+//    /sale/home?pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
     public SaleResponseDto GetSaleProjectPageHome(
             @RequestParam(name = "pageNo", defaultValue = "1", required = true) int pageNo,
             @RequestParam(name = "orderBy", defaultValue = "endDate", required = true) String orderBy,
@@ -37,7 +37,7 @@ public class SaleController {
     }
 
     @GetMapping
-//     /wowmarket/sale?search={search}&pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
+//     /sale?search={search}&pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
     public SaleResponseDto GetSaleProjectListSearch(
             @RequestParam("search") String search,
             @RequestParam(name = "pageNo", defaultValue = "1", required = true) int pageNo,

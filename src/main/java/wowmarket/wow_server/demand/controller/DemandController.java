@@ -15,14 +15,14 @@ import wowmarket.wow_server.demand.service.DemandSearchService;
 import wowmarket.wow_server.domain.User;
 
 @RestController
-@RequestMapping("/wowmarket/demand")
+@RequestMapping("/demand")
 @RequiredArgsConstructor
 public class DemandController {
     private final DemandHomeService demandHomeService;
     private final DemandSearchService demandSearchService;
 
     @GetMapping("/home")
-//    /wowmarket/demand/home?pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
+//    /demand/home?pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
     public DemandResponseDto GetSaleProjectPageHome(
             @RequestParam(name = "pageNo", defaultValue = "1", required = true) int pageNo,
             @RequestParam(name = "orderBy", defaultValue = "endDate", required = true) String orderBy,
@@ -40,7 +40,7 @@ public class DemandController {
     }
 
     @GetMapping
-//    /wowmarket/demand?search={search}&pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
+//    /demand?search={search}&pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
     public DemandResponseDto GetDemandProjectListSearch(
             @RequestParam("search") String search,
             @RequestParam(name = "pageNo", defaultValue = "1", required = true) int pageNo,

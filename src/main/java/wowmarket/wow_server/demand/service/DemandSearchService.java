@@ -58,7 +58,7 @@ public class DemandSearchService {
 
         return new DemandResponseDto(user_univ,
                 demandProjectDtos.getTotalPages(),
-                demandProjectDtos.getNumber() + 1,
+                demandProjectDtos.getNumber(),
                 demandProjectDtos.getContent());
     }
 }

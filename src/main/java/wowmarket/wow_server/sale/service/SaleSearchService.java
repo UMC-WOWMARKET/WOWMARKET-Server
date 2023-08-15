@@ -56,6 +56,6 @@ public class SaleSearchService {
                 itemRepository.getTotalGoalByProject(project)));
 
         return new SaleResponseDto(user_univ,
-                projectDtos.getTotalPages(), projectDtos.getNumber() + 1, projectDtos.getContent());
+                projectDtos.getTotalPages(), projectDtos.getNumber(), projectDtos.getContent());
     }
 }

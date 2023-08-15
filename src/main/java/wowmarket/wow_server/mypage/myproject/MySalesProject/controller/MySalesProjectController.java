@@ -13,7 +13,7 @@ import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesListRespo
 import wowmarket.wow_server.mypage.myproject.MySalesProject.service.MySalesProjectService;
 
 @RestController
-@RequestMapping("/wowmarket/mypage/myproject")
+@RequestMapping("/mypage/myproject")
 @RequiredArgsConstructor
 public class MySalesProjectController {
     private final MySalesProjectService mySalesProjectService;

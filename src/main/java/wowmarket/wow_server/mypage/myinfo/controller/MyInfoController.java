@@ -12,7 +12,7 @@ import wowmarket.wow_server.mypage.myinfo.dto.MyInfoResponseDto;
 import wowmarket.wow_server.mypage.myinfo.service.MyInfoService;
 
 @RestController
-@RequestMapping("wowmarket/mypage")
+@RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class MyInfoController {
     private final MyInfoService myInfoService;

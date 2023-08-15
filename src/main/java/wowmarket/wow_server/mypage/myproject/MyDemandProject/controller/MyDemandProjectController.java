@@ -13,7 +13,7 @@ import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandRespons
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.service.MyDemandProjectService;
 
 @RestController
-@RequestMapping("/wowmarket/mypage/myproject/demand")
+@RequestMapping("/mypage/myproject/demand")
 @RequiredArgsConstructor
 public class MyDemandProjectController {
 

@@ -14,7 +14,7 @@ import wowmarket.wow_server.mypage.myproject.MySalesOrder.dto.MySalesOrderStatus
 import wowmarket.wow_server.mypage.myproject.MySalesOrder.service.MySalesOrderService;
 
 @RestController
-@RequestMapping("/wowmarket/mypage/myproject/order")
+@RequestMapping("/mypage/myproject/order")
 @RequiredArgsConstructor
 public class MySalesOrderController {
 

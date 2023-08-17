@@ -25,7 +25,7 @@ public class MyOrderFormDetailResponseDto {
     private String buyer_bank;
     private String buyer_account;
     private String buyer_account_name;
-    private LocalDateTime deposittime;
+    private String deposittime;
 
     public MyOrderFormDetailResponseDto(List<MyOrderFormDetailDto> itemList, Orders orders){
         this.itemList = itemList;

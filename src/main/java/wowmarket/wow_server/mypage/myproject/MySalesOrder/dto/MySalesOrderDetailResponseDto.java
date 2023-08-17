@@ -22,7 +22,7 @@ public class MySalesOrderDetailResponseDto {
     private String buyer_bank;
     private String buyer_account;
     private String buyer_account_name;
-    private LocalDateTime deposittime;
+    private String deposittime;
 
     public MySalesOrderDetailResponseDto(List<MySalesOrderDetailDto> newDtos, Orders orders){
         this.itemList = newDtos;

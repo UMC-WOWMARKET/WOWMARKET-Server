@@ -2,6 +2,8 @@ package wowmarket.wow_server.detail.project.question.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.detail.project.question.dto.AnswerRequestDto;
+import wowmarket.wow_server.detail.project.question.dto.AnswerResponseDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionResponseDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionSelectResponseDto;
@@ -27,10 +29,16 @@ public class QuestionController {
         return questionService.getQuestionList(project_id);
     }
 
-    // 문의 선택 조회 (비밀글일 때, 문의글 작성자 및 판매자만 글 조회 가능!)
+    // 문의 선택 조회 (비밀글일 때, 문의글 작성자 및 판매자만 글 조회 가능!) + 문의 답변도 함께 불러오기
     @GetMapping("/{project_id}/question/{question_id}")
     public QuestionSelectResponseDto getQuestion(@PathVariable Long project_id, @PathVariable Long question_id) {
         return questionService.getQuestion(project_id, question_id);
+    }
+
+    // 문의 답변 작성 (문의글 작성자 & 판매자만 작성 가능)
+    @PostMapping("/{project_id}/question/{question_id}")
+    public AnswerResponseDto createAnswer(@PathVariable Long project_id, @PathVariable Long question_id, @RequestBody AnswerRequestDto requestDto) {
+        return questionService.createAnswer(project_id, question_id, requestDto);
     }
 
 }

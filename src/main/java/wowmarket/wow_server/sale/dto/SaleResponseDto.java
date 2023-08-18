@@ -17,6 +17,6 @@ public class SaleResponseDto {
         this.univ = user_univ;
         this.total_page = total_page;
         this.current_page = current_page;
-        project_list = newDtos;
+        this.project_list = newDtos;
     }
 }

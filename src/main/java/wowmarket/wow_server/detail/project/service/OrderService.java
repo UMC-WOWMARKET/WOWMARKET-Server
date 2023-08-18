@@ -48,6 +48,8 @@ public class OrderService {
                 .depositTime(requestDto.getDepositTime())
                 .bank(requestDto.getBank())
                 .account(requestDto.getAccount())
+                .total_price(requestDto.getTotal_price())
+                .delivery_msg(requestDto.getDelivery_msg())
                 .build();
         orderRepository.save(order);
 

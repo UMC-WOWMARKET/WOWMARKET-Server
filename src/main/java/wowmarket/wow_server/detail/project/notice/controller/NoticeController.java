@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeResponseDto;
+import wowmarket.wow_server.detail.project.notice.dto.NoticeSelectResponseDto;
 import wowmarket.wow_server.detail.project.notice.service.NoticeService;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class NoticeController {
 
     // 주문폼: 공지 선택 조회
     @GetMapping("/{project_id}/notice/{notice_id}")
-    public NoticeResponseDto getNotice(@PathVariable String project_id, @PathVariable Long notice_id) {
+    public NoticeSelectResponseDto getNotice(@PathVariable String project_id, @PathVariable Long notice_id) {
         return noticeService.getNotice(notice_id);
     }
 

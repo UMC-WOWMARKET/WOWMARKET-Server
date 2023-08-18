@@ -7,6 +7,11 @@ import java.util.List;
 
 @Getter
 public class OrderFormRequestDto {
+
+    private int total_price; //총 금액
+    private String delivery_msg; //배송메세지
+
+
     //직접수령이면 zipcode, address, address_detail 필요 없긴 함.. service에서 구현하나..? 아니면 굳이???
     //[배송정보]
     private String receiver; //수취인명
@@ -17,7 +22,7 @@ public class OrderFormRequestDto {
 
     //[입금정보]
     private String depositor; //입금자명
-    private LocalDateTime depositTime; //입금시간
+    private String depositTime; //입금시간
 
     //[환불계좌]
     private String bank; //환불 은행

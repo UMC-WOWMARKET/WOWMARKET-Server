@@ -26,7 +26,7 @@ public class Orders extends BaseEntity {
     private String bank;
     private String account;
     private String depositor;
-    private LocalDateTime depositTime;
+    private String depositTime;
 
     private String address;
     private String address_detail;
@@ -48,7 +48,7 @@ public class Orders extends BaseEntity {
     private Project project;
 
     @Builder
-    public Orders(Project project, User user, String receiver, String zipcode, String address, String address_detail, String phone, String depositor, LocalDateTime depositTime, String bank, String account){
+    public Orders(Project project, User user, String receiver, String zipcode, String address, String address_detail, String phone, String depositor, String depositTime, String bank, String account, int total_price, String delivery_msg){
         this.project = project;
         this.user = user;
         this.receiver = receiver;
@@ -60,6 +60,8 @@ public class Orders extends BaseEntity {
         this.depositTime = depositTime;
         this.bank = bank;
         this.account = account;
+        this.total_price = total_price; //총 금액
+        this.delivery_msg = delivery_msg; //배송메세지
     }
 
 }

@@ -29,7 +29,13 @@ public class SaleController {
         System.out.println("[GetSaleProjectListHome Controller] 학교 필터 RequestParam 확인" +
                 "\n\tuniv : " + univ +
                 "\n\tuniv.getClass() : " + univ.getClass() +
-                "\n\tuniv.equals(\"myUniv\") : " + univ.equals("myUniv") + "\n");
+                "\n\tuniv.equals(\"myUniv\") : " + univ.equals("myUniv") +
+                "\n\tuniv.length() : " + univ.length() +
+                "\n\tuniv.strip() : " + univ.strip() +
+                "\n\tuniv.strip().length() : " + univ.strip().length() +
+                "\n\tuniv.strip().equals(\"myUniv\") : " + univ.strip().equals("myUniv") +
+                "\n");
+        univ = univ.strip();
         Sort sort;
         if (orderBy.equals("view")) {
             sort = Sort.by(Sort.Direction.DESC, "view");

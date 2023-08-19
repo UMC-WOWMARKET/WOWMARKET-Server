@@ -1,6 +1,7 @@
 package wowmarket.wow_server.detail.project.service;
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.detail.demandproject.dto.DemandDetailRequestDto;
@@ -12,6 +13,7 @@ import wowmarket.wow_server.repository.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderService {
@@ -31,10 +33,17 @@ public class OrderService {
     }
 
 
-    public OrderFormRequestDto createOrderForm(Long project_id, OrderFormRequestDto requestDto) {
+    public ResponseEntity createOrderForm(Long project_id, OrderFormRequestDto requestDto) {
         Project project = projectRepository.findByProject_Id(project_id);
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
+        //사용자의 대학교가 프로젝트의 대학교와 일치하지 않으면
+        if (!Objects.equals(user.getUniv(), project.getUser().getUniv()))
+        {
+            //에러 반환
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
 
         Orders order = Orders.builder()
                 .project(project)
@@ -53,7 +62,6 @@ public class OrderService {
                 .build();
         orderRepository.save(order);
 
-        //같은 order_id로 매핑되게 어떻게 하지..?
         for (int i = 0; i < requestDto.getOrderRequestDtoList().size(); i++) {
             Item item = itemRepository.findItemById(requestDto.getOrderRequestDtoList().get(i).getItemId());
             int count = requestDto.getOrderRequestDtoList().get(i).getCount();
@@ -65,7 +73,7 @@ public class OrderService {
             orderDetailRepository.save(orderDetail);
 
         }
-        return null;
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

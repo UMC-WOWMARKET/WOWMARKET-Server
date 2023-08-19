@@ -1,5 +1,6 @@
 package wowmarket.wow_server.detail.demandproject.service;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.detail.demandproject.dto.DemandDetailRequestDto;
@@ -8,27 +9,38 @@ import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.repository.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DemandDetailService {
     private final DemandItemRepository itemRepository;
     private final UserRepository userRepository;
     private final DemandDetailRepository demandDetailRepository;
+    private final DemandProjectRepository demandProjectRepository;
 
 
-    public DemandDetailService(DemandDetailRepository demandDetailRepository, DemandItemRepository itemRepository, UserRepository userRepository) {
+    public DemandDetailService(DemandDetailRepository demandDetailRepository, DemandItemRepository itemRepository, UserRepository userRepository, DemandProjectRepository demandProjectRepository) {
         this.itemRepository = itemRepository;
         this.demandDetailRepository = demandDetailRepository;
         this.userRepository = userRepository;
+        this.demandProjectRepository = demandProjectRepository;
     }
 
 
-    public DemandDetailRequestDto createDemandForm(Long demand_project_id, List<DemandDetailRequestDto> requestDto)
+    public ResponseEntity createDemandForm(Long demand_project_id, List<DemandDetailRequestDto> requestDto)
     {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        DemandProject demandProject = demandProjectRepository.findByDemandProject_Id(demand_project_id);
+
+        //사용자의 대학교가 수요조사 프로젝트의 대학교와 일치하지 않으면
+        if (!Objects.equals(user.getUniv(), demandProject.getUser().getUniv()))
+        {
+            //에러 반환
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
         for (int i = 0; i < requestDto.size(); i++) {
-            User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-            //List<DemandItem> demandItem = itemRepository.findDemandItemByDemandProject_Id(demand_project_id);
             DemandItem demandItem = itemRepository.findDemandItemById(requestDto.get(i).getDemandItemId()); //프론트에서 demand_item_id 받아오기
             int count = requestDto.get(i).getCount();
 
@@ -40,7 +52,7 @@ public class DemandDetailService {
             demandDetailRepository.save(demandDetail);
         }
 
-        return null;
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 //    public DemandDetailRequestDto createDemandForm2(Long demand_project_id, DemandDetailListRequestDto requestDto)

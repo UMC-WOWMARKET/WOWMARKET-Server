@@ -1,6 +1,7 @@
 package wowmarket.wow_server.detail.project.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.detail.demandproject.dto.DemandDetailRequestDto;
 import wowmarket.wow_server.detail.project.dto.*;
@@ -45,7 +46,7 @@ public class ProjectController {
 
     //주문폼: 폼 등록
     @PostMapping("/{project_id}")
-    public OrderFormRequestDto createDemandForm(@PathVariable Long project_id, @RequestBody OrderFormRequestDto requestDto){
+    public ResponseEntity createDemandForm(@PathVariable Long project_id, @RequestBody OrderFormRequestDto requestDto){
         return orderService.createOrderForm(project_id, requestDto);
     }
 

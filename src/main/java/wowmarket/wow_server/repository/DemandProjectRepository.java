@@ -40,4 +40,9 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
     @Query(nativeQuery = true, value = "update demand_project p set p.view=p.view+1 where demand_project_id=?")
     int updateView(Long demandProjectId);
 
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "update demand_project p set p.participant_number=p.participant_number+1 where demand_project_id=?")
+    int updateParticipantNumber(Long demandProjectId);
+
 }

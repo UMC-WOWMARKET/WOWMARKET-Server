@@ -58,6 +58,9 @@ public class DemandDetailService {
             demandDetailRepository.save(demandDetail);
         }
 
+        //참여인원 업데이트
+        demandProjectRepository.updateParticipantNumber(demand_project_id);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -71,8 +71,11 @@ public class OrderService {
                     .count(count)
                     .build();
             orderDetailRepository.save(orderDetail);
-
         }
+
+        //참여인원 업데이트
+        projectRepository.updateParticipantNumber(project_id);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

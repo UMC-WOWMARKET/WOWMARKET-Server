@@ -43,4 +43,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query(nativeQuery = true, value = "update project p set p.view=p.view+1 where project_id=?")
     int updateView(Long projectId);
 
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "update project p set p.participant_number=p.participant_number+1 where project_id=?")
+    int updateParticipantNumber(Long projectId);
+
 }

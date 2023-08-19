@@ -44,11 +44,13 @@ public class SaleHomeService {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { // 학교인증 O -> 로그인 O
                 findProjects = projectRepository.findByUserUniv(user_univ, pageable);
+                System.out.println("[findProjectHome] myUniv 필터 적용");
             } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else { // univ.equals("allUniv")
             findProjects = projectRepository.findAllNotDelNotEnd(pageable);
+            System.out.println("[findProjectHome] allUniv 필터 적용");
         }
 
         Page<SaleDto> projectDtos = findProjects.map(project -> new SaleDto(project,

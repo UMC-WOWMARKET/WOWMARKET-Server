@@ -37,7 +37,13 @@ public class DemandDetailService {
         if (!Objects.equals(user.getUniv(), demandProject.getUser().getUniv()))
         {
             //에러 반환
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST); //400
+        }
+
+        //이미 수요조사폼을 작성한 사용자의 경우
+        if (demandDetailRepository.existsByUser_Id(user.getId())==true)
+        {
+            return new ResponseEntity(HttpStatus.FORBIDDEN); //403: Forbidden
         }
 
         for (int i = 0; i < requestDto.size(); i++) {

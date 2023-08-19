@@ -26,6 +26,10 @@ public class SaleController {
             @RequestParam(name = "univ", defaultValue = "allUniv", required = true) String univ,
             @AuthenticationPrincipal User user) {
         System.out.println("\n[GetSaleProjectListHome Controller] 판매 홈 페이지 로직\n");
+        System.out.println("[GetSaleProjectListHome Controller] 학교 필터 RequestParam 확인" +
+                "\n\tuniv : " + univ +
+                "\n\tuniv.getClass() : " + univ.getClass() +
+                "\n\tuniv.equals(\"myUniv\") : " + univ.equals("myUniv") + "\n");
         Sort sort;
         if (orderBy.equals("view")) {
             sort = Sort.by(Sort.Direction.DESC, "view");

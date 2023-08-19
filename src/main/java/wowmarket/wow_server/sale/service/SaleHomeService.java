@@ -39,6 +39,7 @@ public class SaleHomeService {
             }
         }
 
+        System.out.println("[findProjectHome] univ.equals(\"myUniv\") : " + univ.equals("myUniv"));
         if (univ.equals("myUniv")) {
             if (user == null) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");

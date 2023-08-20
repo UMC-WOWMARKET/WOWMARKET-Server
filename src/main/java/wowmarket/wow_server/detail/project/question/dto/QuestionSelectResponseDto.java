@@ -29,4 +29,15 @@ public class QuestionSelectResponseDto {
         //this.lastModifiedTime = question.getLast_modified_time();
         this.answerResponseDto = answerResponseDto;
     }
+
+    public QuestionSelectResponseDto(Question question) {
+        this.question_id = question.getId();
+        this.title = question.getTitle();
+        this.content = question.getContent();
+        this.writer = question.getUser().getName();
+        this.secret = question.isSecret();
+        this.createdTime = question.getCreated_time();
+        //this.lastModifiedTime = question.getLast_modified_time();
+        // this.answerResponseDto = answerResponseDto;
+    }
 }

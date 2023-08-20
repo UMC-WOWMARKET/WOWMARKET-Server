@@ -65,22 +65,36 @@ public class QuestionService {
                 () -> new IllegalArgumentException("공지 아이디가 존재하지 않습니다.")
         );
 
-        AnswerResponseDto answer = new AnswerResponseDto(answerRepository.findByQuestionId(question_id));
+        Answer answer = answerRepository.findByQuestionId(question_id);
 
         //비밀글인 경우: 작성자 & 판매자만 조회 가능!
         if(question.isSecret()==true)
         {
             if(question.getUser() == user || project.getUser() == user)
             {
-                return new QuestionSelectResponseDto(question, answer);
+                if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
+                {
+                    AnswerResponseDto answerResponseDto = new AnswerResponseDto(answer);
+                    return new QuestionSelectResponseDto(question, answerResponseDto);
+                }
+                //문의 답변이 존재하지 않으면, 문의만 보여주기
+                return new QuestionSelectResponseDto(question);
             }
-            else
+            else //작성자 & 판매자가 아니면
             {
                 return null;
             }
         }
+
         //비밀글이 아닌 경우: 모두 문의 조회 가능!
-        return new QuestionSelectResponseDto(question, answer);
+        if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
+        {
+            AnswerResponseDto answerResponseDto = new AnswerResponseDto(answer);
+            return new QuestionSelectResponseDto(question, answerResponseDto);
+        }
+
+        //문의 답변이 존재하지 않으면, 문의만 보여주기
+        return new QuestionSelectResponseDto(question);
     }
 
 

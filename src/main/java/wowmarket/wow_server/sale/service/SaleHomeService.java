@@ -49,9 +49,12 @@ public class SaleHomeService {
             } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
-        } else { // univ.equals("allUniv")
+        } else if (univ.equals("allUniv")) { // univ.equals("allUniv")
             findProjects = projectRepository.findAllNotDelNotEnd(pageable);
             System.out.println("[findProjectHome] allUniv 필터 적용");
+        } else {
+            findProjects = projectRepository.findAllNotDelNotEnd(pageable);
+            System.out.println("[findProjectHome] allUniv 필터 적용 -> 올바른 필터링 값이 아닙니다.");
         }
 
         Page<SaleDto> projectDtos = findProjects.map(project -> new SaleDto(project,

@@ -11,6 +11,10 @@ import wowmarket.wow_server.sale.dto.SaleResponseDto;
 import wowmarket.wow_server.sale.service.SaleHomeService;
 import wowmarket.wow_server.sale.service.SaleSearchService;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 @RestController
 @RequestMapping("/sale")
 @RequiredArgsConstructor
@@ -35,7 +39,11 @@ public class SaleController {
                 "\n\tuniv.strip().length() : " + univ.strip().length() +
                 "\n\tuniv.strip().equals(\"myUniv\") : " + univ.strip().equals("myUniv") +
                 "\n");
-        univ = univ.strip();
+//        String decodedValue = URLDecoder.decode(encodedValue, "UTF-8");
+        univ = URLDecoder.decode(univ, StandardCharsets.UTF_8);
+        System.out.println("[GetSaleProjectListHome Controller] 디코딩 적용" +
+                "\n\tURLDecoder.decode(univ, StandardCharsets.UTF_8) : " + univ +
+                "\n\tuniv.equals(\"myUniv\") : " + univ.equals("myUniv"));
         Sort sort;
         if (orderBy.equals("view")) {
             sort = Sort.by(Sort.Direction.DESC, "view");

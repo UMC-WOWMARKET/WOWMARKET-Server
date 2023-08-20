@@ -30,6 +30,15 @@ public class SaleController {
             @RequestParam(name = "univ", defaultValue = "allUniv", required = true) String univ,
             @AuthenticationPrincipal User user) {
         System.out.println("\n[GetSaleProjectListHome Controller] 판매 홈 페이지 로직\n");
+        System.out.println("[GetSaleProjectListHome Controller] 페이지 수 RequestParam 확인" +
+                "\n\tpageNo : " + pageNo +
+                "\n\tpageNo == 1 : " + (pageNo == 1) +
+                "\n");
+        System.out.println("[GetSaleProjectListHome Controller] 정렬 기준 RequestParam 확인" +
+                "\n\torderBy : " + orderBy +
+                "\n\torderBy.getClass() : " + orderBy.getClass() +
+                "\n\torderBy.equals(\"view\") : " + orderBy.equals("view") +
+                "\n");
         System.out.println("[GetSaleProjectListHome Controller] 학교 필터 RequestParam 확인" +
                 "\n\tuniv : " + univ +
                 "\n\tuniv.getClass() : " + univ.getClass() +

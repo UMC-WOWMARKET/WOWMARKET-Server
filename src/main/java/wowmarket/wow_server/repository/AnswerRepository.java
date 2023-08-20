@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     @Query(nativeQuery = true, value = "select * from answer where question_id=?")
-    List<Answer> findByQuestionId(Long question_id);
+    Answer findByQuestionId(Long question_id);
 }

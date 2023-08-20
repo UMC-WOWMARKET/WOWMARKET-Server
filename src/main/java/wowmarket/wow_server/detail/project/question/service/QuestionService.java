@@ -65,9 +65,7 @@ public class QuestionService {
                 () -> new IllegalArgumentException("공지 아이디가 존재하지 않습니다.")
         );
 
-        List<AnswerResponseDto> answer = answerRepository.findByQuestionId(question_id).stream()
-                .map(AnswerResponseDto::new)
-                .toList();
+        AnswerResponseDto answer = new AnswerResponseDto(answerRepository.findByQuestionId(question_id));
 
         //비밀글인 경우: 작성자 & 판매자만 조회 가능!
         if(question.isSecret()==true)

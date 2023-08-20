@@ -17,9 +17,9 @@ public class QuestionSelectResponseDto {
     //private LocalDateTime lastModifiedTime;;       // 게시글 수정 날짜
 
     //문의 답변 Dto
-    List<AnswerResponseDto> answerResponseDtoList;
+    AnswerResponseDto answerResponseDto;
 
-    public QuestionSelectResponseDto(Question question, List<AnswerResponseDto> answerResponseDtoList) {
+    public QuestionSelectResponseDto(Question question, AnswerResponseDto answerResponseDto) {
         this.question_id = question.getId();
         this.title = question.getTitle();
         this.content = question.getContent();
@@ -27,6 +27,6 @@ public class QuestionSelectResponseDto {
         this.secret = question.isSecret();
         this.createdTime = question.getCreated_time();
         //this.lastModifiedTime = question.getLast_modified_time();
-        this.answerResponseDtoList = answerResponseDtoList;
+        this.answerResponseDto = answerResponseDto;
     }
 }

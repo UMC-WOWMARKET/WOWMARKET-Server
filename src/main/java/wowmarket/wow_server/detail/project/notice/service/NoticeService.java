@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import wowmarket.wow_server.detail.project.notice.dto.NoticePageResponseDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeResponseDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeSelectResponseDto;
@@ -44,10 +45,17 @@ public class NoticeService {
     }
 
     // 공지 목록 조회
-    public List<NoticeResponseDto> getNoticeList(Long project_id) {
-        return noticeRepository.findByProjectIdByOrderByCreated_timeDesc(project_id).stream()  // DB 에서 조회한 List -> stream 으로 변환
+    public NoticePageResponseDto getNoticeList(Long project_id) {
+        //현재 로그인된 사용자 조회
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        //프로젝트 조회
+        Project project = projectRepository.findByProject_Id(project_id);
+        List<NoticeResponseDto> noticeList = noticeRepository.findByProjectIdByOrderByCreated_timeDesc(project_id).stream()  // DB 에서 조회한 List -> stream 으로 변환
                 .map(NoticeResponseDto::new)  // stream 처리를 통해, Notice 객체 -> NoticeResponseDto 로 변환
                 .toList(); // 다시 stream -> List 로 변환
+        NoticePageResponseDto responseDto = new NoticePageResponseDto(noticeList, user.getId(), project.getUser().getId()); //공지 목록, 현재 로그인된 사용자 user_id, 프로젝트 seller_id
+        return responseDto;
     }
 
     // 공지 선택 조회

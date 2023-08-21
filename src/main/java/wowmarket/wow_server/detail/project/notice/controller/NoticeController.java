@@ -3,6 +3,7 @@ package wowmarket.wow_server.detail.project.notice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.detail.project.notice.dto.NoticePageResponseDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeResponseDto;
 import wowmarket.wow_server.detail.project.notice.dto.NoticeSelectResponseDto;
@@ -26,7 +27,7 @@ public class NoticeController {
 
     // 주문폼: 공지 전체 조회
     @GetMapping("/{project_id}/notice")
-    public List<NoticeResponseDto> getNoticeList(@PathVariable Long project_id) {
+    public NoticePageResponseDto getNoticeList(@PathVariable Long project_id) {
         return noticeService.getNoticeList(project_id);
     }
 

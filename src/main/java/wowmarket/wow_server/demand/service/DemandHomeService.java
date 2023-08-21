@@ -16,6 +16,8 @@ import wowmarket.wow_server.repository.DemandItemRepository;
 import wowmarket.wow_server.repository.DemandProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 @Service
@@ -29,6 +31,7 @@ public class DemandHomeService {
     public DemandResponseDto findDemandProjectHome(Pageable pageable, String univ, User user) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
+        LocalDate current_date = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         Page<DemandProject> findDemandProjects = new PageImpl<>(new ArrayList<>(), pageable, 0);
 
@@ -43,12 +46,14 @@ public class DemandHomeService {
             if (user == null) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { // 학교인증 O -> 로그인 O
-                findDemandProjects = demandProjectRepository.findByUserUniv(user_univ, pageable);
+                findDemandProjects = demandProjectRepository.findByUserUniv(current_date, user_univ, pageable);
             } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
-        } else { // univ.equals("allUniv")
-            findDemandProjects = demandProjectRepository.findAllNotEnd(pageable);
+        } else if (univ.equals("allUniv")) {
+            findDemandProjects = demandProjectRepository.findAllNotEnd(current_date, pageable);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "올바른 필터링 값이 아닙니다.");
         }
 
         Page<DemandDto> demandProjectDtos = findDemandProjects.map(demandProject -> new DemandDto(demandProject,

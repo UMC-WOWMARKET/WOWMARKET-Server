@@ -16,6 +16,8 @@ import wowmarket.wow_server.repository.UserRepository;
 import wowmarket.wow_server.sale.dto.SaleResponseDto;
 import wowmarket.wow_server.sale.dto.SaleDto;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 @Service
@@ -29,6 +31,7 @@ public class SaleHomeService {
     public SaleResponseDto findProjectHome(Pageable pageable, String univ, User user) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
+        LocalDate current_date = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         Page<Project> findProjects = new PageImpl<>(new ArrayList<>(), pageable, 0);
 
@@ -39,22 +42,18 @@ public class SaleHomeService {
             }
         }
 
-        System.out.println("[findProjectHome] univ.equals(\"myUniv\") : " + univ.equals("myUniv"));
         if (univ.equals("myUniv")) {
             if (user == null) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { // 학교인증 O -> 로그인 O
-                findProjects = projectRepository.findByUserUniv(user_univ, pageable);
-                System.out.println("[findProjectHome] myUniv 필터 적용");
+                findProjects = projectRepository.findByUserUniv(user_univ, current_date, pageable);
             } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
         } else if (univ.equals("allUniv")) { // univ.equals("allUniv")
-            findProjects = projectRepository.findAllNotDelNotEnd(pageable);
-            System.out.println("[findProjectHome] allUniv 필터 적용");
+            findProjects = projectRepository.findAllNotDelNotEnd(current_date, pageable);
         } else {
-            findProjects = projectRepository.findAllNotDelNotEnd(pageable);
-            System.out.println("[findProjectHome] allUniv 필터 적용 -> 올바른 필터링 값이 아닙니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "올바른 필터링 값이 아닙니다.");
         }
 
         Page<SaleDto> projectDtos = findProjects.map(project -> new SaleDto(project,

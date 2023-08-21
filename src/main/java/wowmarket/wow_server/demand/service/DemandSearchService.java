@@ -12,11 +12,12 @@ import wowmarket.wow_server.demand.dto.DemandDto;
 import wowmarket.wow_server.demand.dto.DemandResponseDto;
 import wowmarket.wow_server.domain.DemandProject;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.repository.DemandItemRepository;
 import wowmarket.wow_server.repository.DemandProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 @Service
@@ -30,6 +31,7 @@ public class DemandSearchService {
     public DemandResponseDto findDemandProjectSearch(String search, Pageable pageable, String univ, User user) {
         String user_univ = "allUniv";
         boolean user_univ_check = false;
+        LocalDate current_date = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         Page<DemandProject> findDemandProjects = new PageImpl<>(new ArrayList<>(), pageable, 0);
 
@@ -44,12 +46,14 @@ public class DemandSearchService {
             if (user == null) { // 로그인 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
             } else if (user_univ_check) { // 학교인증 O -> 로그인 O
-                findDemandProjects = demandProjectRepository.findBySearchUserUniv(search, user_univ, pageable);
+                findDemandProjects = demandProjectRepository.findBySearchUserUniv(current_date, search, user_univ, pageable);
             } else { // 학교인증 X
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "학교 인증이 필요한 서비스입니다.");
             }
+        } else if (univ.equals("allUniv")) {
+            findDemandProjects = demandProjectRepository.findBySearch(current_date, search, pageable);
         } else {
-            findDemandProjects = demandProjectRepository.findBySearch(search, pageable);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "올바른 필터링 값이 아닙니다.");
         }
 
         Page<DemandDto> demandProjectDtos = findDemandProjects.map(demandProject -> new DemandDto(demandProject,

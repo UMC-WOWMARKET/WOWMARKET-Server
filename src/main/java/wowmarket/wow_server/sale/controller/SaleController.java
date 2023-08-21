@@ -14,6 +14,9 @@ import wowmarket.wow_server.sale.service.SaleSearchService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 @RestController
 @RequestMapping("/sale")
@@ -30,29 +33,6 @@ public class SaleController {
             @RequestParam(name = "univ", defaultValue = "allUniv", required = true) String univ,
             @AuthenticationPrincipal User user) {
         System.out.println("\n[GetSaleProjectListHome Controller] 판매 홈 페이지 로직\n");
-        System.out.println("[GetSaleProjectListHome Controller] 페이지 수 RequestParam 확인" +
-                "\n\tpageNo : " + pageNo +
-                "\n\tpageNo == 1 : " + (pageNo == 1) +
-                "\n");
-        System.out.println("[GetSaleProjectListHome Controller] 정렬 기준 RequestParam 확인" +
-                "\n\torderBy : " + orderBy +
-                "\n\torderBy.getClass() : " + orderBy.getClass() +
-                "\n\torderBy.equals(\"view\") : " + orderBy.equals("view") +
-                "\n");
-        System.out.println("[GetSaleProjectListHome Controller] 학교 필터 RequestParam 확인" +
-                "\n\tuniv : " + univ +
-                "\n\tuniv.getClass() : " + univ.getClass() +
-                "\n\tuniv.equals(\"myUniv\") : " + univ.equals("myUniv") +
-                "\n\tuniv.length() : " + univ.length() +
-                "\n\tuniv.strip() : " + univ.strip() +
-                "\n\tuniv.strip().length() : " + univ.strip().length() +
-                "\n\tuniv.strip().equals(\"myUniv\") : " + univ.strip().equals("myUniv") +
-                "\n");
-//        String decodedValue = URLDecoder.decode(encodedValue, "UTF-8");
-        univ = URLDecoder.decode(univ, StandardCharsets.UTF_8);
-        System.out.println("[GetSaleProjectListHome Controller] 디코딩 적용" +
-                "\n\tURLDecoder.decode(univ, StandardCharsets.UTF_8) : " + univ +
-                "\n\tuniv.equals(\"myUniv\") : " + univ.equals("myUniv"));
         Sort sort;
         if (orderBy.equals("view")) {
             sort = Sort.by(Sort.Direction.DESC, "view");

@@ -12,12 +12,12 @@ public class MyDemandDto {
     private Long id;
     private String name;
     private LocalDateTime createdtime;
-    private int isend;
+    private int status;
 
     public MyDemandDto(DemandProject demandProject){
         this.id = demandProject.getId();
         this.name = demandProject.getName();
         this.createdtime = demandProject.getCreated_time();
-        this.isend = (demandProject.isEnd() == false ? 0 : 1);
+        this.status = (demandProject.isEnd() == false ? 0 : 1);
     }
 }

@@ -15,10 +15,11 @@ public class DemandProjectInfoResponseDto {
     private String description; //프로젝트 설명
     private LocalDate start_date; //시작날짜
     private LocalDate end_date; //종료날짜
-    private Long final_achievement_rate; //달성률
     private int participant_number; //참여인원
+    private int achieved; //달성률 분자
+    private int goal; //달성률 분모
 
-    public DemandProjectInfoResponseDto(DemandProject project) {
+    public DemandProjectInfoResponseDto(DemandProject project, int achieved, int goal) {
         this.thumbnail = project.getThumbnail(); //대표이미지
         this.category = project.getCategory().getName(); //카테고리
         this.name = project.getName(); //프로젝트 이름
@@ -27,7 +28,8 @@ public class DemandProjectInfoResponseDto {
         this.description = project.getDescription(); //프로젝트 설명
         this.start_date = project.getStartDate(); //시작날짜
         this.end_date = project.getEndDate(); //종료날짜
-        this.final_achievement_rate = project.getFinal_achievement_rate(); //달성률
         this.participant_number = project.getParticipant_number(); //참여인원
+        this.achieved = achieved;
+        this.goal = goal;
     }
 }

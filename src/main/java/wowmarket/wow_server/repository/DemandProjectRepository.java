@@ -8,27 +8,33 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.DemandProject;
-import wowmarket.wow_server.domain.Project;
+
+import java.time.LocalDate;
 
 public interface DemandProjectRepository extends JpaRepository<DemandProject, Long> {
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
+            "AND dp.startDate <= :current_date AND dp.endDate >= :current_date " +
             "AND dp.user.univ = :user_univ")
-    Page<DemandProject> findByUserUniv(@Param("user_univ") String user_univ, Pageable pageable);
+    Page<DemandProject> findByUserUniv(@Param("current_date") LocalDate current_date, @Param("user_univ") String user_univ, Pageable pageable);
 
-    @Query("SELECT dp FROM DemandProject dp WHERE dp.isEnd = false")
-    Page<DemandProject> findAllNotEnd(Pageable pageable);
+    @Query("SELECT dp FROM DemandProject dp WHERE dp.isEnd = false " +
+            "AND dp.startDate <= :current_date AND dp.endDate >= :current_date")
+    Page<DemandProject> findAllNotEnd(@Param("current_date") LocalDate current_date, Pageable pageable);
 
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
+            "AND dp.startDate <= :current_date AND dp.endDate >= :current_date " +
             "AND dp.name LIKE CONCAT('%', :search, '%') " +
             "AND dp.user.univ = :user_univ")
-    Page<DemandProject> findBySearchUserUniv(@Param("search") String search, @Param("user_univ") String user_univ, Pageable pageable);
+    Page<DemandProject> findBySearchUserUniv(@Param("current_date") LocalDate current_date, @Param("search") String search,
+                                             @Param("user_univ") String user_univ, Pageable pageable);
 
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
+            "AND dp.startDate <= :current_date AND dp.endDate >= :current_date " +
             "AND dp.name LIKE CONCAT('%', :search, '%')")
-    Page<DemandProject> findBySearch(@Param("search") String search, Pageable pageable);
+    Page<DemandProject> findBySearch(@Param("current_date") LocalDate current_date, @Param("search") String search, Pageable pageable);
 
     Page<DemandProject> findDemandProjectByUser_Id(Long seller_id, Pageable pageable);
 

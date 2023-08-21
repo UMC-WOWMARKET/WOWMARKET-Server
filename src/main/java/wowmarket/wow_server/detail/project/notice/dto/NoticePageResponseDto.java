@@ -17,4 +17,8 @@ public class NoticePageResponseDto {
         this.user_id = user_id;
         this.seller_id = seller_id;
     }
+
+    public NoticePageResponseDto(List<NoticeResponseDto> newDtos){
+        this.noticeLists = newDtos;
+    }
 }

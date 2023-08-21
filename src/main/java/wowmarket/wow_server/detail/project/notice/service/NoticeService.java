@@ -48,13 +48,20 @@ public class NoticeService {
     public NoticePageResponseDto getNoticeList(Long project_id) {
         //현재 로그인된 사용자 조회
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .orElse(null); //로그인된 사용자 없을시, user를 null로 설정
         //프로젝트 조회
         Project project = projectRepository.findByProject_Id(project_id);
         List<NoticeResponseDto> noticeList = noticeRepository.findByProjectIdByOrderByCreated_timeDesc(project_id).stream()  // DB 에서 조회한 List -> stream 으로 변환
                 .map(NoticeResponseDto::new)  // stream 처리를 통해, Notice 객체 -> NoticeResponseDto 로 변환
                 .toList(); // 다시 stream -> List 로 변환
-        NoticePageResponseDto responseDto = new NoticePageResponseDto(noticeList, user.getId(), project.getUser().getId()); //공지 목록, 현재 로그인된 사용자 user_id, 프로젝트 seller_id
+        NoticePageResponseDto responseDto;//공지 목록, 현재 로그인된 사용자 user_id, 프로젝트 seller_id
+        if (user == null)
+        {
+            responseDto = new NoticePageResponseDto(noticeList);
+        }
+        else{
+            responseDto = new NoticePageResponseDto(noticeList, user.getId(), project.getUser().getId());
+        }
         return responseDto;
     }
 

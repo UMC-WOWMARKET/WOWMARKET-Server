@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 public class MySalesOrderDto {
     private Long id;
     private String name;
-    private LocalDateTime createddate;
+    private LocalDateTime createdtime;
     private int status;
 
     public MySalesOrderDto(Orders orders){
         this.id = orders.getId();
         this.id = orders.getId();
         this.name = orders.getProject().getName();
-        this.createddate = orders.getCreated_time();
+        this.createdtime = orders.getCreated_time();
         this.status = orders.getOrder_status();
     }
 }

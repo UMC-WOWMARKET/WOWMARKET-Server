@@ -15,6 +15,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(nativeQuery = true, value = "select * from question where project_id=?")
     List<Question> findByProjectIdByOrderByCreated_timeDesc(Long project_id);
 
-    @Query(nativeQuery = true, value = "select * from question where question_id=?")
-    Optional<Question> findByQuestionId(Long question_id);
+    @Query(nativeQuery = true, value = "select * from question where project_id=? and question_id=?")
+    Optional<Question> findByProjectIdAndQuestionId(Long project_id, Long question_id);
 }

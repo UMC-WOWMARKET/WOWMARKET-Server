@@ -21,6 +21,8 @@ public class QuestionSelectResponseDto {
     //문의 답변 Dto
     AnswerResponseDto answerResponseDto;
 
+
+    //사용자가 Null이 아니면서, 문의 답글이 있는 경우
     public QuestionSelectResponseDto(Question question, AnswerResponseDto answerResponseDto, Long user_id, Long seller_id) {
         this.question_id = question.getId();
         this.title = question.getTitle();
@@ -34,6 +36,7 @@ public class QuestionSelectResponseDto {
         this.seller_id = seller_id;
     }
 
+    //사용자가 Null이 아니면서, 문의 답글이 없는 경우
     public QuestionSelectResponseDto(Question question, Long user_id, Long seller_id) {
         this.question_id = question.getId();
         this.title = question.getTitle();
@@ -45,5 +48,30 @@ public class QuestionSelectResponseDto {
         // this.answerResponseDto = answerResponseDto;
         this.user_id = user_id;
         this.seller_id = seller_id;
+    }
+
+
+    //사용자가 Null이면서, 문의 답글이 있는 경우
+    public QuestionSelectResponseDto(Question question, AnswerResponseDto answerResponseDto) {
+        this.question_id = question.getId();
+        this.title = question.getTitle();
+        this.content = question.getContent();
+        this.writer = question.getUser().getName();
+        this.secret = question.isSecret();
+        this.createdTime = question.getCreated_time();
+        //this.lastModifiedTime = question.getLast_modified_time();
+        this.answerResponseDto = answerResponseDto;
+    }
+
+    //사용자가 Null이면서, 문의 답글이 없는 경우
+    public QuestionSelectResponseDto(Question question) {
+        this.question_id = question.getId();
+        this.title = question.getTitle();
+        this.content = question.getContent();
+        this.writer = question.getUser().getName();
+        this.secret = question.isSecret();
+        this.createdTime = question.getCreated_time();
+        //this.lastModifiedTime = question.getLast_modified_time();
+        // this.answerResponseDto = answerResponseDto;
     }
 }

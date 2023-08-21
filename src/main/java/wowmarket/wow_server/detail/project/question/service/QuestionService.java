@@ -59,9 +59,9 @@ public class QuestionService {
     public QuestionSelectResponseDto getQuestion(Long project_id, Long question_id) {
         Project project = projectRepository.findByProject_Id(project_id);
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .orElse(null);
         // 해당 id 가 없을 경우 (예외처리)
-        Question question = questionRepository.findById(question_id).orElseThrow(
+        Question question = questionRepository.findByProjectIdAndQuestionId(project_id, question_id).orElseThrow(
                 () -> new IllegalArgumentException("공지 아이디가 존재하지 않습니다.")
         );
 
@@ -70,7 +70,7 @@ public class QuestionService {
         //비밀글인 경우: 작성자 & 판매자만 조회 가능!
         if(question.isSecret()==true)
         {
-            if(question.getUser() == user || project.getUser() == user)
+            if(user!=null && (question.getUser() == user || project.getUser() == user)) //user가 null이 아니면서, 작성자or판매자
             {
                 if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
                 {
@@ -80,13 +80,28 @@ public class QuestionService {
                 //문의 답변이 존재하지 않으면, 문의만 보여주기
                 return new QuestionSelectResponseDto(question, user.getId(), project.getUser().getId());
             }
-            else //작성자 & 판매자가 아니면
+            else//user가 null이거나 사용자가 작성자or판매자가 아니라면
             {
                 return null;
             }
         }
 
+
         //비밀글이 아닌 경우: 모두 문의 조회 가능!
+        //이때, 사용자가 null인지 아닌지에 따라 매개변수 값 달라짐!
+        if (user == null) {
+            if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
+            {
+                AnswerResponseDto answerResponseDto = new AnswerResponseDto(answer);
+                return new QuestionSelectResponseDto(question, answerResponseDto);
+            }
+
+            //문의 답변이 존재하지 않으면, 문의만 보여주기
+            return new QuestionSelectResponseDto(question);
+        }
+
+        else  //사용자가 null이 아닌 경우
+        {
         if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
         {
             AnswerResponseDto answerResponseDto = new AnswerResponseDto(answer);
@@ -95,19 +110,20 @@ public class QuestionService {
 
         //문의 답변이 존재하지 않으면, 문의만 보여주기
         return new QuestionSelectResponseDto(question, user.getId(), project.getUser().getId());
+        }
     }
 
 
-    // 문의 답변 작성 (문의글 작성자 & 판매자만 작성 가능)
+    // 문의 답변 작성 (판매자만 작성 가능)
     public AnswerResponseDto createAnswer(Long project_id, Long question_id, AnswerRequestDto requestDto) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
         Project project = projectRepository.findByProject_Id(project_id);
-        Question question = questionRepository.findByQuestionId(question_id)
+        Question question = questionRepository.findByProjectIdAndQuestionId(project_id, question_id)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
-        //문의글 작성자 & 판매자만 답변 작성 가능
-        if(question.getUser() == user || project.getUser() == user)
+        //판매자만 답변 작성 가능
+        if(project.getUser() == user)
         {
             Answer answer = new Answer(project, user, requestDto); // RequestDto -> Entity
             Answer saveAnswer = answerRepository.save(answer); // DB 저장

@@ -69,6 +69,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("https://wowmarket-web-szfd.vercel.app");
+        configuration.addAllowedOrigin("https://wowmarket-web-sand.vercel.app/");
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");

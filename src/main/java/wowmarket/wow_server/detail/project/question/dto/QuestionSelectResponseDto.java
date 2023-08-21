@@ -15,11 +15,13 @@ public class QuestionSelectResponseDto {
     private boolean secret;     //비밀글 여부
     private LocalDateTime createdTime;        // 게시글 생성 날짜
     //private LocalDateTime lastModifiedTime;;       // 게시글 수정 날짜
+    private Long user_id; //현재 로그인된 사용자 id
+    private Long seller_id; //프로젝트 판매자 id
 
     //문의 답변 Dto
     AnswerResponseDto answerResponseDto;
 
-    public QuestionSelectResponseDto(Question question, AnswerResponseDto answerResponseDto) {
+    public QuestionSelectResponseDto(Question question, AnswerResponseDto answerResponseDto, Long user_id, Long seller_id) {
         this.question_id = question.getId();
         this.title = question.getTitle();
         this.content = question.getContent();
@@ -28,9 +30,11 @@ public class QuestionSelectResponseDto {
         this.createdTime = question.getCreated_time();
         //this.lastModifiedTime = question.getLast_modified_time();
         this.answerResponseDto = answerResponseDto;
+        this.user_id = user_id;
+        this.seller_id = seller_id;
     }
 
-    public QuestionSelectResponseDto(Question question) {
+    public QuestionSelectResponseDto(Question question, Long user_id, Long seller_id) {
         this.question_id = question.getId();
         this.title = question.getTitle();
         this.content = question.getContent();
@@ -39,5 +43,7 @@ public class QuestionSelectResponseDto {
         this.createdTime = question.getCreated_time();
         //this.lastModifiedTime = question.getLast_modified_time();
         // this.answerResponseDto = answerResponseDto;
+        this.user_id = user_id;
+        this.seller_id = seller_id;
     }
 }

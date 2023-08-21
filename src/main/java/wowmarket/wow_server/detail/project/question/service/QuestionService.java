@@ -75,10 +75,10 @@ public class QuestionService {
                 if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
                 {
                     AnswerResponseDto answerResponseDto = new AnswerResponseDto(answer);
-                    return new QuestionSelectResponseDto(question, answerResponseDto);
+                    return new QuestionSelectResponseDto(question, answerResponseDto, user.getId(), project.getUser().getId());
                 }
                 //문의 답변이 존재하지 않으면, 문의만 보여주기
-                return new QuestionSelectResponseDto(question);
+                return new QuestionSelectResponseDto(question, user.getId(), project.getUser().getId());
             }
             else //작성자 & 판매자가 아니면
             {
@@ -90,11 +90,11 @@ public class QuestionService {
         if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
         {
             AnswerResponseDto answerResponseDto = new AnswerResponseDto(answer);
-            return new QuestionSelectResponseDto(question, answerResponseDto);
+            return new QuestionSelectResponseDto(question, answerResponseDto, user.getId(), project.getUser().getId());
         }
 
         //문의 답변이 존재하지 않으면, 문의만 보여주기
-        return new QuestionSelectResponseDto(question);
+        return new QuestionSelectResponseDto(question, user.getId(), project.getUser().getId());
     }
 
 

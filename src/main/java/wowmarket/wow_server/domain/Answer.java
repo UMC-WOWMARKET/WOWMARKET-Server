@@ -40,9 +40,10 @@ public class Answer extends BaseEntity{
     private Question question;
 
     //답변 작성
-    public Answer(Project project, User user, AnswerRequestDto requestDto){
+    public Answer(Project project, Question question, User user, AnswerRequestDto requestDto){
         this.project = project;
         this.user = user;
+        this.question = question;
 //        this.secret = requestDto.isSecret();
 //        this.title = requestDto.getTitle();
         this.content = requestDto.getContent();

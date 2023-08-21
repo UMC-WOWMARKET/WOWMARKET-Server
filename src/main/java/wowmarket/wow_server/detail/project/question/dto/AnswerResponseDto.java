@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 public class AnswerResponseDto {
     private Long answer_id;        // 게시글 구분을 위한 id 값
+    private Long question_id; //문의 id값
 //    private String title;       // 제목
     private String writer;      //작성자
     private String content;    // 작성 내용
@@ -16,6 +17,7 @@ public class AnswerResponseDto {
 
     public AnswerResponseDto(Answer answer) {
         this.answer_id = answer.getId();
+        this.question_id = answer.getQuestion().getId();
 //        this.title = answer.getTitle();
         this.writer = answer.getUser().getName();
         this.content = answer.getContent();

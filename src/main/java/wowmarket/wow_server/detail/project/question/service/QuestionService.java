@@ -125,7 +125,7 @@ public class QuestionService {
         //판매자만 답변 작성 가능
         if(project.getUser() == user)
         {
-            Answer answer = new Answer(project, user, requestDto); // RequestDto -> Entity
+            Answer answer = new Answer(project, question, user, requestDto); // RequestDto -> Entity
             Answer saveAnswer = answerRepository.save(answer); // DB 저장
             AnswerResponseDto answerResponseDto = new AnswerResponseDto(saveAnswer); // Entity -> ResponseDto
 

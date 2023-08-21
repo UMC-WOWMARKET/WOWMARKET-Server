@@ -9,15 +9,15 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class MyDemandDto {
-    private Long demandId;
+    private Long id;
     private String name;
     private LocalDateTime createdtime;
-    private boolean isend;
+    private int isend;
 
     public MyDemandDto(DemandProject demandProject){
-        this.demandId = demandProject.getId();
+        this.id = demandProject.getId();
         this.name = demandProject.getName();
         this.createdtime = demandProject.getCreated_time();
-        this.isend = demandProject.isEnd();
+        this.isend = (demandProject.isEnd() == false ? 0 : 1);
     }
 }

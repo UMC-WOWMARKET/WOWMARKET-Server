@@ -23,12 +23,12 @@ public class DemandController {
 
     @GetMapping("/home")
 //    /demand/home?pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
-    public DemandResponseDto GetSaleProjectPageHome(
+    public DemandResponseDto GetDemandProjectPageHome(
             @RequestParam(name = "pageNo", defaultValue = "1", required = true) int pageNo,
             @RequestParam(name = "orderBy", defaultValue = "endDate", required = true) String orderBy,
             @RequestParam(name = "univ", defaultValue = "allUniv", required = true) String univ,
             @AuthenticationPrincipal User user) {
-        System.out.println("\n[GetSaleProjectListHome Controller] 판매 홈 페이지 로직\n");
+        System.out.println("\n[GetSaleProjectListHome Controller] 수요조사 홈 페이지 로직\n");
         Sort sort;
         if (orderBy.equals("view")) {
             sort = Sort.by(Sort.Direction.DESC, "view");

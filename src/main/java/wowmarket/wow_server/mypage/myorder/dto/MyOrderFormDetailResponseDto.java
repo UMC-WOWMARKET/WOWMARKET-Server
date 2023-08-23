@@ -16,6 +16,7 @@ public class MyOrderFormDetailResponseDto {
     private List<MyOrderFormDetailDto> itemList;
     private String receiver;
     private String address;
+    private Long delivery_fee;
     private String zipcode;
     private String message;
     private String phone;
@@ -27,10 +28,11 @@ public class MyOrderFormDetailResponseDto {
     private String buyer_account_name;
     private String deposittime;
 
-    public MyOrderFormDetailResponseDto(List<MyOrderFormDetailDto> itemList, Orders orders){
+    public MyOrderFormDetailResponseDto(List<MyOrderFormDetailDto> itemList, Orders orders, String address){
         this.itemList = itemList;
         this.receiver = orders.getReceiver();
-        this.address = orders.getAddress();
+        this.address = address;
+        this.delivery_fee = orders.getProject().getDelivery_fee();
         this.zipcode = orders.getZipcode();
         this.message = orders.getDelivery_msg();
         this.phone = orders.getPhone();

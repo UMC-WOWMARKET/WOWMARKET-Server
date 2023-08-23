@@ -41,10 +41,12 @@ public class MyOrderService {
     @Transactional(readOnly = true)
     public MyOrderFormDetailResponseDto findMyOrderFormDetail(Long order_id){
         List<OrderDetail> ordersDetails = orderDetailRepository.findByOrders_Id(order_id);
-
         List<MyOrderFormDetailDto> orderFormDetailDtos = ordersDetails.stream().map(MyOrderFormDetailDto::new).collect(Collectors.toList());
         Orders orders = orderRepository.findById(order_id).get();
-        MyOrderFormDetailResponseDto responseDto = new MyOrderFormDetailResponseDto(orderFormDetailDtos, orders);
+        String address = orders.getAddress();
+        if (orders.getProject().getReceive_type() == "pickup")
+            address = orders.getProject().getReceive_address();
+        MyOrderFormDetailResponseDto responseDto = new MyOrderFormDetailResponseDto(orderFormDetailDtos, orders, address);
         return responseDto;
     }
 

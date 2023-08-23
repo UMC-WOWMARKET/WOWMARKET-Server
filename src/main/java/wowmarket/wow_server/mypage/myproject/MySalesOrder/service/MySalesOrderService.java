@@ -59,10 +59,14 @@ public class MySalesOrderService {
     @Transactional
     public MySalesOrderDetailResponseDto findMySalesOrderDetail(Long order_id){
         Orders orders = orderRepository.findById(order_id)
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));;
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_Id(order_id);
+        String address = orders.getAddress();
+        if (orders.getProject().getReceive_type() == "pickup")
+            address = orders.getProject().getReceive_address();
         List<MySalesOrderDetailDto> orderDetailDtos = orderDetails.stream().map(MySalesOrderDetailDto::new).collect(Collectors.toList());
-        MySalesOrderDetailResponseDto responseDto = new MySalesOrderDetailResponseDto(orderDetailDtos, orders);
+        MySalesOrderDetailResponseDto responseDto = new MySalesOrderDetailResponseDto(orderDetailDtos, orders, address);
         return responseDto;
     }
 

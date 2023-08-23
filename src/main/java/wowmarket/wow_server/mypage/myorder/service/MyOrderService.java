@@ -44,7 +44,7 @@ public class MyOrderService {
         List<MyOrderFormDetailDto> orderFormDetailDtos = ordersDetails.stream().map(MyOrderFormDetailDto::new).collect(Collectors.toList());
         Orders orders = orderRepository.findById(order_id).get();
         String address = orders.getAddress();
-        if (orders.getProject().getReceive_type() == "pickup")
+        if (orders.getProject().getReceive_type().equals("pickup"))
             address = orders.getProject().getReceive_address();
         MyOrderFormDetailResponseDto responseDto = new MyOrderFormDetailResponseDto(orderFormDetailDtos, orders, address);
         return responseDto;

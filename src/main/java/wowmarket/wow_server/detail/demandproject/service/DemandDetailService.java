@@ -18,12 +18,15 @@ public class DemandDetailService {
     private final DemandDetailRepository demandDetailRepository;
     private final DemandProjectRepository demandProjectRepository;
 
+    private final DemandItemRepository demandItemRepository;
 
-    public DemandDetailService(DemandDetailRepository demandDetailRepository, DemandItemRepository itemRepository, UserRepository userRepository, DemandProjectRepository demandProjectRepository) {
+
+    public DemandDetailService(DemandDetailRepository demandDetailRepository, DemandItemRepository itemRepository, UserRepository userRepository, DemandProjectRepository demandProjectRepository, DemandItemRepository demandItemRepository) {
         this.itemRepository = itemRepository;
         this.demandDetailRepository = demandDetailRepository;
         this.userRepository = userRepository;
         this.demandProjectRepository = demandProjectRepository;
+        this.demandItemRepository= demandItemRepository;
     }
 
 
@@ -40,10 +43,14 @@ public class DemandDetailService {
             return new ResponseEntity(HttpStatus.BAD_REQUEST); //400
         }
 
+
+        List<DemandItem> demandItems= demandItemRepository.findDemandItemByDemandProject_Id(demand_project_id);
         //이미 수요조사폼을 작성한 사용자의 경우
-        if (demandDetailRepository.existsByUser_Id(user.getId())==true)
-        {
-            return new ResponseEntity(HttpStatus.FORBIDDEN); //403: Forbidden
+        for (int i = 0; i < demandItems.size(); i++) {
+            if (demandDetailRepository.existsByUserIdAndDemandItemId(user.getId(), demandItems.get(i).getId()))
+            {
+                return new ResponseEntity(HttpStatus.FORBIDDEN); //403: Forbidden
+            }
         }
 
         for (int i = 0; i < requestDto.size(); i++) {

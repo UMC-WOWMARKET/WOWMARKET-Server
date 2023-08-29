@@ -1,6 +1,6 @@
 # WOWMARKET-Server
 
-### 🌟Commit Convention
+### 🌟Commit/PR Convention
 | Type | Subject |
 | --- | --- |
 | Feat | 새로운 기능 추가 (a new feature) |

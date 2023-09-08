@@ -1,5 +1,8 @@
 # WOWMARKET-Server
 
+### 🫶URL
+https://wowmarket-web.vercel.app/goods?page_type=selling
+
 ### 🌟Commit/PR Convention
 | Type | Subject |
 | --- | --- |

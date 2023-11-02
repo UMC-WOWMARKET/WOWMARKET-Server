@@ -19,6 +19,7 @@ jobs:
           script: |
             cd /home/ec2-user/apps/step1
             sh deploy.sh
+            REPOSITORY=/home/ec2-user/apps/step1
             JAR_NAME=$(ls -tr $REPOSITORY/ | grep jar | head -n 1)
             echo "> JAR Name: $JAR_NAME"
             nohup java -jar $JAR_NAME &

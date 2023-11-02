@@ -19,3 +19,4 @@ jobs:
           script: |
             cd /home/ec2-user/apps/step1
             sh deploy.sh
+            nohup java -jar $JAR_NAME & 

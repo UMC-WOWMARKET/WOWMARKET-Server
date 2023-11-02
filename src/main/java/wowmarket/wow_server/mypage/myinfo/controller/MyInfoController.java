@@ -19,6 +19,7 @@ public class MyInfoController {
 
     @GetMapping()
     public MyInfoResponseDto getMyInfo(@AuthenticationPrincipal User user){
+        System.out.println("deploy test");
         return myInfoService.findMyInfo(user);
     }
 

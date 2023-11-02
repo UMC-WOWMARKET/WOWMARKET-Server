@@ -16,6 +16,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
+          timeout: 300s
+          command_timeout: 15m
           script: |
             cd /home/ec2-user/apps/step1
             sh deploy.sh

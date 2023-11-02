@@ -36,9 +36,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (token != null && jwtAuthenticationProvider.validateAccessToken(token)) {
 
+
+
             //logout된 jwt 검증 로직
             String isLogout = (String)redisTemplate.opsForValue().get(token);
-            if(ObjectUtils.isEmpty(isLogout)){
+            if(ObjectUtils.isEmpty(isLogout)){ // 비어있다면
                 //유효한 토큰이면 JwtTokenProvider를 통해 Authentication 객체를 생성
                 Authentication authentication = jwtAuthenticationProvider.getAuthentication(token);
 

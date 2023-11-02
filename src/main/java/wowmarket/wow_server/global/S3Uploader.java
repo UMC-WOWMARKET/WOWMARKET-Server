@@ -46,14 +46,16 @@ public class S3Uploader {
         try {
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
                     new GeneratePresignedUrlRequest(bucket, fileName)
-                            .withMethod(HttpMethod.PUT)
-                            .withExpiration(expiration);
+                            .withMethod(HttpMethod.PUT) //메서드가 PUT인 Presigned URL을 생성
+                            .withExpiration(expiration); //URL의 만료 시간을 설정
 
             generatePresignedUrlRequest.addRequestParameter(
                     Headers.S3_CANNED_ACL,
-                    CannedAccessControlList.PublicRead.toString());
+                    CannedAccessControlList.PublicRead.toString()); //생성된 URL에 대한 공개 읽기 권한을 설정
 
+            //Amazon S3 클라이언트 객체를 사용하여 Presigned URL을 생성하는 메서드
             URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
+
             preSignedURL = url.toString();
 
         } catch (Exception e) {

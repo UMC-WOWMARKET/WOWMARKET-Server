@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 비밀번호입니다");
         }
 
+        System.out.println("ci/cd 성공");
         String accessToken = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole().name());
         String refreshToken = jwtTokenProvider.createRefreshToken();
 

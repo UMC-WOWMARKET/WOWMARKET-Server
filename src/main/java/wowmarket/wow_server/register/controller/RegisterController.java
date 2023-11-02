@@ -43,13 +43,13 @@ public class RegisterController {
      * @return presigned url
      */
     @GetMapping("/image")
-    public ResponseEntity RegisterProject(String dirname){
+    public ResponseEntity RegisterProject(@RequestParam String dirname){
         return new ResponseEntity(awsS3Uploader.getPreSignedURL(dirname), HttpStatus.OK);
     }
 
     @GetMapping(value = {"/project", "/demand"})
     public ResponseEntity sendCategories(){
-        return new ResponseEntity<>(registerService.findCategories(), HttpStatus.OK);
+        return new ResponseEntity(registerService.findCategories(), HttpStatus.OK);
     }
 
 

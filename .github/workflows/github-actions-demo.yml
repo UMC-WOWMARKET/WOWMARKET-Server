@@ -1,0 +1,21 @@
+name: WOWMKT server CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  SSH:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: ssh to ec2
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          script: |
+            cd /home/ec2-user/apps/step1
+            sh deploy.sh

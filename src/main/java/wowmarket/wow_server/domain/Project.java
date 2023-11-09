@@ -61,6 +61,9 @@ public class Project extends BaseEntity{
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
 
+    @Column(columnDefinition = "tinyint(0) default 1")
+    private boolean sellToAll; // 0-> 소속 대학 학생, 1-> 전체 학생
+
     public void setUser(User user){
         this.user = user;
     }

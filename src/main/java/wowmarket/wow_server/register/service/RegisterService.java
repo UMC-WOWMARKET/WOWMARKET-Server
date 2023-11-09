@@ -2,12 +2,10 @@ package wowmarket.wow_server.register.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.*;
-import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.register.dto.RegisterDemandProjectDto;
 import wowmarket.wow_server.register.dto.RegisterProjectDto;
 import wowmarket.wow_server.repository.*;
@@ -36,6 +34,10 @@ public class RegisterService {
         //user 연관관계 설정
         if(user != null) project.setUser(user);
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다"); //유저 없을 시 400 에러 반환
+
+        // 소속 학생만 구매 가능하도록 설정했지만 판매자의 학교 인증이 안 됐을 경우
+        if(!project.isSellToAll() && !user.isUniv_check())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "학교 인증이 확인되지 않았습니다.");
 
         projectRepository.save(project);
 

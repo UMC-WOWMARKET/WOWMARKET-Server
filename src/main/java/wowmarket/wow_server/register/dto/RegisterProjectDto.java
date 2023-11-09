@@ -49,6 +49,8 @@ public class RegisterProjectDto {
     private String account_holder_name;
     @NotNull
     private String nickname;
+    @NotNull
+    private Boolean sell_to;
 
 
     @Builder
@@ -71,6 +73,7 @@ public class RegisterProjectDto {
                 .account(account)
                 .account_holder_name(account_holder_name)
                 .nickname(nickname)
+                .sellTo(sell_to)
                 .build();
     }
 }

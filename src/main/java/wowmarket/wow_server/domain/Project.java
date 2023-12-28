@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Check;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -74,6 +75,8 @@ public class Project extends BaseEntity{
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likeCnt;
 
     public void setUser(User user){
         this.user = user;

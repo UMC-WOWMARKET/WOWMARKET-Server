@@ -29,7 +29,7 @@ public class DemandItem extends BaseEntity{
     private int goal;
 
     @ColumnDefault("0")
-    private int limit;
+    private int limits;
 
     public void setDemandProject(DemandProject demandProject){
         this.demandProject=demandProject;

@@ -25,7 +25,7 @@ public class Item {
     private int goal;
 
     @ColumnDefault("0")
-    private int limit; // 구매제한
+    private int limits; // 구매제한
 
     public void setProject(Project project){
         this.project = project;

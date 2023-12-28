@@ -54,8 +54,8 @@ public class MyOrderService {
     public ResponseEntity deleteMyOrderFormDetail(Long order_id){
         Orders orders = orderRepository.findById(order_id)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
-        if (orders.isDel() == false)
-            orders.setDel(true);
+        if (orders.getIsDel() == 0)
+            orders.setIsDel(1);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

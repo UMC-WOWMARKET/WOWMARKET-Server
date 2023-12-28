@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -35,9 +36,9 @@ public class Orders extends BaseEntity {
     @Setter
     private int order_status;
 
-    @Column(columnDefinition="tinyint(0) default 0")
+    @ColumnDefault("0")
     @Setter
-    private boolean isDel;
+    private int isDel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")

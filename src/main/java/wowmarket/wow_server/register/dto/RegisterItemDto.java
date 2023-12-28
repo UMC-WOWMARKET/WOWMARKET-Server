@@ -15,6 +15,7 @@ public class RegisterItemDto {
     private String item_name;
     private Long price;
     private int goal;
+    private int limit;
 
     @Builder
     public Item toItemEntity(){
@@ -22,6 +23,7 @@ public class RegisterItemDto {
                 .name(item_name)
                 .price(price)
                 .goal(goal)
+                .limit(limit)
                 .build();
     }
 
@@ -31,6 +33,7 @@ public class RegisterItemDto {
                 .name(item_name)
                 .price(price)
                 .goal(goal)
+                .limit(limit)
                 .build();
     }
 }

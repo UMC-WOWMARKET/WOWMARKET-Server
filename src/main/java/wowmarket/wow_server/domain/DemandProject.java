@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,7 +22,12 @@ public class DemandProject extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User user;
-    private String nickname;
+
+    /* 등록 */
+    private String sellerName;  // 판매자명
+    private String phoneNumber; // 전화번호
+    private String email; // 이메일
+    private String sellerEtc; // 기타 연락 수단
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -32,10 +38,11 @@ public class DemandProject extends BaseEntity{
     private String image2;
     private String image3;
 
-    private String name;
+    private String projectName;
     private String description;
-    private LocalDate startDate;
-    private LocalDate endDate;
+
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     
     private int participant_number;
     private Long final_achievement_rate;
@@ -53,16 +60,4 @@ public class DemandProject extends BaseEntity{
         this.category = category;
     }
 
-    public void setImage(List<String> uploaded){
-        switch (uploaded.size()){
-            case 4:
-                image3 = uploaded.get(3);
-            case 3:
-                image2 = uploaded.get(2);
-            case 2:
-                image1 = uploaded.get(1);
-            case 1:
-                thumbnail = uploaded.get(0);
-        }
-    }
 }

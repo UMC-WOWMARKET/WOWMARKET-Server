@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.DemandProject;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -16,39 +17,53 @@ import java.util.List;
 @Builder
 public class RegisterDemandProjectDto {
     @NotNull
-    private String project_name;
+    private String projectName;
     @NotNull
     private String description;
     @NotNull
     private Long category_id;
+    @NotNull
+    private String sellerName;  // 판매자명
+
+    private String phoneNumber; // 전화번호
+    private String email; // 이메일
+    private String sellerEtc; // 기타 연락 수단
+
     @NotNull
     private String thumbnail;
     @NotNull
     private String image1;
     private String image2;
     private String image3;
+
     @NotNull
     private List<RegisterItemDto> item;
     @NotNull
-    private LocalDate start_date;
+    private LocalDateTime startDate;
     @NotNull
-    private LocalDate end_date;
-    @NotNull
-    private String nickname;
+    private LocalDateTime endDate;
+
 
 
     @Builder
     public DemandProject toEntity(){
         return DemandProject.builder()
-                .name(project_name)
+                .projectName(projectName)
                 .description(description)
+                .sellerName(sellerName)
+                .phoneNumber(phoneNumber)
+                .email(email)
+                .sellerEtc(sellerEtc)
                 .thumbnail(thumbnail)
                 .image1(image1)
                 .image2(image2)
                 .image3(image3)
-                .startDate(start_date)
-                .endDate(end_date)
-                .nickname(nickname)
+                .startDate(startDate)
+                .endDate(endDate)
+                .participant_number(0)
+                .final_achievement_rate(0L)
+                .isEnd(Boolean.FALSE)
+                .view(0)
                 .build();
     }
 

@@ -18,6 +18,7 @@ import wowmarket.wow_server.mypage.myproject.MySalesProject.service.MySalesProje
 public class MySalesProjectController {
     private final MySalesProjectService mySalesProjectService;
 
+    //판매 등록폼 전체보기
     @GetMapping()
     public MySalesListResponseDto getMySalesList(@RequestParam(value = "page", defaultValue = "1", required = false)int page, @AuthenticationPrincipal User user){
         Pageable pageable = PageRequest.of(page - 1, 10);
@@ -29,6 +30,7 @@ public class MySalesProjectController {
         return mySalesProjectService.finishMySalesForm(project_id);
     }
 
+    //판매 등록폼 상세보기
     @GetMapping("/detail/{project_id}")
     public MySalesDetailResponseDto getMySalesDetail(@PathVariable Long project_id){
         return mySalesProjectService.findMySalesDetail(project_id);

@@ -27,6 +27,13 @@ public class MyOrderFormDetailResponseDto {
     private String buyer_account;
     private String buyer_account_name;
     private String deposittime;
+    private String project_name;
+    private String description;
+    private int total_price;
+    private String thumbnail;
+    private int status;
+    private int is_del;
+    private Long order_id;
 
     public MyOrderFormDetailResponseDto(List<MyOrderFormDetailDto> itemList, Orders orders, String address){
         this.itemList = itemList;
@@ -43,6 +50,13 @@ public class MyOrderFormDetailResponseDto {
         this.buyer_account = orders.getAccount();
         this.buyer_account_name = orders.getDepositor();
         this.deposittime = orders.getDepositTime();
+        this.project_name = orders.getProject().getName();
+        this.description = orders.getProject().getDescription();
+        this.total_price = orders.getTotal_price();
+        this.thumbnail = orders.getProject().getThumbnail();
+        this.status = orders.getOrder_status();
+        this.is_del = orders.getIsDel();
+        this.order_id = orders.getId();
     }
 
 }

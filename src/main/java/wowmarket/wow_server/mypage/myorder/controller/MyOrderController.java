@@ -19,17 +19,20 @@ public class MyOrderController {
 
     private final MyOrderService myOrderService;
 
+    //나의 주문폼 목록 불러오기
     @GetMapping()
     public MyOrderFormListResponseDto getMyOrderList(@RequestParam(value = "page", defaultValue = "1", required = false)int page, @AuthenticationPrincipal User user){
         Pageable pageable = PageRequest.of(page - 1, 10);
         return myOrderService.findAllMyOrderForm(pageable, user);
     }
 
+    //나의 주문폼 상세 보기
     @GetMapping("/detail/{order_id}")
     public MyOrderFormDetailResponseDto getMyDetailOrder(@PathVariable Long order_id){
         return myOrderService.findMyOrderFormDetail(order_id);
     }
 
+    //나의 주문폼 취소하기
     @DeleteMapping("/detail/{order_id}")
     public ResponseEntity deleteMyOrder(@PathVariable Long order_id){
         return myOrderService.deleteMyOrderFormDetail(order_id);

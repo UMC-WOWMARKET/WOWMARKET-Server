@@ -19,9 +19,10 @@ public class ProjectInfoResponseDto {
     private int participant_number; //참여인원
     private int achieved; //달성률 분자: 모든 주문상세의 '주문개수' 컬럼의 합
     private int goal; //달성률 분모: 상품 테이블에서 프로젝트 번호로 조회하여 해당 프로젝트에 들어있는 상품의 목표치의 합
+    private boolean isLiked;
 
 
-    public ProjectInfoResponseDto(Project project, int achieved, int goal) {
+    public ProjectInfoResponseDto(Project project, int achieved, int goal, boolean isLiked) {
         this.thumbnail = project.getThumbnail(); //대표이미지
         this.category = project.getCategory().getName(); //카테고리
         this.name = project.getProjectName(); //프로젝트 이름
@@ -33,5 +34,6 @@ public class ProjectInfoResponseDto {
         this.participant_number = project.getParticipant_number(); //참여인원
         this.achieved = achieved;
         this.goal = goal;
+        this.isLiked = isLiked;
     }
 }

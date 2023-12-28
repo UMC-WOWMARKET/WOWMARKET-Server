@@ -19,12 +19,14 @@ import wowmarket.wow_server.mypage.myproject.MySalesOrder.service.MySalesOrderSe
 public class MySalesOrderController {
 
     private final MySalesOrderService mySalesOrderService;
+    //수집폼 리스트
     @GetMapping
     public MySalesOrderListResponseDto getMySalesOrderForms(@RequestParam(value = "page", defaultValue = "1", required = false)int page, @AuthenticationPrincipal User user){
         Pageable pageable = PageRequest.of(page - 1, 10);
         return mySalesOrderService.findMySalesOrderForms(pageable, user);
     }
 
+    //수집폼 상태 변경
     @PutMapping("/{order_id}")
     public ResponseEntity updateMySalesOrderFormStatus(@PathVariable Long order_id, @RequestBody MySalesOrderStatusRequestDto requestDto){
         mySalesOrderService.updateMySalesOrderStatus(order_id, requestDto);

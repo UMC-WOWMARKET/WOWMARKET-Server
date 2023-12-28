@@ -28,6 +28,9 @@ public class DemandItem extends BaseEntity{
     @ColumnDefault("0")
     private int goal;
 
+    @ColumnDefault("0")
+    private int limit;
+
     public void setDemandProject(DemandProject demandProject){
         this.demandProject=demandProject;
     }

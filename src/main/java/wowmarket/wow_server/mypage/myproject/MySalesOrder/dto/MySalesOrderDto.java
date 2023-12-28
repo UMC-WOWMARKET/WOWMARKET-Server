@@ -13,12 +13,13 @@ public class MySalesOrderDto {
     private String name;
     private LocalDateTime createdtime;
     private int status;
+    private String buyer_name;
 
     public MySalesOrderDto(Orders orders){
-        this.id = orders.getId();
         this.id = orders.getId();
         this.name = orders.getProject().getProjectName();
         this.createdtime = orders.getCreated_time();
         this.status = orders.getOrder_status();
+        this.buyer_name = orders.getUser().getName();
     }
 }

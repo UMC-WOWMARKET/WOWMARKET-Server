@@ -8,13 +8,13 @@ import wowmarket.wow_server.domain.OrderDetail;
 @Getter
 @NoArgsConstructor
 public class MyOrderFormDetailDto {
-    private Long itemId;
+    private Long item_id;
     private String name;
     private Long price;
     private int count;
 
     public MyOrderFormDetailDto(OrderDetail orderDetail){
-        this.itemId = orderDetail.getItem().getId();
+        this.item_id = orderDetail.getItem().getId();
         this.name = orderDetail.getItem().getName();
         this.price = orderDetail.getItem().getPrice();
         this.count = orderDetail.getCount();

@@ -23,8 +23,8 @@ public class ProjectController {
 
     //주문폼: 상세 정보 조회
     @GetMapping("/{project_id}")
-    public ProjectInfoResponseDto getProjectInfo(@PathVariable Long project_id) {
-        return projectService.getProjectInfo(project_id);
+    public ProjectInfoResponseDto getProjectInfo(@PathVariable Long project_id, @AuthenticationPrincipal User user) {
+        return projectService.getProjectInfo(project_id, user);
     }
 
     //주문폼: 굿즈 소개(이미지 3개) 조회
@@ -56,12 +56,4 @@ public class ProjectController {
     public ResponseEntity<?> likeProject(@PathVariable Long project_id, @AuthenticationPrincipal User user) {
         return projectService.likeProject(project_id, user);
     }
-
-    @DeleteMapping("/{project_id}/unlike")
-    public ResponseEntity<?> unlikeProject(@PathVariable Long project_id, @AuthenticationPrincipal User user) {
-        return projectService.unLikeProject(project_id, user);
-    }
-
-
-
 }

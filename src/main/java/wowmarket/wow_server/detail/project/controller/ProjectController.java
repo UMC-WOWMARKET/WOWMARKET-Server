@@ -2,12 +2,14 @@ package wowmarket.wow_server.detail.project.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.detail.demandproject.dto.DemandDetailRequestDto;
 import wowmarket.wow_server.detail.project.dto.*;
 import wowmarket.wow_server.detail.project.service.ItemService;
 import wowmarket.wow_server.detail.project.service.OrderService;
 import wowmarket.wow_server.detail.project.service.ProjectService;
+import wowmarket.wow_server.domain.User;
 
 import java.util.List;
 
@@ -49,5 +51,17 @@ public class ProjectController {
     public ResponseEntity createDemandForm(@PathVariable Long project_id, @RequestBody OrderFormRequestDto requestDto){
         return orderService.createOrderForm(project_id, requestDto);
     }
+
+    @PostMapping("/{project_id}/like")
+    public ResponseEntity<?> likeProject(@PathVariable Long project_id, @AuthenticationPrincipal User user) {
+        return projectService.likeProject(project_id, user);
+    }
+
+    @DeleteMapping("/{project_id}/unlike")
+    public ResponseEntity<?> unlikeProject(@PathVariable Long project_id, @AuthenticationPrincipal User user) {
+        return projectService.unLikeProject(project_id, user);
+    }
+
+
 
 }

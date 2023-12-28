@@ -17,7 +17,7 @@ public class MySalesOrderDto {
     public MySalesOrderDto(Orders orders){
         this.id = orders.getId();
         this.id = orders.getId();
-        this.name = orders.getProject().getName();
+        this.name = orders.getProject().getProjectName();
         this.createdtime = orders.getCreated_time();
         this.status = orders.getOrder_status();
     }

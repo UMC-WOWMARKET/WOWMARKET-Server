@@ -23,7 +23,7 @@ public class OrderResponseDto {
     private List<ItemResponseDto> itemResponseDtoList;
 
     public OrderResponseDto(Project project, List<ItemResponseDto> itemResponseDtoList) {
-        this.receive_type=project.getReceive_type();
+        this.receive_type=project.getReceive_type().toString();
         this.receive_address=project.getReceive_address();
         this.delivery_fee=project.getDelivery_fee();
         this.bank=project.getBank();

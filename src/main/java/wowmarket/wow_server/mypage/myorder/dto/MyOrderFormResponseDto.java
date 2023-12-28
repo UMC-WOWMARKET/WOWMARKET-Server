@@ -21,7 +21,7 @@ public class MyOrderFormResponseDto {
 
     public MyOrderFormResponseDto(Orders order){
         this.orderId = order.getId();
-        this.name = order.getProject().getName();
+        this.name = order.getProject().getProjectName();
         this.createdtime = order.getCreated_time();
         this.status = order.getOrder_status();
         this.is_del = order.getIsDel();

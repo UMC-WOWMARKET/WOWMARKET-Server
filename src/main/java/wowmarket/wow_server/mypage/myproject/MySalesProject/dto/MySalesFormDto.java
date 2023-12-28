@@ -19,7 +19,7 @@ public class MySalesFormDto {
 
     public MySalesFormDto(Project project){
         this.id = project.getId();
-        this.name = project.getName();
+        this.name = project.getProjectName();
         this.createdtime = project.getCreated_time();
         this.status = (project.isEnd() == false? 0 : 1);
         this.description = project.getDescription();

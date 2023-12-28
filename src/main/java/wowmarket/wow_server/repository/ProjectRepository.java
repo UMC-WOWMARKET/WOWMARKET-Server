@@ -27,7 +27,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.startDate <= :current_date AND p.endDate >= :current_date " +
-            "AND p.name LIKE CONCAT('%', :search, '%') " +
+            "AND p.projectName LIKE CONCAT('%', :search, '%') " +
             "AND p.user.univ = :user_univ")
     Page<Project> findBySearchUserUniv(@Param("current_date") LocalDate current_date, @Param("search") String search,
                                        @Param("user_univ") String user_univ, Pageable pageable);
@@ -35,7 +35,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.startDate <= :current_date AND p.endDate >= :current_date " +
-            "AND p.name LIKE CONCAT('%', :search, '%')")
+            "AND p.projectName LIKE CONCAT('%', :search, '%')")
     Page<Project> findBySearch(@Param("current_date") LocalDate current_date, @Param("search") String search, Pageable pageable);
 
     Page<Project> findByUser_Id(Long sellerId, Pageable pageable);

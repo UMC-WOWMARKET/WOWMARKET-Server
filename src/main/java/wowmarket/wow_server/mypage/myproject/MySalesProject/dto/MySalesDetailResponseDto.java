@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.Project;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,13 +20,13 @@ public class MySalesDetailResponseDto {
     private String image2;
     private String image3;
     private List<MySalesItemDto> itemList;
-    private LocalDate startdate;
-    private LocalDate enddate;
+    private LocalDateTime startdate;
+    private LocalDateTime enddate;
     private String receive_type;
     private String seller_bank;
     private String seller_account;
     private String seller_account_name;
-    private String seller_nickname;
+    private String seller_name;
     private Long delivery_fee;
     private String seller_phone_number;
     private String seller_email;
@@ -34,7 +35,7 @@ public class MySalesDetailResponseDto {
 
     public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
         this.projectId = project.getId();
-        this.projectname = project.getName();
+        this.projectname = project.getProjectName();
         this.description = project.getDescription();
         this.thumbnail = project.getThumbnail();
         this.image1 = project.getImage1();
@@ -44,10 +45,14 @@ public class MySalesDetailResponseDto {
         this.itemList = itemDtos;
         this.startdate = project.getStartDate();
         this.enddate = project.getEndDate();
-        this.receive_type = project.getReceive_type();
+        this.receive_type = project.getReceive_type().toString();
         this.seller_bank = project.getBank();
         this.seller_account = project.getAccount();
         this.seller_account_name = project.getAccount_holder_name();
-        this.seller_nickname = project.getNickname();
+        this.seller_name = project.getSellerName();
+        this.delivery_fee = project.getDelivery_fee();
+        this.seller_phone_number = project.getPhoneNumber();
+        this.seller_email = project.getEmail();
+        this.seller_etc = project.getSellerEtc();
     }
 }

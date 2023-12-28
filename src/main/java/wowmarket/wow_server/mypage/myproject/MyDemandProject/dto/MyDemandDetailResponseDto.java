@@ -5,6 +5,7 @@ import wowmarket.wow_server.domain.DemandProject;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandItemDto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,13 +19,13 @@ public class MyDemandDetailResponseDto {
     private String image1;
     private String image2;
     private String image3;
-    private LocalDate startdate;
-    private LocalDate enddate;
-    private String seller_nickname;
+    private LocalDateTime startdate;
+    private LocalDateTime enddate;
+    private String seller_name;
 
     public MyDemandDetailResponseDto(List<MyDemandItemDto> itemList, DemandProject demandProject){
         this.projectId = demandProject.getId();
-        this.projectname = demandProject.getName();
+        this.projectname = demandProject.getProjectName();
         this.description = demandProject.getDescription();
         this.thumbnail = demandProject.getThumbnail();
         this.itemList = itemList;
@@ -34,7 +35,7 @@ public class MyDemandDetailResponseDto {
         this.image3 = demandProject.getImage3();
         this.startdate = demandProject.getStartDate();
         this.enddate = demandProject.getEndDate();
-        this.seller_nickname = demandProject.getNickname();
+        this.seller_name = demandProject.getSellerName();
     }
 
 }

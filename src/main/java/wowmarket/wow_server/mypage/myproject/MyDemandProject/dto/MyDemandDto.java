@@ -16,7 +16,7 @@ public class MyDemandDto {
 
     public MyDemandDto(DemandProject demandProject){
         this.id = demandProject.getId();
-        this.name = demandProject.getName();
+        this.name = demandProject.getProjectName();
         this.createdtime = demandProject.getCreated_time();
         this.status = (demandProject.isEnd() == false ? 0 : 1);
     }

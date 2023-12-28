@@ -50,7 +50,7 @@ public class MyOrderFormDetailResponseDto {
         this.buyer_account = orders.getAccount();
         this.buyer_account_name = orders.getDepositor();
         this.deposittime = orders.getDepositTime();
-        this.project_name = orders.getProject().getName();
+        this.project_name = orders.getProject().getProjectName();
         this.description = orders.getProject().getDescription();
         this.total_price = orders.getTotal_price();
         this.thumbnail = orders.getProject().getThumbnail();

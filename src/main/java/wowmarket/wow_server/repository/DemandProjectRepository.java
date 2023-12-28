@@ -25,7 +25,7 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :current_date AND dp.endDate >= :current_date " +
-            "AND dp.name LIKE CONCAT('%', :search, '%') " +
+            "AND dp.projectName LIKE CONCAT('%', :search, '%') " +
             "AND dp.user.univ = :user_univ")
     Page<DemandProject> findBySearchUserUniv(@Param("current_date") LocalDate current_date, @Param("search") String search,
                                              @Param("user_univ") String user_univ, Pageable pageable);
@@ -33,7 +33,7 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :current_date AND dp.endDate >= :current_date " +
-            "AND dp.name LIKE CONCAT('%', :search, '%')")
+            "AND dp.projectName LIKE CONCAT('%', :search, '%')")
     Page<DemandProject> findBySearch(@Param("current_date") LocalDate current_date, @Param("search") String search, Pageable pageable);
 
     Page<DemandProject> findDemandProjectByUser_Id(Long seller_id, Pageable pageable);

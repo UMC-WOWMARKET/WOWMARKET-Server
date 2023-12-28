@@ -14,13 +14,20 @@ public class MyOrderFormResponseDto {
     private String name;
     private LocalDateTime createdtime;
     private int status;
-    private int isdel;
+    private int is_del;
+    private int price;
+    private String description;
+    private String thumbnail;
 
     public MyOrderFormResponseDto(Orders order){
         this.orderId = order.getId();
         this.name = order.getProject().getName();
         this.createdtime = order.getCreated_time();
         this.status = order.getOrder_status();
-        this.isdel = order.getIsDel();
+        this.is_del = order.getIsDel();
+        this.price = order.getTotal_price();
+        this.thumbnail = order.getProject().getThumbnail();
+        this.description = order.getProject().getDescription();
+
     }
 }

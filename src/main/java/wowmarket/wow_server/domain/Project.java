@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,13 +16,20 @@ public class Project extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Long id;
-    private String name;
-    private String description;
+
+    /* 등록 */
+    private String projectName; // 프로젝트 이름
+    private String description; // 프로젝트 설명
+
+    private String sellerName;  // 판매자명
+    private String phoneNumber; // 전화번호
+    private String email; // 이메일
+    private String sellerEtc; // 기타 연락 수단
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
-    private User user;
-    private String nickname;
+    private User user; // 판매자
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -32,9 +40,25 @@ public class Project extends BaseEntity{
     private String image2;
     private String image3;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+
     private int participant_number;
+
+
+    @Enumerated(EnumType.STRING)
+    private ReceiveType receive_type; //delivery, pickup
+    private String receive_address; //직접수령 시 픽업장소
+    private String deliveryType; // 배송 시 배송 방법
+    private Long delivery_fee; // 배송비
+
+
+    private String bank; // 은행
+    private String account; // 계좌
+    private String account_holder_name; // 예금주
+
+    @Column(columnDefinition = "tinyint(0) default 1")
+    private boolean sellToAll; // 0-> 소속 대학 학생, 1-> 전체 학생
 
     @Column(columnDefinition="tinyint(0) default 0")
     @Setter
@@ -44,25 +68,12 @@ public class Project extends BaseEntity{
     @Setter
     private boolean isEnd;
 
-
-    private String receive_type; //delivery, pickup
-    private String receive_address; //직접수령 시 픽업장소
-    private Long delivery_fee; //배송비
-    private String address_detail;
-    private String zipcode;
-
-    private String bank;
-    private String account;
-    private String account_holder_name;
-
-
+    /* 조회 */
     private Long final_achievement_rate;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
 
-    @Column(columnDefinition = "tinyint(0) default 1")
-    private boolean sellToAll; // 0-> 소속 대학 학생, 1-> 전체 학생
 
     public void setUser(User user){
         this.user = user;
@@ -71,18 +82,6 @@ public class Project extends BaseEntity{
         this.category = category;
     }
 
-    public void setImage(List<String> uploaded){
-        switch (uploaded.size()){
-            case 4:
-                image3 = uploaded.get(3);
-            case 3:
-                image2 = uploaded.get(2);
-            case 2:
-                image1 = uploaded.get(1);
-            case 1:
-                thumbnail = uploaded.get(0);
-        }
-    }
 }
 
 

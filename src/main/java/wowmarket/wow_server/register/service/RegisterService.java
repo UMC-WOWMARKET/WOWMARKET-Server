@@ -31,6 +31,7 @@ public class RegisterService {
         //category 연관관계 설정
         project.setCategory(categoryRepository.findById(requestDto.getCategory_id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "일치하는 카테고리가 없습니다")));
+
         //user 연관관계 설정
         if(user != null) project.setUser(user);
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다"); //유저 없을 시 400 에러 반환

@@ -26,6 +26,11 @@ public class MySalesDetailResponseDto {
     private String seller_account;
     private String seller_account_name;
     private String seller_nickname;
+    private Long delivery_fee;
+    private String seller_phone_number;
+    private String seller_email;
+    private String seller_etc;
+
 
     public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
         this.projectId = project.getId();

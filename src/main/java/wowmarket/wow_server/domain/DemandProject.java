@@ -47,13 +47,15 @@ public class DemandProject extends BaseEntity{
     private int participant_number;
     private Long final_achievement_rate;
 
-
     @Setter
     @Column(columnDefinition="tinyint(0) default 0")
     private boolean isEnd;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view; //조회수
+
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likeCnt;
 
     public void setUser(User user){ this.user = user;}
     public void setCategory(Category category){

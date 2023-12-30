@@ -51,4 +51,14 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
     @Query(nativeQuery = true, value = "update demand_project p set p.participant_number=p.participant_number+1 where demand_project_id=?")
     int updateParticipantNumber(Long demandProjectId);
 
+    @Modifying
+    @Query("UPDATE DemandProject dp SET dp.likeCnt = dp.likeCnt + 1 " +
+            "WHERE dp.id = :demandProjectId")
+    void updateDemandProjectLike(@Param("demandProjectId") Long demandProjectId);
+
+    @Modifying
+    @Query("UPDATE DemandProject dp SET dp.likeCnt = dp.likeCnt - 1 " +
+            "WHERE dp.id = :demandProjectId")
+    void updateDemandProjectUnLike(@Param("demandProjectId") Long demandProjectId);
+
 }

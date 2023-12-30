@@ -19,8 +19,9 @@ public class DemandProjectInfoResponseDto {
     private int participant_number; //참여인원
     private int achieved; //달성률 분자
     private int goal; //달성률 분모
+    private boolean isLiked;
 
-    public DemandProjectInfoResponseDto(DemandProject project, int achieved, int goal) {
+    public DemandProjectInfoResponseDto(DemandProject project, int achieved, int goal, boolean isLiked) {
         this.thumbnail = project.getThumbnail(); //대표이미지
         this.category = project.getCategory().getName(); //카테고리
         this.name = project.getProjectName(); //프로젝트 이름
@@ -32,5 +33,6 @@ public class DemandProjectInfoResponseDto {
         this.participant_number = project.getParticipant_number(); //참여인원
         this.achieved = achieved;
         this.goal = goal;
+        this.isLiked = isLiked;
     }
 }

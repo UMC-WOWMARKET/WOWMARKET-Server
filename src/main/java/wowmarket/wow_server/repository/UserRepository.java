@@ -19,4 +19,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("UPDATE User u SET u.projectLike = u.projectLike - 1 " +
             "WHERE u = :user")
     void updateProjectUnLike(@Param("user") User user);
+
+    @Modifying
+    @Query("UPDATE User u SET u.demandLike = u.demandLike + 1 " +
+            "WHERE u = :user")
+    void updateDemandProjectLike(@Param("user") User user);
+
+    @Modifying
+    @Query("UPDATE User u SET u.demandLike = u.demandLike - 1 " +
+            "WHERE u = :user")
+    void updateDemandProjectUnLike(@Param("user") User user);
+
+
 }

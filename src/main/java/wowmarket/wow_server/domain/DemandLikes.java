@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Likes extends BaseEntity {
+@Getter
+public class DemandLikes extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "likes_id")
+    @Column(name = "demand_likes_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -18,12 +18,12 @@ public class Likes extends BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
-    private Project project;
+    @JoinColumn(name = "demand_project_id")
+    private DemandProject demandProject;
 
     @Builder
-    public Likes(User user, Project project) {
+    public DemandLikes(User user, DemandProject demandProject) {
         this.user = user;
-        this.project = project;
+        this.demandProject = demandProject;
     }
 }

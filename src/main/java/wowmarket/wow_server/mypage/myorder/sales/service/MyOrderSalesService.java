@@ -24,10 +24,9 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MyOrderService {
+public class MyOrderSalesService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public MyOrderFormListResponseDto findAllMyOrderForm(Pageable pageable, User user){

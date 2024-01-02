@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormDetailResponseDto;
 import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormListResponseDto;
-import wowmarket.wow_server.mypage.myorder.sales.service.MyOrderService;
+import wowmarket.wow_server.mypage.myorder.sales.service.MyOrderSalesService;
 
 @RestController
 @RequestMapping("/myorder-sales")
 @RequiredArgsConstructor
-public class MyOrderController {
+public class MyOrderSalesController {
 
-    private final MyOrderService myOrderService;
+    private final MyOrderSalesService myOrderService;
 
     //나의 판매 주문폼 목록 불러오기
     @GetMapping()

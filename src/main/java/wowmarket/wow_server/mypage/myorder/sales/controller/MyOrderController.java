@@ -12,20 +12,20 @@ import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormListResponseDto;
 import wowmarket.wow_server.mypage.myorder.sales.service.MyOrderService;
 
 @RestController
-@RequestMapping("/myorder")
+@RequestMapping("/myorder-sales")
 @RequiredArgsConstructor
 public class MyOrderController {
 
     private final MyOrderService myOrderService;
 
-    //나의 주문폼 목록 불러오기
+    //나의 판매 주문폼 목록 불러오기
     @GetMapping()
     public MyOrderFormListResponseDto getMyOrderList(@RequestParam(value = "page", defaultValue = "1", required = false)int page, @AuthenticationPrincipal User user){
         Pageable pageable = PageRequest.of(page - 1, 10);
         return myOrderService.findAllMyOrderForm(pageable, user);
     }
 
-    //나의 주문폼 상세 보기
+    //나의 판매 주문폼 상세 보기
     @GetMapping("/detail/{order_id}")
     public MyOrderFormDetailResponseDto getMyDetailOrder(@PathVariable Long order_id){
         return myOrderService.findMyOrderFormDetail(order_id);

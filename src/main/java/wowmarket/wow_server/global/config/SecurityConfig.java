@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeRequests() // 요청에 대한 접근 권한을 설정하는 메서드
                 .requestMatchers("/mypage/**").authenticated()
+                .requestMatchers("/myorder-sales/**").authenticated()
                 .requestMatchers("/register/**").authenticated()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight Request 허용해주기
                 .anyRequest().permitAll();

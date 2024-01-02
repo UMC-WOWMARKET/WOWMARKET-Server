@@ -1,4 +1,4 @@
-package wowmarket.wow_server.mypage.myorder.dto;
+package wowmarket.wow_server.mypage.myorder.sales.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

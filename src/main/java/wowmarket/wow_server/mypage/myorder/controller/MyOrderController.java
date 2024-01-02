@@ -13,7 +13,7 @@ import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormListResponseDto;
 import wowmarket.wow_server.mypage.myorder.service.MyOrderService;
 
 @RestController
-@RequestMapping("/mypage/myorder")
+@RequestMapping("/myorder")
 @RequiredArgsConstructor
 public class MyOrderController {
 

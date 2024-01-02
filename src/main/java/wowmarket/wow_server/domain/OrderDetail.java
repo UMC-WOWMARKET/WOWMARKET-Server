@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormItemListRequestDto;
 
 @Entity
 @Getter

@@ -1,16 +1,15 @@
-package wowmarket.wow_server.mypage.myorder.controller;
+package wowmarket.wow_server.mypage.myorder.sales.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormDetailResponseDto;
-import wowmarket.wow_server.mypage.myorder.dto.MyOrderFormListResponseDto;
-import wowmarket.wow_server.mypage.myorder.service.MyOrderService;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormDetailResponseDto;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormListResponseDto;
+import wowmarket.wow_server.mypage.myorder.sales.service.MyOrderService;
 
 @RestController
 @RequestMapping("/myorder")

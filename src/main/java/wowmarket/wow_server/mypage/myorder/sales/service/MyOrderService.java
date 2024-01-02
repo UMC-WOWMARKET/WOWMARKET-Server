@@ -1,4 +1,4 @@
-package wowmarket.wow_server.mypage.myorder.service;
+package wowmarket.wow_server.mypage.myorder.sales.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,8 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.OrderDetail;
 import wowmarket.wow_server.domain.Orders;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.global.jwt.SecurityUtil;
-import wowmarket.wow_server.mypage.myorder.dto.*;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormDetailDto;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormDetailResponseDto;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormListResponseDto;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormResponseDto;
 import wowmarket.wow_server.repository.OrderDetailRepository;
 import wowmarket.wow_server.repository.OrderRepository;
 import wowmarket.wow_server.repository.UserRepository;

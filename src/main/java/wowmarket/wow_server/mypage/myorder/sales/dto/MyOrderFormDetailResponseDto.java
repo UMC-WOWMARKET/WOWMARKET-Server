@@ -1,12 +1,9 @@
-package wowmarket.wow_server.mypage.myorder.dto;
+package wowmarket.wow_server.mypage.myorder.sales.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.Orders;
-import wowmarket.wow_server.domain.Project;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

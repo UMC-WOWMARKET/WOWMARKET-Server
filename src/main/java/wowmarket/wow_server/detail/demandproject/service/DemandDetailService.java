@@ -32,41 +32,41 @@ public class DemandDetailService {
 
     public ResponseEntity createDemandForm(Long demand_project_id, List<DemandDetailRequestDto> requestDto)
     {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-        DemandProject demandProject = demandProjectRepository.findByDemandProject_Id(demand_project_id);
-
-        //사용자의 대학교가 수요조사 프로젝트의 대학교와 일치하지 않으면
-        if (!Objects.equals(user.getUniv(), demandProject.getUser().getUniv()))
-        {
-            //에러 반환
-            return new ResponseEntity(HttpStatus.BAD_REQUEST); //400
-        }
-
-
-        List<DemandItem> demandItems= demandItemRepository.findDemandItemByDemandProject_Id(demand_project_id);
-        //이미 수요조사폼을 작성한 사용자의 경우
-        for (int i = 0; i < demandItems.size(); i++) {
-            if (demandDetailRepository.existsByUserIdAndDemandItemId(user.getId(), demandItems.get(i).getId()))
-            {
-                return new ResponseEntity(HttpStatus.FORBIDDEN); //403: Forbidden
-            }
-        }
-
-        for (int i = 0; i < requestDto.size(); i++) {
-            DemandItem demandItem = itemRepository.findDemandItemById(requestDto.get(i).getDemandItemId()); //프론트에서 demand_item_id 받아오기
-            int count = requestDto.get(i).getCount();
-
-            DemandDetail demandDetail = DemandDetail.builder()
-                    .user(user) //User user
-                    .demandItem(demandItem) //DemandItem demandItem
-                    .count(count) //int Count
-                    .build();
-            demandDetailRepository.save(demandDetail);
-        }
-
-        //참여인원 업데이트
-        demandProjectRepository.updateParticipantNumber(demand_project_id);
+//        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+//        DemandProject demandProject = demandProjectRepository.findByDemandProject_Id(demand_project_id);
+//
+//        //사용자의 대학교가 수요조사 프로젝트의 대학교와 일치하지 않으면
+//        if (!Objects.equals(user.getUniv(), demandProject.getUser().getUniv()))
+//        {
+//            //에러 반환
+//            return new ResponseEntity(HttpStatus.BAD_REQUEST); //400
+//        }
+//
+//
+//        List<DemandItem> demandItems= demandItemRepository.findDemandItemByDemandProject_Id(demand_project_id);
+//        //이미 수요조사폼을 작성한 사용자의 경우
+//        for (int i = 0; i < demandItems.size(); i++) {
+//            if (demandDetailRepository.existsByUserIdAndDemandItemId(user.getId(), demandItems.get(i).getId()))
+//            {
+//                return new ResponseEntity(HttpStatus.FORBIDDEN); //403: Forbidden
+//            }
+//        }
+//
+//        for (int i = 0; i < requestDto.size(); i++) {
+//            DemandItem demandItem = itemRepository.findDemandItemById(requestDto.get(i).getDemandItemId()); //프론트에서 demand_item_id 받아오기
+//            int count = requestDto.get(i).getCount();
+//
+//            DemandDetail demandDetail = DemandDetail.builder()
+//                    .user(user) //User user
+//                    .demandItem(demandItem) //DemandItem demandItem
+//                    .count(count) //int Count
+//                    .build();
+//            demandDetailRepository.save(demandDetail);
+//        }
+//
+//        //참여인원 업데이트
+//        demandProjectRepository.updateParticipantNumber(demand_project_id);
 
         return new ResponseEntity(HttpStatus.OK);
     }

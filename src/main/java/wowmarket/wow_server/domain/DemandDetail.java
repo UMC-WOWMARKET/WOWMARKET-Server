@@ -33,8 +33,8 @@ public class DemandDetail extends BaseEntity{
     private int count;
 
     @Builder
-    public DemandDetail(User user, DemandItem demandItem, int count){
-        this.user = user;
+    public DemandDetail(DemandOrder demandOrder, DemandItem demandItem, int count){
+        this.demandOrder = demandOrder;
         this.demandItem = demandItem;
         this.count = count;
     }

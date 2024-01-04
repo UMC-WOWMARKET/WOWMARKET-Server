@@ -50,9 +50,11 @@ public class MySalesOrderService {
     }
 
     @Transactional
-    public ResponseEntity updateMySalesOrderStatus(Long order_id, MySalesOrderStatusRequestDto requestDto){
+    public ResponseEntity updateMySalesOrderStatus(Long order_id, MySalesOrderStatusRequestDto requestDto, User user){
         Orders orders = orderRepository.findById(order_id)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        if (user == null || user.getId() != orders.getProject().getUser().getId())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         orders.setOrder_status(requestDto.getOrder_status());
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -76,9 +78,12 @@ public class MySalesOrderService {
     }
 
     @Transactional
-    public ResponseEntity deleteMySalesOrder(Long order_id){
+    public ResponseEntity deleteMySalesOrder(Long order_id, User user){
         Orders orders = orderRepository.findById(order_id)
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));;
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        if (user == null || orders.getProject().getUser().getId() != user.getId())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
         if (orders.getIsDel() == 0)
             orders.setIsDel(1);
         return new ResponseEntity(HttpStatus.OK);

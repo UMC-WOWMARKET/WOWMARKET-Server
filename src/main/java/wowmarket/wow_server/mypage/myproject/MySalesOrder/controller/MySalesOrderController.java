@@ -28,8 +28,8 @@ public class MySalesOrderController {
 
     //수집폼 상태 변경
     @PutMapping("/{order_id}")
-    public ResponseEntity updateMySalesOrderFormStatus(@PathVariable Long order_id, @RequestBody MySalesOrderStatusRequestDto requestDto){
-        mySalesOrderService.updateMySalesOrderStatus(order_id, requestDto);
+    public ResponseEntity updateMySalesOrderFormStatus(@PathVariable Long order_id, @RequestBody MySalesOrderStatusRequestDto requestDto, @AuthenticationPrincipal User user){
+        mySalesOrderService.updateMySalesOrderStatus(order_id, requestDto, user);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -40,8 +40,8 @@ public class MySalesOrderController {
     }
 
     @DeleteMapping("/detail/{order_id}")
-    public ResponseEntity deleteMySalesOrderForm(@PathVariable Long order_id){
-        mySalesOrderService.deleteMySalesOrder(order_id);
+    public ResponseEntity deleteMySalesOrderForm(@PathVariable Long order_id, @AuthenticationPrincipal User user){
+        mySalesOrderService.deleteMySalesOrder(order_id, user);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

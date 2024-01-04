@@ -6,37 +6,37 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.Project;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
-            "AND p.startDate <= :current_date AND p.endDate >= :current_date " +
-            "AND p.user.univ = :user_univ")
-    Page<Project> findByUserUniv(@Param("user_univ") String user_univ, @Param("current_date") LocalDate current_date, Pageable pageable);
+            "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
+            "AND p.user.univ = :userUniv")
+    Page<Project> findByUserUniv(@Param("userUniv") String userUniv, @Param("currentDate") LocalDateTime currentDate, Pageable pageable);
 
     @Query("SELECT p FROM Project p WHERE p.isDel = false AND p.isEnd = false " +
-            "AND p.startDate <= :current_date AND p.endDate >= :current_date")
-    Page<Project> findAllNotDelNotEnd(@Param("current_date") LocalDate current_date, Pageable pageable);
+            "AND p.startDate <= :currentDate AND p.endDate >= :currentDate")
+    Page<Project> findAllNotDelNotEnd(@Param("currentDate") LocalDateTime currentDate, Pageable pageable);
 
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
-            "AND p.startDate <= :current_date AND p.endDate >= :current_date " +
+            "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
             "AND p.projectName LIKE CONCAT('%', :search, '%') " +
-            "AND p.user.univ = :user_univ")
-    Page<Project> findBySearchUserUniv(@Param("current_date") LocalDate current_date, @Param("search") String search,
-                                       @Param("user_univ") String user_univ, Pageable pageable);
+            "AND p.user.univ = :userUniv")
+    Page<Project> findBySearchUserUniv(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search,
+                                       @Param("userUniv") String userUniv, Pageable pageable);
 
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
-            "AND p.startDate <= :current_date AND p.endDate >= :current_date " +
+            "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
             "AND p.projectName LIKE CONCAT('%', :search, '%')")
-    Page<Project> findBySearch(@Param("current_date") LocalDate current_date, @Param("search") String search, Pageable pageable);
+    Page<Project> findBySearch(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search, Pageable pageable);
 
     Page<Project> findByUser_Id(Long sellerId, Pageable pageable);
 

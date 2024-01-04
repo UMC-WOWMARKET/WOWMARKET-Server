@@ -11,13 +11,6 @@ import wowmarket.wow_server.sale.dto.SaleResponseDto;
 import wowmarket.wow_server.sale.service.SaleHomeService;
 import wowmarket.wow_server.sale.service.SaleSearchService;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.TimeZone;
-
 @RestController
 @RequestMapping("/sale")
 @RequiredArgsConstructor

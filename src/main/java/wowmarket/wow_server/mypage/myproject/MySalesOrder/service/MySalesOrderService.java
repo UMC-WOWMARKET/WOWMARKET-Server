@@ -1,6 +1,7 @@
 package wowmarket.wow_server.mypage.myproject.MySalesOrder.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.http.protocol.HTTP;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -57,9 +58,13 @@ public class MySalesOrderService {
     }
 
     @Transactional
-    public MySalesOrderDetailResponseDto findMySalesOrderDetail(Long order_id){
+    public MySalesOrderDetailResponseDto findMySalesOrderDetail(Long order_id, User user){
         Orders orders = orderRepository.findById(order_id)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
+        //user가 비어있거나 판매자가 아닌 사용자가 접근할 경우
+        if (user == null || user.getId() != orders.getProject().getUser().getId())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_Id(order_id);
         String address = orders.getAddress();

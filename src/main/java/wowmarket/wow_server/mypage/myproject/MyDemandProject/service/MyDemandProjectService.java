@@ -50,8 +50,10 @@ public class MyDemandProjectService {
     }
 
     @Transactional(readOnly = true)
-    public MyDemandDetailResponseDto findMyDemandFormDetail(Long demand_project_id){
+    public MyDemandDetailResponseDto findMyDemandFormDetail(Long demand_project_id, User user){
         DemandProject project = demandProjectRepository.findById(demand_project_id).get();
+        if (user == null || project.getUser().getId() != user.getId())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         List<DemandItem> demandItems = demandItemRepository.findDemandItemByDemandProject_Id(demand_project_id);
         List<MyDemandItemDto> itemList = demandItems.stream().map(MyDemandItemDto::new).collect(Collectors.toList());
         MyDemandDetailResponseDto responseDto = new MyDemandDetailResponseDto(itemList, project);

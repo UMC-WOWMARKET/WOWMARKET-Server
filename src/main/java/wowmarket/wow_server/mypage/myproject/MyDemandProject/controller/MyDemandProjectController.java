@@ -32,8 +32,8 @@ public class MyDemandProjectController {
     }
 
     @GetMapping("/detail/{demand_project_id}")
-    public MyDemandDetailResponseDto getMyDemandDetailForm(@PathVariable Long demand_project_id){
-        return myDemandProjectService.findMyDemandFormDetail(demand_project_id);
+    public MyDemandDetailResponseDto getMyDemandDetailForm(@PathVariable Long demand_project_id, @AuthenticationPrincipal User user){
+        return myDemandProjectService.findMyDemandFormDetail(demand_project_id, user);
     }
 
 

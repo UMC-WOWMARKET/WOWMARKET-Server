@@ -11,31 +11,48 @@ import java.util.List;
 @Getter
 public class MyDemandDetailResponseDto {
     private Long projectId;
-    private String projectname;
+    private String projectName;
     private String description;
+
+    private String sellerName;
+
+    private String sellerPhoneNumber;
+    private String sellerEmail;
+    private String sellerEtc;
+
+
     private String thumbnail;
-    private List<MyDemandItemDto> itemList;
     private String category;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+
+    private List<MyDemandItemDto> itemList;
     private String image1;
     private String image2;
     private String image3;
-    private LocalDateTime startdate;
-    private LocalDateTime enddate;
-    private String seller_name;
+
 
     public MyDemandDetailResponseDto(List<MyDemandItemDto> itemList, DemandProject demandProject){
         this.projectId = demandProject.getId();
-        this.projectname = demandProject.getProjectName();
+        this.projectName = demandProject.getProjectName();
         this.description = demandProject.getDescription();
+
+        this.sellerName = demandProject.getSellerName();
+
+        this.sellerPhoneNumber = demandProject.getPhoneNumber();
+        this.sellerEmail = demandProject.getEmail();
+        this.sellerEtc = demandProject.getSellerEtc();
+
         this.thumbnail = demandProject.getThumbnail();
-        this.itemList = itemList;
         this.category = demandProject.getCategory().getName();
+        this.startDate = demandProject.getStartDate();
+        this.endDate = demandProject.getEndDate();
+
+        this.itemList = itemList;
         this.image1 = demandProject.getImage1();
         this.image2 = demandProject.getImage2();
         this.image3 = demandProject.getImage3();
-        this.startdate = demandProject.getStartDate();
-        this.enddate = demandProject.getEndDate();
-        this.seller_name = demandProject.getSellerName();
+
     }
 
 }

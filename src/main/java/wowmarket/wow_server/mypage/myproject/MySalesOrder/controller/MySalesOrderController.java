@@ -33,8 +33,9 @@ public class MySalesOrderController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    //판매 수집폼 상세보기
     @GetMapping("/detail/{order_id}")
-    public MySalesOrderDetailResponseDto getMySalesOrderDetail(@PathVariable Long order_id){
+    public MySalesOrderDetailResponseDto getMySalesOrderDetail(@PathVariable Long order_id, @AuthenticationPrincipal User user){
         return mySalesOrderService.findMySalesOrderDetail(order_id);
     }
 

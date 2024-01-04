@@ -10,14 +10,14 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class MySalesOrderDetailResponseDto {
-    private Long order_id;
-    private String project_name;
-    private int total_price;
+    private Long orderId;
+    private String projectName;
+    private int totalPrice;
     private String thumbnail;
     private String description;
 
-    private String receive_type;
-    private Long delivery_fee;
+    private String receiveType;
+    private Long deliveryFee;
 
     private List<MySalesOrderDetailDto> itemList;
 
@@ -28,25 +28,25 @@ public class MySalesOrderDetailResponseDto {
     private String phone;
     private String message;
 
-    private String seller_bank;
-    private String seller_account;
-    private String seller_account_name;
+    private String sellerBank;
+    private String sellerAccount;
+    private String sellerAccountName;
 
-    private String deposit_name;
-    private String deposit_time;
+    private String depositName;
+    private String depositTime;
 
-    private String refund_bank;
-    private String refund_account;
+    private String refundBank;
+    private String refundAccount;
 
     public MySalesOrderDetailResponseDto(List<MySalesOrderDetailDto> newDtos, Orders orders, String address){
-        this.order_id = orders.getId();
-        this.project_name = orders.getProject().getProjectName();
-        this.total_price = orders.getTotal_price();
+        this.orderId = orders.getId();
+        this.projectName = orders.getProject().getProjectName();
+        this.totalPrice = orders.getTotal_price();
         this.thumbnail = orders.getProject().getThumbnail();
         this.description = orders.getProject().getDescription();
 
-        this.receive_type = orders.getProject().getReceive_type().toString();
-        this.delivery_fee = orders.getProject().getDelivery_fee();
+        this.receiveType = orders.getProject().getReceive_type().toString();
+        this.deliveryFee = orders.getProject().getDelivery_fee();
 
         this.itemList = newDtos;
 
@@ -57,14 +57,14 @@ public class MySalesOrderDetailResponseDto {
         this.message = orders.getDelivery_msg();
         this.phone = orders.getPhone();
 
-        this.seller_bank = orders.getProject().getBank();
-        this.seller_account = orders.getProject().getAccount();
-        this.seller_account_name = orders.getProject().getAccount_holder_name();
+        this.sellerBank = orders.getProject().getBank();
+        this.sellerAccount = orders.getProject().getAccount();
+        this.sellerAccountName = orders.getProject().getAccount_holder_name();
 
-        this.deposit_name = orders.getDepositor();
-        this.deposit_time = orders.getDepositTime();
+        this.depositName = orders.getDepositor();
+        this.depositTime = orders.getDepositTime();
 
-        this.refund_account = orders.getAccount();
-        this.refund_bank = orders.getBank();
+        this.refundAccount = orders.getAccount();
+        this.refundBank = orders.getBank();
     }
 }

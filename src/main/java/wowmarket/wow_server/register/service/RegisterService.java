@@ -23,6 +23,7 @@ public class RegisterService {
     private final DemandProjectRepository demandProjectRepository;
     private final DemandItemRepository demandItemRepository;
     private final CategoryRepository categoryRepository;
+    private final OrderQuestionRepository orderQuestionRepository;
 
 
     public Long registerProject(RegisterProjectDto requestDto, User user) throws Exception {
@@ -47,6 +48,13 @@ public class RegisterService {
             item.setProject(project);
             itemRepository.save(item);
         }
+
+        for (int i = 0; i < requestDto.getQuestions().size(); i++) {
+            OrderQuestion orderQuestion = requestDto.getQuestions().get(i).toOrderQuestion();
+            orderQuestion.setProject(project);
+            orderQuestionRepository.save(orderQuestion);
+        }
+
         return project.getId();
     }
     public List<Category> findCategories(){

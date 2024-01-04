@@ -37,15 +37,17 @@ public class RegisterProjectDto {
 
     @NotNull
     private List<RegisterItemDto> item;
+    private List<RegisterQuestionDto> questions;
+
     @NotNull
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
     @NotNull
-    private LocalDateTime end_date;
+    private LocalDateTime endDate;
     @NotNull
-    private String receive_type; //delivery, pickup
-    private String receive_address; //직접수령 시 픽업장소
+    private String receiveType; //delivery, pickup, all
+    private String receiveAddress; //직접수령 시 픽업장소
     private String deliveryType; // 배송 시 배송 방법
-    private Long delivery_fee; // 배송비
+    private Long deliveryFee; // 배송비
 
 
     @NotNull
@@ -53,9 +55,9 @@ public class RegisterProjectDto {
     @NotNull
     private String account; //계좌
     @NotNull
-    private String account_holder_name; //예금주
+    private String accountHolderName; //예금주
     @NotNull
-    private Boolean sell_to_all;
+    private Boolean sellToAll;
 
 
     @Builder
@@ -71,19 +73,20 @@ public class RegisterProjectDto {
                 .image1(image1)
                 .image2(image2)
                 .image3(image3)
-                .startDate(start_date)
-                .endDate(end_date)
+                .startDate(startDate)
+                .endDate(endDate)
                 .participant_number(0)
-                .receive_type(ReceiveType.valueOf(receive_type))
-                .receive_address(receive_address)
+                .receive_type(ReceiveType.valueOf(receiveType))
+                .receive_address(receiveAddress)
                 .deliveryType(deliveryType)
-                .delivery_fee(delivery_fee)
+                .delivery_fee(deliveryFee)
                 .bank(bank)
                 .account(account)
-                .account_holder_name(account_holder_name)
-                .sellToAll(sell_to_all)
+                .account_holder_name(accountHolderName)
+                .sellToAll(sellToAll)
                 .isDel(Boolean.FALSE)
                 .isEnd(Boolean.FALSE)
+                .final_achievement_rate(0L)
                 .build();
     }
 }

@@ -16,6 +16,7 @@ public class OrderQuestion {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
+    @Setter
     private Project project;
 
     @Column(nullable = false)

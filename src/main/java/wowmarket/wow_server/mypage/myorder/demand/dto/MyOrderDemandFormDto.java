@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class MyDemandOrderFormDto {
+public class MyOrderDemandFormDto {
     private Long demandOrderId;
     private String name;
     private LocalDateTime createdTime;
@@ -16,7 +16,7 @@ public class MyDemandOrderFormDto {
     private String description;
     private String thumbnail;
 
-    public MyDemandOrderFormDto(DemandOrder order){
+    public MyOrderDemandFormDto(DemandOrder order){
         this.demandOrderId = order.getId();
         this.name = order.getDemandProject().getProjectName();
         this.createdTime = order.getCreated_time();

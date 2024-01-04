@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.DemandOrder;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.mypage.myorder.demand.dto.MyDemandOrderFormDto;
-import wowmarket.wow_server.mypage.myorder.demand.dto.MyDemandOrderFormListResponseDto;
+import wowmarket.wow_server.mypage.myorder.demand.dto.MyOrderDemandFormDto;
+import wowmarket.wow_server.mypage.myorder.demand.dto.MyOrderDemandFormListResponseDto;
 import wowmarket.wow_server.repository.DemandDetailRepository;
 import wowmarket.wow_server.repository.DemandOrderRepository;
 
@@ -21,12 +21,12 @@ public class MyOrderDemandService {
     private final DemandDetailRepository demandDetailRepository;
 
     @Transactional(readOnly = true)
-    public MyDemandOrderFormListResponseDto findMyAllDemandOrderForm(Pageable pageable, User user){
+    public MyOrderDemandFormListResponseDto findMyAllDemandOrderForm(Pageable pageable, User user){
         if (user == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Page<DemandOrder> demandOrders = demandOrderRepository.findByUser_Id(user.getId(), pageable);
-        Page<MyDemandOrderFormDto> demandOrderFormDtos = demandOrders.map(MyDemandOrderFormDto::new);
-        MyDemandOrderFormListResponseDto responseDto = new MyDemandOrderFormListResponseDto(demandOrderFormDtos.getContent(),
+        Page<MyOrderDemandFormDto> demandOrderFormDtos = demandOrders.map(MyOrderDemandFormDto::new);
+        MyOrderDemandFormListResponseDto responseDto = new MyOrderDemandFormListResponseDto(demandOrderFormDtos.getContent(),
                 demandOrderFormDtos.getTotalPages(), demandOrderFormDtos.getNumber());
         return responseDto;
     }

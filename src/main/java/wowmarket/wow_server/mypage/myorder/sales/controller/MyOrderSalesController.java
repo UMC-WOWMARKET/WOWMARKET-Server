@@ -12,7 +12,7 @@ import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormListResponseDto;
 import wowmarket.wow_server.mypage.myorder.sales.service.MyOrderSalesService;
 
 @RestController
-@RequestMapping("/myorder-sales")
+@RequestMapping("/myorder/sales")
 @RequiredArgsConstructor
 public class MyOrderSalesController {
 
@@ -25,7 +25,7 @@ public class MyOrderSalesController {
         return myOrderService.findAllMyOrderForm(pageable, user);
     }
 
-    //나의 판매 주문폼 상세 보기
+    //나의 판매 주문폼 상세보기
     @GetMapping("/detail/{order_id}")
     public MyOrderFormDetailResponseDto getMyDetailOrder(@PathVariable Long order_id){
         return myOrderService.findMyOrderFormDetail(order_id);

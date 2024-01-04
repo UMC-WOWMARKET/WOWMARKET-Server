@@ -27,7 +27,7 @@ public class DemandOrder extends BaseEntity{
 
     @ColumnDefault("0")
     @Setter
-    private int isDel;
+    private int status;
 
     @Builder
     public DemandOrder(DemandProject demandProject, User user){

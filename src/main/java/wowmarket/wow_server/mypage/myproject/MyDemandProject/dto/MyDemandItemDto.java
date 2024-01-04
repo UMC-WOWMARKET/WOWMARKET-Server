@@ -11,11 +11,13 @@ public class MyDemandItemDto {
     private String name;
     private Long price;
     private int goal;
+    private int limits;
 
     public MyDemandItemDto(DemandItem demandItem){
         this.itemId = demandItem.getId();
         this.name = demandItem.getName();
         this.price = demandItem.getPrice();
         this.goal = demandItem.getGoal();
+        this.limits = demandItem.getLimits();
     }
 }

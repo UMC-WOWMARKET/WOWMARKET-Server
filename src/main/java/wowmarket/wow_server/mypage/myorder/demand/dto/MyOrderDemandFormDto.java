@@ -8,19 +8,19 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class MyDemandOrderFormDto {
-    private Long demand_order_id;
+public class MyOrderDemandFormDto {
+    private Long demandOrderId;
     private String name;
-    private LocalDateTime createdtime;
-    private int is_del;
+    private LocalDateTime createdTime;
+    private int status;
     private String description;
     private String thumbnail;
 
-    public MyDemandOrderFormDto(DemandOrder order){
-        this.demand_order_id = order.getId();
+    public MyOrderDemandFormDto(DemandOrder order){
+        this.demandOrderId = order.getId();
         this.name = order.getDemandProject().getProjectName();
-        this.createdtime = order.getCreated_time();
-        this.is_del = order.getIsDel();
+        this.createdTime = order.getCreated_time();
+        this.status = order.getStatus();
         this.description = order.getDemandProject().getDescription();
         this.thumbnail = order.getDemandProject().getThumbnail();
 

@@ -1,32 +1,30 @@
-package wowmarket.wow_server.mypage.myproject.MySalesOrder.dto;
+package wowmarket.wow_server.mypage.myorder.sales.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.Orders;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class MySalesOrderDetailResponseDto {
+public class MyOrderSalesDetailResponseDto {
+
     private Long orderId;
     private String projectName;
+    private String description;
     private int totalPrice;
     private String thumbnail;
-    private String description;
+    private int status;
+    private int isDel;
 
-    private String receiveType;
-    private Long deliveryFee;
-
-    private List<MySalesOrderDetailDto> itemList;
-
+    private List<MyOrderSalesDetailItemDto> itemList;
     private String receiver;
     private String address;
-    private String address_detail;
+    private Long deliveryFee;
     private String zipcode;
-    private String phone;
     private String message;
+    private String phone;
 
     private String sellerBank;
     private String sellerAccount;
@@ -38,21 +36,21 @@ public class MySalesOrderDetailResponseDto {
     private String refundBank;
     private String refundAccount;
 
-    public MySalesOrderDetailResponseDto(List<MySalesOrderDetailDto> newDtos, Orders orders, String address){
+
+    public MyOrderSalesDetailResponseDto(List<MyOrderSalesDetailItemDto> itemList, Orders orders, String address){
         this.orderId = orders.getId();
         this.projectName = orders.getProject().getProjectName();
+        this.description = orders.getProject().getDescription();
         this.totalPrice = orders.getTotal_price();
         this.thumbnail = orders.getProject().getThumbnail();
-        this.description = orders.getProject().getDescription();
+        this.status = orders.getOrder_status();
+        this.isDel = orders.getIsDel();
 
-        this.receiveType = orders.getProject().getReceive_type().toString();
-        this.deliveryFee = orders.getProject().getDelivery_fee();
-
-        this.itemList = newDtos;
+        this.itemList = itemList;
 
         this.receiver = orders.getReceiver();
         this.address = address;
-        this.address_detail = orders.getAddress_detail();
+        this.deliveryFee = orders.getProject().getDelivery_fee();
         this.zipcode = orders.getZipcode();
         this.message = orders.getDelivery_msg();
         this.phone = orders.getPhone();
@@ -64,7 +62,8 @@ public class MySalesOrderDetailResponseDto {
         this.depositName = orders.getDepositor();
         this.depositTime = orders.getDepositTime();
 
-        this.refundAccount = orders.getAccount();
         this.refundBank = orders.getBank();
+        this.refundAccount = orders.getAccount();
     }
+
 }

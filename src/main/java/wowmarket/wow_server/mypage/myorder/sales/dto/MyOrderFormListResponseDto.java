@@ -8,13 +8,13 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class MyOrderFormListResponseDto {
-    private List<MyOrderFormResponseDto> orderList;
-    private int totalpage;
-    private int currentpage;
+    private List<MyOrderSalesResponseDto> orderList;
+    private int totalPage;
+    private int currentPage;
 
-    public MyOrderFormListResponseDto(List<MyOrderFormResponseDto> newDtos, int totalpage, int currentpage){
+    public MyOrderFormListResponseDto(List<MyOrderSalesResponseDto> newDtos, int totalpage, int currentpage){
         this.orderList = newDtos;
-        this.totalpage = totalpage;
-        this.currentpage = currentpage;
+        this.totalPage = totalpage;
+        this.currentPage = currentpage;
     }
 }

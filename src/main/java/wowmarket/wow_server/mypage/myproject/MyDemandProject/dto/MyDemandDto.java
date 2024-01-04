@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 public class MyDemandDto {
     private Long id;
     private String name;
-    private LocalDateTime createdtime;
+    private LocalDateTime createdTime;
     private int status;
 
     public MyDemandDto(DemandProject demandProject){
         this.id = demandProject.getId();
         this.name = demandProject.getProjectName();
-        this.createdtime = demandProject.getCreated_time();
+        this.createdTime = demandProject.getCreated_time();
         this.status = (demandProject.isEnd() == false ? 0 : 1);
     }
 }

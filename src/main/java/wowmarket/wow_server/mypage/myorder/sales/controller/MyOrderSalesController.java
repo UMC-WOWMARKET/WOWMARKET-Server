@@ -7,12 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.domain.User;
-import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormDetailResponseDto;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderSalesDetailResponseDto;
 import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormListResponseDto;
 import wowmarket.wow_server.mypage.myorder.sales.service.MyOrderSalesService;
 
 @RestController
-@RequestMapping("/myorder-sales")
+@RequestMapping("/myorder/sales")
 @RequiredArgsConstructor
 public class MyOrderSalesController {
 
@@ -25,9 +25,9 @@ public class MyOrderSalesController {
         return myOrderService.findAllMyOrderForm(pageable, user);
     }
 
-    //나의 판매 주문폼 상세 보기
+    //나의 판매 주문폼 상세보기
     @GetMapping("/detail/{order_id}")
-    public MyOrderFormDetailResponseDto getMyDetailOrder(@PathVariable Long order_id){
+    public MyOrderSalesDetailResponseDto getMyDetailOrder(@PathVariable Long order_id){
         return myOrderService.findMyOrderFormDetail(order_id);
     }
 

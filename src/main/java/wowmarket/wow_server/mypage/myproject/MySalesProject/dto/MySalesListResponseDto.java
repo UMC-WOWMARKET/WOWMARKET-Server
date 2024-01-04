@@ -9,13 +9,13 @@ import java.util.List;
 @NoArgsConstructor
 public class MySalesListResponseDto {
     private List<MySalesFormDto> list;
-    private int totalpage;
-    private int currentpage;
+    private int totalPage;
+    private int currentPage;
 
     public MySalesListResponseDto(List<MySalesFormDto> newDtos, int totalpage, int currentpage){
         this.list = newDtos;
-        this.totalpage = totalpage;
-        this.currentpage = currentpage;
+        this.totalPage = totalpage;
+        this.currentPage = currentpage;
     }
 
 }

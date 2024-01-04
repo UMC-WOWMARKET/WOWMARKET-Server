@@ -42,7 +42,7 @@ public class DemandProjectController {
 
     //참여폼: 폼 등록
     @PostMapping("/{demand_project_id}")
-    public ResponseEntity createDemandForm(@PathVariable Long demand_project_id, @RequestBody List<DemandDetailRequestDto> requestDto){
+    public ResponseEntity createDemandForm(@PathVariable Long demand_project_id, @RequestBody DemandFormRequestDto requestDto){
         return demandDetailService.createDemandForm(demand_project_id, requestDto);
     }
 

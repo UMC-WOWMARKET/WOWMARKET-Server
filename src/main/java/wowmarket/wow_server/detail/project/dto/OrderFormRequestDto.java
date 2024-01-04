@@ -11,8 +11,6 @@ public class OrderFormRequestDto {
     private int total_price; //총 금액
     private String delivery_msg; //배송메세지
 
-
-    //직접수령이면 zipcode, address, address_detail 필요 없긴 함.. service에서 구현하나..? 아니면 굳이???
     //[배송정보]
     private String receiver; //수취인명
     private String zipcode; //우편번호

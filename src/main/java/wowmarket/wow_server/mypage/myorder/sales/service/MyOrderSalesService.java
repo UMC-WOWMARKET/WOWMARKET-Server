@@ -12,9 +12,9 @@ import wowmarket.wow_server.domain.OrderDetail;
 import wowmarket.wow_server.domain.Orders;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderSalesDetailItemDto;
-import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormDetailResponseDto;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderSalesDetailResponseDto;
 import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormListResponseDto;
-import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderFormResponseDto;
+import wowmarket.wow_server.mypage.myorder.sales.dto.MyOrderSalesResponseDto;
 import wowmarket.wow_server.repository.OrderDetailRepository;
 import wowmarket.wow_server.repository.OrderRepository;
 
@@ -32,21 +32,21 @@ public class MyOrderSalesService {
         if (user == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Page<Orders> orders = orderRepository.findByUser_Id(user.getId(), pageable);
-        Page<MyOrderFormResponseDto> orderformDtos = orders.map(MyOrderFormResponseDto::new);
+        Page<MyOrderSalesResponseDto> orderformDtos = orders.map(MyOrderSalesResponseDto::new);
         MyOrderFormListResponseDto responseDto = new MyOrderFormListResponseDto(orderformDtos.getContent(),
                 orderformDtos.getTotalPages(), orderformDtos.getNumber());
         return responseDto;
     }
 
     @Transactional(readOnly = true)
-    public MyOrderFormDetailResponseDto findMyOrderFormDetail(Long order_id){
+    public MyOrderSalesDetailResponseDto findMyOrderFormDetail(Long order_id){
         List<OrderDetail> ordersDetails = orderDetailRepository.findByOrders_Id(order_id);
         List<MyOrderSalesDetailItemDto> orderFormDetailDtos = ordersDetails.stream().map(MyOrderSalesDetailItemDto::new).collect(Collectors.toList());
         Orders orders = orderRepository.findById(order_id).get();
         String address = orders.getAddress();
         if (orders.getProject().getReceive_type().equals("pickup"))
             address = orders.getProject().getReceive_address();
-        MyOrderFormDetailResponseDto responseDto = new MyOrderFormDetailResponseDto(orderFormDetailDtos, orders, address);
+        MyOrderSalesDetailResponseDto responseDto = new MyOrderSalesDetailResponseDto(orderFormDetailDtos, orders, address);
         return responseDto;
     }
 

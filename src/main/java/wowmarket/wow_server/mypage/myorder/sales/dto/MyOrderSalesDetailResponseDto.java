@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class MyOrderFormDetailResponseDto {
+public class MyOrderSalesDetailResponseDto {
 
     private Long orderId;
     private String projectName;
@@ -37,7 +37,7 @@ public class MyOrderFormDetailResponseDto {
     private String refundAccount;
 
 
-    public MyOrderFormDetailResponseDto(List<MyOrderSalesDetailItemDto> itemList, Orders orders, String address){
+    public MyOrderSalesDetailResponseDto(List<MyOrderSalesDetailItemDto> itemList, Orders orders, String address){
         this.orderId = orders.getId();
         this.projectName = orders.getProject().getProjectName();
         this.description = orders.getProject().getDescription();

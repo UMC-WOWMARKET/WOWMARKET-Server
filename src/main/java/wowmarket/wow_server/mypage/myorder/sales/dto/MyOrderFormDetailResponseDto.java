@@ -18,7 +18,7 @@ public class MyOrderFormDetailResponseDto {
     private int status;
     private int isDel;
 
-    private List<MyOrderFormDetailDto> itemList;
+    private List<MyOrderSalesDetailItemDto> itemList;
     private String receiver;
     private String address;
     private Long deliveryFee;
@@ -37,7 +37,7 @@ public class MyOrderFormDetailResponseDto {
     private String refundAccount;
 
 
-    public MyOrderFormDetailResponseDto(List<MyOrderFormDetailDto> itemList, Orders orders, String address){
+    public MyOrderFormDetailResponseDto(List<MyOrderSalesDetailItemDto> itemList, Orders orders, String address){
         this.orderId = orders.getId();
         this.projectName = orders.getProject().getProjectName();
         this.description = orders.getProject().getDescription();

@@ -4,5 +4,5 @@ import com.fasterxml.jackson.databind.annotation.EnumNaming;
 
 
 public enum ReceiveType {
-    delivery, pickup;
+    delivery, pickup, all;
 }

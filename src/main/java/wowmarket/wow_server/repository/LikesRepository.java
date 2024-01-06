@@ -1,11 +1,14 @@
 package wowmarket.wow_server.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wowmarket.wow_server.domain.Likes;
+import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 
 import java.util.Optional;
@@ -19,4 +22,7 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     @Modifying
     @Query("DELETE FROM Likes l WHERE l.id = :likesId")
     void deleteLikes(@Param("likesId") Long likesId);
+
+    @Query("SELECT l.project FROM Likes l WHERE l.user = :user")
+    Page<Project> findLikedProjects(@Param("user") User user, Pageable pageable);
 }

@@ -88,28 +88,29 @@ public class Project extends BaseEntity{
         this.category = category;
     }
 
-    public void modify(MySalesProjectModifyRequestDto requestDto){
+    public void modify(MySalesProjectModifyRequestDto requestDto, Category category){
         this.projectName = requestDto.getProjectName();
         this.description = requestDto.getDescription();
         this.sellerName = requestDto.getSellerName();
         this.phoneNumber = requestDto.getSellerPhoneNumber();
         this.email = requestDto.getSellerEmail();
         this.sellerEtc = requestDto.getSellerEtc();
-        this.category = requestDto.getCategoryId();
         this.thumbnail = requestDto.getThumbnail();
         this.image1 = requestDto.getImage1();
         this.image2 = requestDto.getImage2();
         this.image3 = requestDto.getImage3();
         this.startDate = requestDto.getStartDate();
         this.endDate = requestDto.getEndDate();
-        this.receive_type = ReceiveType.ofReceiveType(requestDto.getCategoryId());
+        this.receive_type = ReceiveType.ofReceiveType(requestDto.getReceiveType());
         this.receive_address = requestDto.getReceiveAddress();
         this.delivery_fee = requestDto.getDeliveryFee();
         this.bank = requestDto.getSellerBank();
         this.account = requestDto.getSellerAccount();
         this.account_holder_name = requestDto.getSellerAccountName();
+        this.category = category;
         //this.sellToAll = sellToAll;
     }
+
 }
 
 

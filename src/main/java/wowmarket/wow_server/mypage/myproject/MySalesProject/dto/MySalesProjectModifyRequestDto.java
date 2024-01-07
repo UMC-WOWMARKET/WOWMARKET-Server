@@ -15,14 +15,14 @@ public class MySalesProjectModifyRequestDto {
     private String projectName;
     private String description;
     private String thumbnail;
-    private Long categoryId;
+    private int categoryId;
     private String image1;
     private String image2;
     private String image3;
     private List<MySalesItemDto> itemList;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String receiveType;
+    private Long receiveType;
     private String receiveAddress;
     private String sellerBank;
     private String sellerAccount;
@@ -35,8 +35,8 @@ public class MySalesProjectModifyRequestDto {
 
     @Builder
     public MySalesProjectModifyRequestDto(String projectName, String description, String sellerName, String phoneNumber, String email, String sellerEtc,
-                                          Long categoryId, String thumbnail, String image1, String image2, String image3, LocalDateTime startDate,
-                                          LocalDateTime endDate, String receiveType, String receiveAddress, Long deliveryFee, String bank, String account,
+                                          int categoryId, String thumbnail, String image1, String image2, String image3, LocalDateTime startDate,
+                                          LocalDateTime endDate, Long receiveType, String receiveAddress, Long deliveryFee, String bank, String account,
                                           String accountHolderName, List<MySalesItemDto> itemList){
         this.projectName = projectName;
         this.description = description;

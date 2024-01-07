@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import wowmarket.wow_server.domain.Category;
 import wowmarket.wow_server.domain.Item;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
@@ -25,6 +26,7 @@ public class MySalesProjectService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public MySalesListResponseDto findAllMySalesForm(Pageable pageable, User user){
@@ -65,7 +67,9 @@ public class MySalesProjectService {
         if (user == null || project.getUser().getId() != user.getId()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        project.modify(requestDto);
+        Category category = categoryRepository.findById(Long.valueOf(requestDto.getCategoryId())).orElseThrow(() -> new IllegalArgumentException("해당 category id가 없습니다."));
+        project.modify(requestDto, category);
+        projectRepository.save(project);
         return new ResponseEntity(HttpStatus.OK);
     }
 

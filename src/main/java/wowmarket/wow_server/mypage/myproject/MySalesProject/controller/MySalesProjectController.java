@@ -13,7 +13,7 @@ import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesListRespo
 import wowmarket.wow_server.mypage.myproject.MySalesProject.service.MySalesProjectService;
 
 @RestController
-@RequestMapping("/myproject")
+@RequestMapping("/myproject/sales")
 @RequiredArgsConstructor
 public class MySalesProjectController {
     private final MySalesProjectService mySalesProjectService;
@@ -25,6 +25,7 @@ public class MySalesProjectController {
         return mySalesProjectService.findAllMySalesForm(pageable, user);
     }
 
+    //판매 등록폼 종료
     @PutMapping("/{project_id}")
     public ResponseEntity finishMySales(@PathVariable Long project_id){
         return mySalesProjectService.finishMySalesForm(project_id);

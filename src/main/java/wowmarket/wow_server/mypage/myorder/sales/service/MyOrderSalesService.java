@@ -39,10 +39,14 @@ public class MyOrderSalesService {
     }
 
     @Transactional(readOnly = true)
-    public MyOrderSalesDetailResponseDto findMyOrderFormDetail(Long order_id){
+    public MyOrderSalesDetailResponseDto findMyOrderFormDetail(Long order_id, User user){
         List<OrderDetail> ordersDetails = orderDetailRepository.findByOrders_Id(order_id);
         List<MyOrderSalesDetailItemDto> orderFormDetailDtos = ordersDetails.stream().map(MyOrderSalesDetailItemDto::new).collect(Collectors.toList());
-        Orders orders = orderRepository.findById(order_id).get();
+        Orders orders = orderRepository.findById(order_id).orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        if (user == null || user.getId() != orders.getUser().getId()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         String address = orders.getAddress();
         if (orders.getProject().getReceive_type().equals("pickup"))
             address = orders.getProject().getReceive_address();

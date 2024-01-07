@@ -27,12 +27,12 @@ public class MyOrderSalesController {
 
     //나의 판매 주문폼 상세보기
     @GetMapping("/detail/{order_id}")
-    public MyOrderSalesDetailResponseDto getMyDetailOrder(@PathVariable Long order_id){
-        return myOrderService.findMyOrderFormDetail(order_id);
+    public MyOrderSalesDetailResponseDto getMyDetailOrder(@PathVariable Long order_id, @AuthenticationPrincipal User user){
+        return myOrderService.findMyOrderFormDetail(order_id, user);
     }
 
-    //나의 주문폼 취소하기
-    @DeleteMapping("/detail/{order_id}")
+    //나의 판매 주문폼 취소하기
+    @PutMapping("/detail/{order_id}")
     public ResponseEntity deleteMyOrder(@PathVariable Long order_id){
         return myOrderService.deleteMyOrderFormDetail(order_id);
     }

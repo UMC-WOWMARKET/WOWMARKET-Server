@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class MySalesProjectService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
@@ -67,8 +66,17 @@ public class MySalesProjectService {
         if (user == null || project.getUser().getId() != user.getId()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        Category category = categoryRepository.findById(Long.valueOf(requestDto.getCategoryId())).orElseThrow(() -> new IllegalArgumentException("해당 category id가 없습니다."));
+        Category category = categoryRepository.findById(requestDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("해당 category id가 없습니다."));
         project.modify(requestDto, category);
+
+
+        for(int i=0;i<requestDto.getItemList().size();i++){
+            MySalesItemDto itemDto = requestDto.getItemList().get(i);
+            Item item = itemRepository.findItemById(itemDto.getItemId());
+            item.modify(itemDto);
+            itemRepository.save(item);
+        }
+
         projectRepository.save(project);
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package wowmarket.wow_server.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesItemDto;
 
 @Entity
 @Getter
@@ -29,6 +30,13 @@ public class Item {
 
     public void setProject(Project project){
         this.project = project;
+    }
+
+    public void modify(MySalesItemDto itemDto){
+        this.name = itemDto.getItemName();
+        this.price = itemDto.getPrice();
+        this.goal = itemDto.getGoal();
+        this.limits = itemDto.getLimits();
     }
 
 }

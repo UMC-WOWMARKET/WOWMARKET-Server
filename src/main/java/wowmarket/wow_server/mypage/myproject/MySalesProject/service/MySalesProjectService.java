@@ -40,9 +40,12 @@ public class MySalesProjectService {
     }
 
     @Transactional
-    public ResponseEntity finishMySalesForm(Long project_id){
+    public ResponseEntity finishMySalesForm(Long project_id, User user){
         Project project = projectRepository.findById(project_id)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        if (user == null || project.getUser().getId() != user.getId()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         if (project.isEnd() == false)
             project.setEnd(true);
         return new ResponseEntity(HttpStatus.OK);

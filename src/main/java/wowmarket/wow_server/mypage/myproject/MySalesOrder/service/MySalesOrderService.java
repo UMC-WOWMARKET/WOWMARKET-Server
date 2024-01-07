@@ -70,7 +70,7 @@ public class MySalesOrderService {
 
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_Id(order_id);
         String address = orders.getAddress();
-        if (orders.getProject().getReceive_type().equals("pickup"))
+        if (orders.getProject().getReceive_type().equals("PICKUP"))
             address = orders.getProject().getReceive_address();
         List<MySalesOrderDetailDto> orderDetailDtos = orderDetails.stream().map(MySalesOrderDetailDto::new).collect(Collectors.toList());
         MySalesOrderDetailResponseDto responseDto = new MySalesOrderDetailResponseDto(orderDetailDtos, orders, address);

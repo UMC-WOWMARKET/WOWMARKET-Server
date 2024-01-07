@@ -27,8 +27,8 @@ public class MySalesProjectController {
 
     //판매 등록폼 종료
     @PutMapping("/{project_id}")
-    public ResponseEntity finishMySales(@PathVariable Long project_id){
-        return mySalesProjectService.finishMySalesForm(project_id);
+    public ResponseEntity finishMySales(@PathVariable Long project_id, @AuthenticationPrincipal User user){
+        return mySalesProjectService.finishMySalesForm(project_id, user);
     }
 
     //판매 등록폼 상세보기

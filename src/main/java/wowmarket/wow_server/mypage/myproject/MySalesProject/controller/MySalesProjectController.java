@@ -1,5 +1,6 @@
 package wowmarket.wow_server.mypage.myproject.MySalesProject.controller;
 
+import com.nimbusds.oauth2.sdk.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesDetailResponseDto;
 import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesListResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesProjectModifyRequestDto;
 import wowmarket.wow_server.mypage.myproject.MySalesProject.service.MySalesProjectService;
 
 @RestController
@@ -35,6 +37,12 @@ public class MySalesProjectController {
     @GetMapping("/detail/{project_id}")
     public MySalesDetailResponseDto getMySalesDetail(@PathVariable Long project_id){
         return mySalesProjectService.findMySalesDetail(project_id);
+    }
+
+    //판매 등록폼 수정하기
+    @PutMapping("/{project_id}/modify")
+    public ResponseEntity modifyMySalesProject(@PathVariable Long project_id, @RequestBody MySalesProjectModifyRequestDto requestDto, @AuthenticationPrincipal User user){
+        return mySalesProjectService.modifyMySalesProject(project_id, requestDto, user);
     }
 
 }

@@ -1,5 +1,6 @@
 package wowmarket.wow_server.mypage.myproject.MySalesProject.service;
 
+import com.nimbusds.oauth2.sdk.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,10 +13,7 @@ import wowmarket.wow_server.domain.Item;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
-import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesFormDto;
-import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesItemDto;
-import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesListResponseDto;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.*;
 import wowmarket.wow_server.repository.*;
 
 import java.util.List;
@@ -59,6 +57,16 @@ public class MySalesProjectService {
 
         MySalesDetailResponseDto responseDto = new MySalesDetailResponseDto(project, itemDtos);
         return responseDto;
+    }
+
+    @Transactional
+    public ResponseEntity modifyMySalesProject(Long projectId, MySalesProjectModifyRequestDto requestDto, User user){
+        Project project = projectRepository.findById(projectId).orElseThrow(()->new IllegalArgumentException("해당 project id가 없습니다."));
+        if (user == null || project.getUser().getId() != user.getId()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        project.modify(requestDto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

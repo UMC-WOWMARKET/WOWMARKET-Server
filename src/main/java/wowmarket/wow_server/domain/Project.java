@@ -3,6 +3,8 @@ package wowmarket.wow_server.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Check;
+import wowmarket.wow_server.converter.ReceiveTypeConverter;
+import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesProjectModifyRequestDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,6 +50,7 @@ public class Project extends BaseEntity{
 
 
     @Enumerated(EnumType.STRING)
+    @Convert(converter = ReceiveTypeConverter.class)
     private ReceiveType receive_type; //delivery, pickup
     private String receive_address; //직접수령 시 픽업장소
     private String deliveryType; // 배송 시 배송 방법
@@ -83,6 +86,29 @@ public class Project extends BaseEntity{
     }
     public void setCategory(Category category){
         this.category = category;
+    }
+
+    public void modify(MySalesProjectModifyRequestDto requestDto, Category category){
+        this.projectName = requestDto.getProjectName();
+        this.description = requestDto.getDescription();
+        this.sellerName = requestDto.getSellerName();
+        this.phoneNumber = requestDto.getSellerPhoneNumber();
+        this.email = requestDto.getSellerEmail();
+        this.sellerEtc = requestDto.getSellerEtc();
+        this.thumbnail = requestDto.getThumbnail();
+        this.image1 = requestDto.getImage1();
+        this.image2 = requestDto.getImage2();
+        this.image3 = requestDto.getImage3();
+        this.startDate = requestDto.getStartDate();
+        this.endDate = requestDto.getEndDate();
+        this.receive_type = ReceiveType.ofReceiveType(requestDto.getReceiveType());
+        this.receive_address = requestDto.getReceiveAddress();
+        this.delivery_fee = requestDto.getDeliveryFee();
+        this.bank = requestDto.getSellerBank();
+        this.account = requestDto.getSellerAccount();
+        this.account_holder_name = requestDto.getSellerAccountName();
+        this.category = category;
+        //this.sellToAll = sellToAll;
     }
 
 }

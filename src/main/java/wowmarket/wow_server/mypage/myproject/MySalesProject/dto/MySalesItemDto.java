@@ -10,6 +10,7 @@ public class MySalesItemDto {
     private Long itemId;
     private String itemName;
     private Long price;
+    private int limits;
     private int goal;
 
     public MySalesItemDto(Item item){
@@ -17,5 +18,6 @@ public class MySalesItemDto {
         this.itemName = item.getName();
         this.price = item.getPrice();
         this.goal = item.getGoal();
+        this.limits = item.getLimits();
     }
 }

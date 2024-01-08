@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandItemDto;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +34,12 @@ public class DemandItem extends BaseEntity{
 
     public void setDemandProject(DemandProject demandProject){
         this.demandProject=demandProject;
+    }
+
+    public void modify(MyDemandItemDto itemDto){
+        this.name = itemDto.getName();
+        this.price = itemDto.getPrice();
+        this.goal = itemDto.getGoal();
+        this.limits = itemDto.getLimits();
     }
 }

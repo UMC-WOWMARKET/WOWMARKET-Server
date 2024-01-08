@@ -8,14 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import wowmarket.wow_server.domain.DemandItem;
-import wowmarket.wow_server.domain.DemandProject;
-import wowmarket.wow_server.domain.User;
+import wowmarket.wow_server.domain.*;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
-import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandDetailResponseDto;
-import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandDto;
-import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandItemDto;
-import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandResponseDto;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.*;
+import wowmarket.wow_server.repository.CategoryRepository;
 import wowmarket.wow_server.repository.DemandItemRepository;
 import wowmarket.wow_server.repository.DemandProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
@@ -28,7 +24,7 @@ import java.util.stream.Collectors;
 public class MyDemandProjectService {
     private final DemandProjectRepository demandProjectRepository;
     private final DemandItemRepository demandItemRepository;
-    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public MyDemandResponseDto findAllMyDemandForm(Pageable pageable, User user){
@@ -58,6 +54,27 @@ public class MyDemandProjectService {
         List<MyDemandItemDto> itemList = demandItems.stream().map(MyDemandItemDto::new).collect(Collectors.toList());
         MyDemandDetailResponseDto responseDto = new MyDemandDetailResponseDto(itemList, project);
         return responseDto;
+    }
+
+    @Transactional
+    public ResponseEntity modifyMyDemandProject(Long projectId, MyDemandProjectModifyRequestDto requestDto, User user){
+        DemandProject demandProject = demandProjectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("해당 demand project id가 없습니다."));
+        if (user == null || user.getId() != demandProject.getUser().getId()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Category category = categoryRepository.findById(requestDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("해당 category id가 없습니다."));
+        demandProject.modify(requestDto, category);
+
+        for(int i=0;i<requestDto.getItemList().size();i++){
+            MyDemandItemDto itemDto = requestDto.getItemList().get(i);
+            DemandItem demandItem = demandItemRepository.findDemandItemById(itemDto.getItemId());
+            demandItem.modify(itemDto);
+            demandItemRepository.save(demandItem);
+        }
+
+        demandProjectRepository.save(demandProject);
+        return new ResponseEntity(HttpStatus.OK);
+
     }
 
 }

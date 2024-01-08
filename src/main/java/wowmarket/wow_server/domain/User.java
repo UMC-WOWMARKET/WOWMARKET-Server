@@ -57,6 +57,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int demandLike;
 
+    public void updateUserRole(Role role){
+        this.role = role;
+    }
+
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
     }
@@ -101,6 +105,7 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
 
 /////***

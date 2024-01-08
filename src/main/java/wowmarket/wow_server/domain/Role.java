@@ -1,5 +1,8 @@
 package wowmarket.wow_server.domain;
 
+import lombok.Builder;
+
 public enum Role {
     ROLE_USER, ROLE_ADMIN;
+
 }

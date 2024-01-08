@@ -23,6 +23,7 @@ public class MySalesDetailResponseDto {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String receiveType;
+    private String receiveAddress;
     private String sellerBank;
     private String sellerAccount;
     private String sellerAccountName;
@@ -46,6 +47,7 @@ public class MySalesDetailResponseDto {
         this.startDate = project.getStartDate();
         this.endDate = project.getEndDate();
         this.receiveType = project.getReceive_type().toString();
+        this.receiveAddress = project.getReceive_address();
         this.sellerBank = project.getBank();
         this.sellerAccount = project.getAccount();
         this.sellerAccountName = project.getAccount_holder_name();

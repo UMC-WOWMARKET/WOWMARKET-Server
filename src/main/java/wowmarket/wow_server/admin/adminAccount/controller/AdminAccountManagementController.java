@@ -22,6 +22,10 @@ public class AdminAccountManagementController {
         return adminAccountManagementService.giveAdminRole(requestDto, user);
     }
 
+    @PutMapping("/role/user")
+    public ResponseEntity giveUserRole(@RequestBody ChangeRoleRequestDto requestDto, @AuthenticationPrincipal User user){
+        return adminAccountManagementService.giveUserRole(requestDto, user);
+    }
 
 
 }

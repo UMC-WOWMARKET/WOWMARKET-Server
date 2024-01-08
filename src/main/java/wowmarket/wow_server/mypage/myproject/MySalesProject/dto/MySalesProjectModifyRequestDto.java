@@ -33,30 +33,4 @@ public class MySalesProjectModifyRequestDto {
     private String sellerEmail;
     private String sellerEtc;
 
-    @Builder
-    public MySalesProjectModifyRequestDto(String projectName, String description, String sellerName, String phoneNumber, String email, String sellerEtc,
-                                          Long categoryId, String thumbnail, String image1, String image2, String image3, LocalDateTime startDate,
-                                          LocalDateTime endDate, Long receiveType, String receiveAddress, Long deliveryFee, String bank, String account,
-                                          String accountHolderName, List<MySalesItemDto> itemList){
-        this.projectName = projectName;
-        this.description = description;
-        this.sellerName = sellerName;
-        this.sellerPhoneNumber = phoneNumber;
-        this.sellerEmail = email;
-        this.sellerEtc = sellerEtc;
-        this.categoryId = categoryId;
-        this.thumbnail = thumbnail;
-        this.image1 = image1;
-        this.image2 = image2;
-        this.image3 = image3;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.receiveType = receiveType;
-        this.receiveAddress = receiveAddress;
-        this.deliveryFee = deliveryFee;
-        this.sellerBank = bank;
-        this.sellerAccount = account;
-        this.sellerAccountName = accountHolderName;
-        this.itemList = itemList;
-    }
 }

@@ -62,7 +62,7 @@ public class MySalesProjectService {
 
     @Transactional
     public ResponseEntity modifyMySalesProject(Long projectId, MySalesProjectModifyRequestDto requestDto, User user){
-        Project project = projectRepository.findById(projectId).orElseThrow(()->new IllegalArgumentException("해당 project id가 없습니다."));
+        Project project = projectRepository.findById(projectId).orElseThrow(()->new IllegalArgumentException("해당 sales project id가 없습니다."));
         if (user == null || project.getUser().getId() != user.getId()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandDetailResponseDto;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandProjectModifyRequestDto;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandResponseDto;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.service.MyDemandProjectService;
 
@@ -37,5 +38,9 @@ public class MyDemandProjectController {
     }
 
 
+    @PutMapping("/{demand_project_id}/modify")
+    public ResponseEntity modifyMyDemandProject(@PathVariable Long demand_project_id, @RequestBody MyDemandProjectModifyRequestDto requestDto, @AuthenticationPrincipal User user){
+        return myDemandProjectService.modifyMyDemandProject(demand_project_id, requestDto, user);
+    }
 
 }

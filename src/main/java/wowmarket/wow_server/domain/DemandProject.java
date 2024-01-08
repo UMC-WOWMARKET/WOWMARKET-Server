@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandProjectModifyRequestDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -62,4 +63,19 @@ public class DemandProject extends BaseEntity{
         this.category = category;
     }
 
+    public void modify(MyDemandProjectModifyRequestDto requestDto, Category category){
+        this.projectName = requestDto.getProjectName();
+        this.description = requestDto.getDescription();
+        this.sellerName = requestDto.getSellerName();
+        this.phoneNumber = requestDto.getSellerPhoneNumber();
+        this.email = requestDto.getSellerEmail();
+        this.sellerEtc = requestDto.getSellerEtc();
+        this.thumbnail = requestDto.getThumbnail();
+        this.image1 = requestDto.getImage1();
+        this.image2 = requestDto.getImage2();
+        this.image3 = requestDto.getImage3();
+        this.startDate = requestDto.getStartDate();
+        this.endDate = requestDto.getEndDate();
+        this.category = category;
+    }
 }

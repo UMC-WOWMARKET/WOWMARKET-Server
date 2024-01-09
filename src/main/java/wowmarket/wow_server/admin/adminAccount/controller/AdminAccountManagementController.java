@@ -3,10 +3,8 @@ package wowmarket.wow_server.admin.adminAccount.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.admin.adminAccount.dto.AdminResponseDto;
 import wowmarket.wow_server.admin.adminAccount.dto.ChangeRoleRequestDto;
 import wowmarket.wow_server.admin.adminAccount.service.AdminAccountManagementService;
 import wowmarket.wow_server.domain.User;
@@ -25,6 +23,11 @@ public class AdminAccountManagementController {
     @PutMapping("/role/user")
     public ResponseEntity giveUserRole(@RequestBody ChangeRoleRequestDto requestDto, @AuthenticationPrincipal User user){
         return adminAccountManagementService.giveUserRole(requestDto, user);
+    }
+
+    @GetMapping("/manage")
+    public AdminResponseDto getAdminManagementPage(@AuthenticationPrincipal User user){
+        return adminAccountManagementService.findAdmin(user);
     }
 
 

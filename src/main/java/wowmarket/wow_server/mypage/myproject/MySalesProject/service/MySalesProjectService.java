@@ -51,8 +51,11 @@ public class MySalesProjectService {
     }
 
     @Transactional(readOnly = true)
-    public MySalesDetailResponseDto findMySalesDetail(Long project_id){
+    public MySalesDetailResponseDto findMySalesDetail(Long project_id, User user){
         Project project = projectRepository.findById(project_id).get();
+        if (user == null || user.getId() != project.getUser().getId()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         List<Item> itemList = itemRepository.findByProject_Id(project_id);
         List<MySalesItemDto> itemDtos = itemList.stream().map(MySalesItemDto::new).collect(Collectors.toList());
 

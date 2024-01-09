@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import wowmarket.wow_server.domain.User;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -30,5 +32,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "WHERE u = :user")
     void updateDemandProjectUnLike(@Param("user") User user);
 
+
+    @Query(nativeQuery = true, value = "SELECT * FROM user where role = 'ROLE_ADMIN'")
+    List<User> findAdmin();
 
 }

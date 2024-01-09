@@ -35,8 +35,8 @@ public class MySalesProjectController {
 
     //판매 등록폼 상세보기
     @GetMapping("/detail/{project_id}")
-    public MySalesDetailResponseDto getMySalesDetail(@PathVariable Long project_id){
-        return mySalesProjectService.findMySalesDetail(project_id);
+    public MySalesDetailResponseDto getMySalesDetail(@PathVariable Long project_id, @AuthenticationPrincipal User user){
+        return mySalesProjectService.findMySalesDetail(project_id, user);
     }
 
     //판매 등록폼 수정하기

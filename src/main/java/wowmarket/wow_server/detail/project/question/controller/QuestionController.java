@@ -58,4 +58,18 @@ public class QuestionController {
         return questionService.createAnswer(project_id, question_id, requestDto);
     }
 
+    // 문의 답변 수정 (판매자만 가능)
+    @PatchMapping("/{project_id}/question/{question_id}/answer")
+    public ResponseEntity updateAnswer(@PathVariable Long project_id, @PathVariable Long question_id, @RequestBody AnswerRequestDto requestDto)
+    {
+        return questionService.updateAnswer(project_id, question_id, requestDto);
+    }
+
+    //문의 답변 삭제 (판매자만 가능)
+    @DeleteMapping("/{project_id}/question/{question_id}/answer")
+    public ResponseEntity deleteAnswer(@PathVariable Long project_id, @PathVariable Long question_id)
+    {
+        return questionService.deleteAnswer(project_id, question_id);
+    }
+
 }

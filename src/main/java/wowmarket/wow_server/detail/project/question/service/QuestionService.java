@@ -65,8 +65,14 @@ public class QuestionService {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
         Question question = questionRepository.findByQuestion_Id(question_id);
-        //판매자만 공지 삭제 가능
+        //판매자만 문의 삭제 가능
         if (user.getEmail() == question.getUser().getEmail()){
+            //문의 삭제시 문의 답변글도 함께 삭제
+            if (answerRepository.existsByQuestionId(question_id)) //문의 답변이 존재하는 경우
+            {
+                Answer answer = answerRepository.findByQuestionId(question_id);
+                answerRepository.deleteById(answer.getId());
+            }
             questionRepository.deleteById(question_id);
             return new ResponseEntity(HttpStatus.OK);
         }
@@ -157,8 +163,35 @@ public class QuestionService {
 
             return answerResponseDto;
         }
-
         return null;
     }
 
+    //문의 답변 수정 (판매자만 가능)
+    public ResponseEntity updateAnswer(Long project_id, Long question_id, AnswerRequestDto requestDto) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Project project = projectRepository.findByProject_Id(project_id);
+        //판매자만 문의 답변 수정 가능
+        if (user.getEmail() == project.getUser().getEmail()){
+            Answer answer = answerRepository.findByQuestionId(question_id);
+            answer.update(requestDto.getContent());
+            answerRepository.save(answer);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST); //판매자 아닐 경우
+    }
+
+    //문의 답변 삭제 (판매자만 가능)
+    public ResponseEntity deleteAnswer(Long project_id, Long question_id) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Project project = projectRepository.findByProject_Id(project_id);
+        //판매자만 문의 답변 삭제 가능
+        if (user.getEmail() == project.getUser().getEmail()){
+            Answer answer = answerRepository.findByQuestionId(question_id);
+            answerRepository.deleteById(answer.getId());
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST); //판매자 아닐 경우
+    }
 }

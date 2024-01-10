@@ -43,4 +43,10 @@ public class NoticeController {
         return noticeService.updateNotice(project_id, notice_id, requestDto);
     }
 
+    @DeleteMapping("/{project_id}/notice/{notice_id}")
+    public ResponseEntity deleteNotice(@PathVariable Long project_id, @PathVariable Long notice_id)
+    {
+        return noticeService.deleteNotice(project_id, notice_id);
+    }
+
 }

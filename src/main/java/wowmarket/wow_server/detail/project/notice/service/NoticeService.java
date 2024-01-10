@@ -91,4 +91,17 @@ public class NoticeService {
         else return new ResponseEntity(HttpStatus.BAD_REQUEST); //판매자 아닐 경우
     }
 
+    //공지 삭제 (판매자만 가능)
+    public ResponseEntity deleteNotice(Long project_id, Long notice_id) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Project project = projectRepository.findByProject_Id(project_id);
+        //판매자만 공지 삭제 가능
+        if (user.getEmail() == project.getUser().getEmail()){
+            noticeRepository.deleteById(notice_id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST); //판매자 아닐 경우
+    }
+
 }

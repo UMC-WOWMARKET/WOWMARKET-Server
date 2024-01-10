@@ -22,14 +22,18 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProjectRepository projectRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final OrderQuestionRepository orderQuestionRepository;
+    private final OrderAnswerRepository orderAnswerRepository;
 
 
-    public OrderService(ProjectRepository projectRepository, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository, ItemRepository itemRepository, UserRepository userRepository) {
+    public OrderService(ProjectRepository projectRepository, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository, ItemRepository itemRepository, UserRepository userRepository, OrderQuestionRepository orderQuestionRepository, OrderAnswerRepository orderAnswerRepository) {
         this.projectRepository = projectRepository;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
+        this.orderQuestionRepository = orderQuestionRepository;
+        this.orderAnswerRepository = orderAnswerRepository;
     }
 
 
@@ -62,6 +66,7 @@ public class OrderService {
                 .build();
         orderRepository.save(order);
 
+        //상품 수량 입력받는 부분
         for (int i = 0; i < requestDto.getOrderRequestDtoList().size(); i++) {
             Item item = itemRepository.findItemById(requestDto.getOrderRequestDtoList().get(i).getItemId());
             int count = requestDto.getOrderRequestDtoList().get(i).getCount();
@@ -71,6 +76,18 @@ public class OrderService {
                     .count(count)
                     .build();
             orderDetailRepository.save(orderDetail);
+        }
+
+        //추가질문 답변 입력받는 부분
+        for (int i = 0; i < requestDto.getOrderAnswerDtoList().size(); i++) {
+            OrderQuestion orderQuestion = orderQuestionRepository.findByQuestion_Id(requestDto.getOrderAnswerDtoList().get(i).getQuestionId());
+            String answer = requestDto.getOrderAnswerDtoList().get(i).getAnswer();
+            OrderAnswer orderAnswer = OrderAnswer.builder()
+                    .orders(order)
+                    .orderQuestion(orderQuestion)
+                    .answer(answer)
+                    .build();
+            orderAnswerRepository.save(orderAnswer);
         }
 
         //참여인원 업데이트

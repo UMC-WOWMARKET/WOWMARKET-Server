@@ -1,7 +1,9 @@
 package wowmarket.wow_server.detail.project.question.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.AnswerRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.AnswerResponseDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionRequestDto;
@@ -22,6 +24,21 @@ public class QuestionController {
     public QuestionResponseDto createQuestion(@PathVariable Long project_id, @RequestBody QuestionRequestDto requestDto) {
         return questionService.createQuestion(project_id, requestDto);
     }
+
+    //문의글 수정 (작성자만 가능)
+    @PatchMapping("/question/{question_id}")
+    public ResponseEntity updateQuestion(@PathVariable Long question_id, @RequestBody QuestionRequestDto requestDto)
+    {
+        return questionService.updateQuestion(question_id, requestDto);
+    }
+
+    //문의글 삭제 (작성자만 가능)
+    @DeleteMapping("/question/{question_id}")
+    public ResponseEntity deleteQuestion(@PathVariable Long question_id)
+    {
+        return questionService.deleteQuestion(question_id);
+    }
+
 
     // 문의 전체 조회
     @GetMapping("/{project_id}/question")

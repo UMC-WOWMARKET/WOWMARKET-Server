@@ -1,17 +1,16 @@
 package wowmarket.wow_server.detail.project.question.service;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.AnswerRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.AnswerResponseDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionResponseDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionSelectResponseDto;
-import wowmarket.wow_server.domain.Answer;
-import wowmarket.wow_server.domain.Project;
-import wowmarket.wow_server.domain.Question;
-import wowmarket.wow_server.domain.User;
+import wowmarket.wow_server.domain.*;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.repository.ProjectRepository;
 import wowmarket.wow_server.repository.QuestionRepository;
@@ -45,6 +44,33 @@ public class QuestionService {
         QuestionResponseDto questionResponseDto = new QuestionResponseDto(saveQuestion); // Entity -> ResponseDto
 
         return questionResponseDto;
+    }
+
+    //문의 수정 (글 작성자만 가능)
+    public ResponseEntity updateQuestion(Long question_id, QuestionRequestDto requestDto) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Question question = questionRepository.findByQuestion_Id(question_id);
+        //문의글 작성자만 글 수정 가능
+        if (user.getEmail() == question.getUser().getEmail()){
+            question.update(requestDto.getTitle(), requestDto.getContent(), requestDto.isSecret());
+            questionRepository.save(question);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST); //문의글 작성자가 아닐 경우
+    }
+
+    //문의 삭제 (작성자만 가능)
+    public ResponseEntity deleteQuestion(Long question_id) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Question question = questionRepository.findByQuestion_Id(question_id);
+        //판매자만 공지 삭제 가능
+        if (user.getEmail() == question.getUser().getEmail()){
+            questionRepository.deleteById(question_id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST); //판매자 아닐 경우
     }
 
 
@@ -134,4 +160,5 @@ public class QuestionService {
 
         return null;
     }
+
 }

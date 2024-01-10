@@ -44,4 +44,10 @@ public class Question extends BaseEntity{
         this.content = requestDto.getContent();
     }
 
+    public void update(String title, String content, boolean secret) {
+        this.title = title;
+        this.content = content;
+        this.secret = secret;
+    }
+
 }

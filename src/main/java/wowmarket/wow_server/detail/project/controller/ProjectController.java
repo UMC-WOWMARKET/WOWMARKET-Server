@@ -40,13 +40,13 @@ public class ProjectController {
 //        return itemService.getItemInfo(project_id);
 //    }
 
-    //주문폼: 우측 폼 정보 불러오기
+    //주문폼: 우측 폼 정보 불러오기 *수정 필요*
     @GetMapping("/{project_id}/item") //path 수정해야함
     public OrderResponseDto getItemInfo(@PathVariable Long project_id){
         return itemService.getItemInfo(project_id);
     }
 
-    //주문폼: 폼 등록
+    //주문폼: 폼 등록 *수정 필요*
     @PostMapping("/{project_id}")
     public ResponseEntity createDemandForm(@PathVariable Long project_id, @RequestBody OrderFormRequestDto requestDto){
         return orderService.createOrderForm(project_id, requestDto);

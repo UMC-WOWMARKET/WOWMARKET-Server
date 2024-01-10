@@ -42,4 +42,9 @@ public class Notice extends BaseEntity{
         this.content = requestDto.getContent();
     }
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
 }

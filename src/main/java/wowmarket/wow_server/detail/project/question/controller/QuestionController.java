@@ -1,7 +1,9 @@
 package wowmarket.wow_server.detail.project.question.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wowmarket.wow_server.detail.project.notice.dto.NoticeRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.AnswerRequestDto;
 import wowmarket.wow_server.detail.project.question.dto.AnswerResponseDto;
 import wowmarket.wow_server.detail.project.question.dto.QuestionRequestDto;
@@ -23,6 +25,21 @@ public class QuestionController {
         return questionService.createQuestion(project_id, requestDto);
     }
 
+    //문의글 수정 (작성자만 가능)
+    @PatchMapping("/question/{question_id}")
+    public ResponseEntity updateQuestion(@PathVariable Long question_id, @RequestBody QuestionRequestDto requestDto)
+    {
+        return questionService.updateQuestion(question_id, requestDto);
+    }
+
+    //문의글 삭제 (작성자만 가능)
+    @DeleteMapping("/question/{question_id}")
+    public ResponseEntity deleteQuestion(@PathVariable Long question_id)
+    {
+        return questionService.deleteQuestion(question_id);
+    }
+
+
     // 문의 전체 조회
     @GetMapping("/{project_id}/question")
     public List<QuestionResponseDto> getQuestionList(@PathVariable Long project_id) {
@@ -39,6 +56,20 @@ public class QuestionController {
     @PostMapping("/{project_id}/question/{question_id}")
     public AnswerResponseDto createAnswer(@PathVariable Long project_id, @PathVariable Long question_id, @RequestBody AnswerRequestDto requestDto) {
         return questionService.createAnswer(project_id, question_id, requestDto);
+    }
+
+    // 문의 답변 수정 (판매자만 가능)
+    @PatchMapping("/{project_id}/question/{question_id}/answer")
+    public ResponseEntity updateAnswer(@PathVariable Long project_id, @PathVariable Long question_id, @RequestBody AnswerRequestDto requestDto)
+    {
+        return questionService.updateAnswer(project_id, question_id, requestDto);
+    }
+
+    //문의 답변 삭제 (판매자만 가능)
+    @DeleteMapping("/{project_id}/question/{question_id}/answer")
+    public ResponseEntity deleteAnswer(@PathVariable Long project_id, @PathVariable Long question_id)
+    {
+        return questionService.deleteAnswer(project_id, question_id);
     }
 
 }

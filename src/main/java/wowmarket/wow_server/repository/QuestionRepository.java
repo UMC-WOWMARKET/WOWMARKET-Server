@@ -3,6 +3,7 @@ package wowmarket.wow_server.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import wowmarket.wow_server.domain.Notice;
+import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.Question;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query(nativeQuery = true, value = "select * from question where project_id=? and question_id=?")
     Optional<Question> findByProjectIdAndQuestionId(Long project_id, Long question_id);
+
+    @Query(nativeQuery = true, value = "select * from question where question_id =?")
+    Question findByQuestion_Id(Long questionId);
 }

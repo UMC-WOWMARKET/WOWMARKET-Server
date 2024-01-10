@@ -24,7 +24,6 @@ public class NoticeController {
         return noticeService.createNotice(project_id, requestDto);
     }
 
-
     // 주문폼: 공지 전체 조회
     @GetMapping("/{project_id}/notice")
     public NoticePageResponseDto getNoticeList(@PathVariable Long project_id) {
@@ -33,8 +32,21 @@ public class NoticeController {
 
     // 주문폼: 공지 선택 조회
     @GetMapping("/{project_id}/notice/{notice_id}")
-    public NoticeSelectResponseDto getNotice(@PathVariable String project_id, @PathVariable Long notice_id) {
+    public NoticeSelectResponseDto getNotice(@PathVariable Long project_id, @PathVariable Long notice_id) {
         return noticeService.getNotice(notice_id);
+    }
+
+    //주문폼: 공지 수정 (판매자만 가능)
+    @PatchMapping("/{project_id}/notice/{notice_id}")
+    public ResponseEntity updateNotice(@PathVariable Long project_id, @PathVariable Long notice_id, @RequestBody NoticeRequestDto requestDto)
+    {
+        return noticeService.updateNotice(project_id, notice_id, requestDto);
+    }
+
+    @DeleteMapping("/{project_id}/notice/{notice_id}")
+    public ResponseEntity deleteNotice(@PathVariable Long project_id, @PathVariable Long notice_id)
+    {
+        return noticeService.deleteNotice(project_id, notice_id);
     }
 
 }

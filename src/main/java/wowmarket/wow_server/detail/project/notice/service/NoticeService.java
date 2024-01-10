@@ -17,6 +17,7 @@ import wowmarket.wow_server.repository.ProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NoticeService {
@@ -73,4 +74,34 @@ public class NoticeService {
         // 해당 id 가 있을 경우
         return new NoticeSelectResponseDto(notice);
     }
+
+    //공지 수정 (판매자만 가능)
+    public ResponseEntity updateNotice(Long project_id, Long notice_id, NoticeRequestDto requestDto) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Project project = projectRepository.findByProject_Id(project_id);
+        //판매자만 공지 수정 가능
+        if (user.getEmail() == project.getUser().getEmail()){
+            Notice notice = noticeRepository.findByNoticeId(notice_id)
+                    .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+            notice.update(requestDto.getTitle(), requestDto.getContent());
+            noticeRepository.save(notice);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST); //판매자 아닐 경우
+    }
+
+    //공지 삭제 (판매자만 가능)
+    public ResponseEntity deleteNotice(Long project_id, Long notice_id) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        Project project = projectRepository.findByProject_Id(project_id);
+        //판매자만 공지 삭제 가능
+        if (user.getEmail() == project.getUser().getEmail()){
+            noticeRepository.deleteById(notice_id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST); //판매자 아닐 경우
+    }
+
 }

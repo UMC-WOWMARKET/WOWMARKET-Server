@@ -21,8 +21,9 @@ public class OrderResponseDto {
     private String account_holder_name; //예금주
 
     private List<ItemResponseDto> itemResponseDtoList;
+    private List<OrderQuestionResponseDto> orderQuestionResponseDtoList;
 
-    public OrderResponseDto(Project project, List<ItemResponseDto> itemResponseDtoList) {
+    public OrderResponseDto(Project project, List<ItemResponseDto> itemResponseDtoList, List<OrderQuestionResponseDto> orderQuestionResponseDtoList) {
         this.receive_type=project.getReceive_type().toString();
         this.receive_address=project.getReceive_address();
         this.delivery_fee=project.getDelivery_fee();
@@ -30,5 +31,6 @@ public class OrderResponseDto {
         this.account=project.getAccount();
         this.account_holder_name = project.getAccount_holder_name();
         this.itemResponseDtoList = itemResponseDtoList;
+        this.orderQuestionResponseDtoList = orderQuestionResponseDtoList;
     }
 }

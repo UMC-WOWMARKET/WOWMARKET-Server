@@ -28,4 +28,7 @@ public class OrderFormRequestDto {
 
     //상품명 & 판매가 리스트
     List<OrderRequestDto> orderRequestDtoList;
+
+    //추가질문 답변 리스트
+    List<OrderAnswerDto> orderAnswerDtoList;
 }

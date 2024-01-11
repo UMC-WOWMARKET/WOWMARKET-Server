@@ -9,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import wowmarket.wow_server.domain.Category;
-import wowmarket.wow_server.domain.Item;
-import wowmarket.wow_server.domain.Project;
-import wowmarket.wow_server.domain.User;
+import wowmarket.wow_server.domain.*;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.*;
 import wowmarket.wow_server.repository.*;
@@ -26,6 +23,7 @@ public class MySalesProjectService {
     private final ProjectRepository projectRepository;
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
+    private final OrderQuestionRepository orderQuestionRepository;
 
     @Transactional(readOnly = true)
     public MySalesListResponseDto findAllMySalesForm(Pageable pageable, User user){
@@ -59,7 +57,10 @@ public class MySalesProjectService {
         List<Item> itemList = itemRepository.findByProject_Id(project_id);
         List<MySalesItemDto> itemDtos = itemList.stream().map(MySalesItemDto::new).collect(Collectors.toList());
 
-        MySalesDetailResponseDto responseDto = new MySalesDetailResponseDto(project, itemDtos);
+        List<OrderQuestion> orderQuestionList = orderQuestionRepository.findByProject_Id(project_id).stream().toList();
+        List<AdditionalQuestionDto> additionalQuestionDtos = orderQuestionList.stream().map(AdditionalQuestionDto::new).collect(Collectors.toList());
+
+        MySalesDetailResponseDto responseDto = new MySalesDetailResponseDto(project, itemDtos, additionalQuestionDtos);
         return responseDto;
     }
 

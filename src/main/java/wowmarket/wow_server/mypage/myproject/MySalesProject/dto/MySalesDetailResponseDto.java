@@ -32,9 +32,10 @@ public class MySalesDetailResponseDto {
     private String sellerPhoneNumber;
     private String sellerEmail;
     private String sellerEtc;
+    private List<AdditionalQuestionDto> orderQuestionList;
 
 
-    public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
+    public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos, List<AdditionalQuestionDto> orderQuestionList){
         this.projectId = project.getId();
         this.projectName = project.getProjectName();
         this.description = project.getDescription();
@@ -56,5 +57,6 @@ public class MySalesDetailResponseDto {
         this.sellerPhoneNumber = project.getPhoneNumber();
         this.sellerEmail = project.getEmail();
         this.sellerEtc = project.getSellerEtc();
+        this.orderQuestionList = orderQuestionList;
     }
 }

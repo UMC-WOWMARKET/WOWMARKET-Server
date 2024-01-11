@@ -57,6 +57,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int demandLike;
 
+    @Column(columnDefinition="tinyint(0) default 0")
+    @Setter
+    private boolean isDel;
+
     public void updateUserRole(Role role){
         this.role = role;
     }

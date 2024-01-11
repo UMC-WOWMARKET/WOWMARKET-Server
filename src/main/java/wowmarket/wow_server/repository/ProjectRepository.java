@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import wowmarket.wow_server.domain.Permission;
 import wowmarket.wow_server.domain.Project;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -64,4 +64,12 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("UPDATE Project p SET p.likeCnt = p.likeCnt - 1 " +
             "WHERE p.id = :projectId")
     void updateProjectUnLike(@Param("projectId") Long projectId);
+
+    @Query("SELECT p FROM Project p " +
+            "WHERE p.isDel = false AND p.isEnd = false AND p.endDate >= :currentDate")
+    Page<Project> findProjectsAdmin(@Param("currentDate") LocalDateTime currentDate, Pageable pageable);
+
+    @Modifying
+    @Query("UPDATE Project p SET p.permission = :permission WHERE p.id = :projectId")
+    void updatePermission(@Param("permission") Permission permission, @Param("projectId") Long projectId);
 }

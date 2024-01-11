@@ -32,6 +32,7 @@ public class MyDemandProjectController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    //수요조사 등록폼 상세보기
     @GetMapping("/detail/{demand_project_id}")
     public MyDemandDetailResponseDto getMyDemandDetailForm(@PathVariable Long demand_project_id, @AuthenticationPrincipal User user){
         return myDemandProjectService.findMyDemandFormDetail(demand_project_id, user);

@@ -11,10 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import wowmarket.wow_server.domain.*;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.*;
-import wowmarket.wow_server.repository.CategoryRepository;
-import wowmarket.wow_server.repository.DemandItemRepository;
-import wowmarket.wow_server.repository.DemandProjectRepository;
-import wowmarket.wow_server.repository.UserRepository;
+import wowmarket.wow_server.repository.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +22,7 @@ public class MyDemandProjectService {
     private final DemandProjectRepository demandProjectRepository;
     private final DemandItemRepository demandItemRepository;
     private final CategoryRepository categoryRepository;
+    private final DemandQuestionRepository demandQuestionRepository;
 
     @Transactional(readOnly = true)
     public MyDemandResponseDto findAllMyDemandForm(Pageable pageable, User user){
@@ -52,7 +50,11 @@ public class MyDemandProjectService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         List<DemandItem> demandItems = demandItemRepository.findDemandItemByDemandProject_Id(demand_project_id);
         List<MyDemandItemDto> itemList = demandItems.stream().map(MyDemandItemDto::new).collect(Collectors.toList());
-        MyDemandDetailResponseDto responseDto = new MyDemandDetailResponseDto(itemList, project);
+
+        List<DemandQuestion> demandQuestions = demandQuestionRepository.findByDemandProject_Id(demand_project_id).stream().toList();
+        List<DemandAddtionalQuestionDto> demandAddtionalQuestionDtos = demandQuestions.stream().map(DemandAddtionalQuestionDto::new).collect(Collectors.toList());
+
+        MyDemandDetailResponseDto responseDto = new MyDemandDetailResponseDto(itemList, project, demandAddtionalQuestionDtos);
         return responseDto;
     }
 

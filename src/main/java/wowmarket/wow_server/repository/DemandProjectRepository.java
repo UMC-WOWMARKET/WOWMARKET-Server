@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.DemandProject;
+import wowmarket.wow_server.domain.Permission;
 
 import java.time.LocalDateTime;
 
 public interface DemandProjectRepository extends JpaRepository<DemandProject, Long> {
+
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +
@@ -61,4 +63,11 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
             "WHERE dp.id = :demandProjectId")
     void updateDemandProjectUnLike(@Param("demandProjectId") Long demandProjectId);
 
+    @Query("SELECT dp FROM DemandProject dp " +
+            "WHERE dp.isEnd = false AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate")
+    Page<DemandProject> findDemandProjectsPermission(@Param("currentDate") LocalDateTime currentDate, Pageable pageable);
+
+    @Modifying
+    @Query("UPDATE DemandProject dp SET dp.permission = :permission WHERE dp.id = :demandProjectId")
+    void updatePermission(@Param("permission") Permission permission, @Param("demandProjectId") Long demandProjectId);
 }

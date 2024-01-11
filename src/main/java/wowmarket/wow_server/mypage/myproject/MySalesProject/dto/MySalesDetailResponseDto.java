@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.Project;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,9 +31,10 @@ public class MySalesDetailResponseDto {
     private String sellerPhoneNumber;
     private String sellerEmail;
     private String sellerEtc;
+    private List<SalesAdditionalQuestionDto> orderQuestionList;
 
 
-    public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos){
+    public MySalesDetailResponseDto(Project project, List<MySalesItemDto> itemDtos, List<SalesAdditionalQuestionDto> orderQuestionList){
         this.projectId = project.getId();
         this.projectName = project.getProjectName();
         this.description = project.getDescription();
@@ -56,5 +56,6 @@ public class MySalesDetailResponseDto {
         this.sellerPhoneNumber = project.getPhoneNumber();
         this.sellerEmail = project.getEmail();
         this.sellerEtc = project.getSellerEtc();
+        this.orderQuestionList = orderQuestionList;
     }
 }

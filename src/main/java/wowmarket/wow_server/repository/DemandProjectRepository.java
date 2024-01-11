@@ -17,25 +17,26 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +
-            "AND dp.user.univ = :userUniv")
+            "AND dp.user.univ = :userUniv AND dp.permission = 'APPROVED'")
     Page<DemandProject> findByUserUniv(@Param("currentDate") LocalDateTime currentDate, @Param("userUniv") String userUniv, Pageable pageable);
 
     @Query("SELECT dp FROM DemandProject dp WHERE dp.isEnd = false " +
-            "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate")
+            "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +
+            "AND dp.permission = 'APPROVED'")
     Page<DemandProject> findAllNotEnd(@Param("currentDate") LocalDateTime currentDate, Pageable pageable);
 
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +
             "AND dp.projectName LIKE CONCAT('%', :search, '%') " +
-            "AND dp.user.univ = :userUniv")
+            "AND dp.user.univ = :userUniv AND dp.permission = 'APPROVED'")
     Page<DemandProject> findBySearchUserUniv(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search,
                                              @Param("userUniv") String userUniv, Pageable pageable);
 
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +
-            "AND dp.projectName LIKE CONCAT('%', :search, '%')")
+            "AND dp.projectName LIKE CONCAT('%', :search, '%') AND dp.permission = 'APPROVED'")
     Page<DemandProject> findBySearch(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search, Pageable pageable);
 
     Page<DemandProject> findDemandProjectByUser_Id(Long seller_id, Pageable pageable);

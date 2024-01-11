@@ -21,15 +21,19 @@ public class DemandDetailService {
 
     private final DemandItemRepository demandItemRepository;
     private final DemandOrderRepository demandOrderRepository;
+    private final DemandQuestionRepository demandQuestionRepository;
+    private final DemandAnswerRepository demandAnswerRepository;
 
 
-    public DemandDetailService(DemandDetailRepository demandDetailRepository, DemandItemRepository itemRepository, UserRepository userRepository, DemandProjectRepository demandProjectRepository, DemandItemRepository demandItemRepository, DemandOrderRepository demandOrderRepository) {
+    public DemandDetailService(DemandDetailRepository demandDetailRepository, DemandItemRepository itemRepository, UserRepository userRepository, DemandProjectRepository demandProjectRepository, DemandItemRepository demandItemRepository, DemandOrderRepository demandOrderRepository, DemandQuestionRepository demandQuestionRepository, DemandAnswerRepository demandAnswerRepository) {
         this.itemRepository = itemRepository;
         this.demandDetailRepository = demandDetailRepository;
         this.userRepository = userRepository;
         this.demandProjectRepository = demandProjectRepository;
         this.demandItemRepository= demandItemRepository;
         this.demandOrderRepository=demandOrderRepository;
+        this.demandQuestionRepository=demandQuestionRepository;
+        this.demandAnswerRepository=demandAnswerRepository;
     }
 
 
@@ -69,6 +73,18 @@ public class DemandDetailService {
                     .count(count)
                     .build();
             demandDetailRepository.save(demandDetail);
+        }
+
+        //추가질문 답변 입력받는 부분
+        for (int i = 0; i < requestDto.getDemandAnswerDtoList().size(); i++) {
+            DemandQuestion demandQuestion = demandQuestionRepository.findByQuestion_Id(requestDto.getDemandAnswerDtoList().get(i).getQuestionId());
+            String answer = requestDto.getDemandAnswerDtoList().get(i).getAnswer();
+            DemandAnswer demandAnswer = DemandAnswer.builder()
+                    .demandOrder(demandOrder)
+                    .demandQuestion(demandQuestion)
+                    .answer(answer)
+                    .build();
+            demandAnswerRepository.save(demandAnswer);
         }
 
         //참여인원 업데이트

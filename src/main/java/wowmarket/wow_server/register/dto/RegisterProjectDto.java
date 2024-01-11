@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import wowmarket.wow_server.domain.Permission;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.ReceiveType;
 import java.time.LocalDateTime;
@@ -87,6 +88,7 @@ public class RegisterProjectDto {
                 .isDel(Boolean.FALSE)
                 .isEnd(Boolean.FALSE)
                 .final_achievement_rate(0L)
+                .permission(Permission.AWAIT)
                 .build();
     }
 }

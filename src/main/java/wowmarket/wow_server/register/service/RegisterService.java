@@ -24,6 +24,7 @@ public class RegisterService {
     private final DemandItemRepository demandItemRepository;
     private final CategoryRepository categoryRepository;
     private final OrderQuestionRepository orderQuestionRepository;
+    private final DemandQuestionRepository demandQuestionRepository;
 
 
     public Long registerProject(RegisterProjectDto requestDto, User user) throws Exception {
@@ -72,12 +73,22 @@ public class RegisterService {
         if(user != null) demandProject.setUser(user);
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유저를 찾을 수 없습니다"); //유저 없을 시 400 에러 반환
 
+        // 소속 학생만 구매 가능하도록 설정했지만 판매자의 학교 인증이 안 됐을 경우
+        if(!demandProject.isSellToAll() && !user.isUniv_check())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "학교 인증이 확인되지 않았습니다.");
+
         demandProjectRepository.save(demandProject);
 
         for (int i = 0; i < requestDto.getItem().size(); i++) {
             DemandItem demandItem = requestDto.getItem().get(i).toDemandItemEntity();
             demandItem.setDemandProject(demandProject);
             demandItemRepository.save(demandItem);
+        }
+
+        for (int i = 0; i < requestDto.getQuestions().size(); i++) {
+            DemandQuestion demandQuestion = requestDto.getQuestions().get(i).toDemandQuestion();
+            demandQuestion.setDemandProject(demandProject);
+            demandQuestionRepository.save(demandQuestion);
         }
 
         return demandProject.getId();

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wowmarket.wow_server.domain.DemandProject;
+import wowmarket.wow_server.domain.Permission;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,10 +39,14 @@ public class RegisterDemandProjectDto {
 
     @NotNull
     private List<RegisterItemDto> item;
+    private List<RegisterQuestionDto> questions;
     @NotNull
     private LocalDateTime startDate;
     @NotNull
     private LocalDateTime endDate;
+
+    @NotNull
+    private Boolean sellToAll;
 
 
 
@@ -63,7 +68,9 @@ public class RegisterDemandProjectDto {
                 .participant_number(0)
                 .final_achievement_rate(0L)
                 .isEnd(Boolean.FALSE)
+                .sellToAll(sellToAll)
                 .view(0)
+                .permission(Permission.AWAIT)
                 .build();
     }
 

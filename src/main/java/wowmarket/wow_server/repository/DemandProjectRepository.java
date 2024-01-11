@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.DemandProject;
+import wowmarket.wow_server.domain.Project;
 
 import java.time.LocalDateTime;
 
 public interface DemandProjectRepository extends JpaRepository<DemandProject, Long> {
+
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +

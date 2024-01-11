@@ -2,6 +2,7 @@ package wowmarket.wow_server.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import wowmarket.wow_server.mypage.myproject.MyDemandProject.dto.MyDemandProjectModifyRequestDto;
 
 import java.time.LocalDate;
@@ -47,6 +48,10 @@ public class DemandProject extends BaseEntity{
     
     private int participant_number;
     private Long final_achievement_rate;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("\"AWAIT\"")
+    private Permission permission;
 
     @Setter
     @Column(columnDefinition="tinyint(0) default 0")

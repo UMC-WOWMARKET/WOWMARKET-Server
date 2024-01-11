@@ -3,6 +3,7 @@ package wowmarket.wow_server.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.ColumnDefault;
 import wowmarket.wow_server.converter.ReceiveTypeConverter;
 import wowmarket.wow_server.mypage.myproject.MySalesProject.dto.MySalesProjectModifyRequestDto;
 
@@ -80,6 +81,10 @@ public class Project extends BaseEntity{
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int likeCnt;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("\"AWAIT\"")
+    private Permission permission;
 
     public void setUser(User user){
         this.user = user;

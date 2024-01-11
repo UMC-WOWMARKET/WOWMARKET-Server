@@ -58,6 +58,9 @@ public class DemandProject extends BaseEntity{
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int likeCnt;
 
+    @Column(columnDefinition = "tinyint(0) default 1")
+    private boolean sellToAll; // 0-> 소속 대학 학생, 1-> 전체 학생
+
     public void setUser(User user){ this.user = user;}
     public void setCategory(Category category){
         this.category = category;

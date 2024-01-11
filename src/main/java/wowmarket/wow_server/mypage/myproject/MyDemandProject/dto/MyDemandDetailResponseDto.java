@@ -31,8 +31,9 @@ public class MyDemandDetailResponseDto {
     private String image2;
     private String image3;
 
+    private List<DemandAddtionalQuestionDto> demandQuestionList;
 
-    public MyDemandDetailResponseDto(List<MyDemandItemDto> itemList, DemandProject demandProject){
+    public MyDemandDetailResponseDto(List<MyDemandItemDto> itemList, DemandProject demandProject, List<DemandAddtionalQuestionDto> demandAddtionalQuestionList){
         this.projectId = demandProject.getId();
         this.projectName = demandProject.getProjectName();
         this.description = demandProject.getDescription();
@@ -53,6 +54,7 @@ public class MyDemandDetailResponseDto {
         this.image2 = demandProject.getImage2();
         this.image3 = demandProject.getImage3();
 
+        this.demandQuestionList = demandAddtionalQuestionList;
     }
 
 }

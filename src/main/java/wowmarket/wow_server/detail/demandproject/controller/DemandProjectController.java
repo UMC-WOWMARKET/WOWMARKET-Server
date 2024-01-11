@@ -34,9 +34,9 @@ public class DemandProjectController {
         return demandProjectService.getDemandProjectImg(demand_project_id);
     }
 
-    //참여폼: 우측 폼 정보 불러오기(상품명, 판매가)
+    //참여폼: 우측 폼 정보 불러오기(상품명, 판매가, 추가질문)
     @GetMapping("/{demand_project_id}/item") //path 수정해야함
-    public List<DemandItemResponseDto> getItemInfo(@PathVariable Long demand_project_id){
+    public DemandResponseDto getItemInfo(@PathVariable Long demand_project_id){
         return demandItemService.getDemandItemInfo(demand_project_id);
     }
 

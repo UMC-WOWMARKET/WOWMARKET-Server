@@ -17,25 +17,27 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
-            "AND p.user.univ = :userUniv")
+            "AND p.user.univ = :userUniv AND p.permission = 'APPROVED'")
     Page<Project> findByUserUniv(@Param("userUniv") String userUniv, @Param("currentDate") LocalDateTime currentDate, Pageable pageable);
 
     @Query("SELECT p FROM Project p WHERE p.isDel = false AND p.isEnd = false " +
-            "AND p.startDate <= :currentDate AND p.endDate >= :currentDate")
+            "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
+            "AND p.permission = 'APPROVED'")
     Page<Project> findAllNotDelNotEnd(@Param("currentDate") LocalDateTime currentDate, Pageable pageable);
 
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
             "AND p.projectName LIKE CONCAT('%', :search, '%') " +
-            "AND p.user.univ = :userUniv")
+            "AND p.user.univ = :userUniv AND p.permission = 'APPROVED'")
     Page<Project> findBySearchUserUniv(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search,
                                        @Param("userUniv") String userUniv, Pageable pageable);
 
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
-            "AND p.projectName LIKE CONCAT('%', :search, '%')")
+            "AND p.projectName LIKE CONCAT('%', :search, '%') " +
+            "AND p.permission = 'APPROVED'")
     Page<Project> findBySearch(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search, Pageable pageable);
 
     Page<Project> findByUser_Id(Long sellerId, Pageable pageable);

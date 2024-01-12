@@ -9,8 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import wowmarket.wow_server.domain.DemandProject;
 import wowmarket.wow_server.domain.Permission;
+import wowmarket.wow_server.domain.Project;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface DemandProjectRepository extends JpaRepository<DemandProject, Long> {
 
@@ -40,6 +42,8 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
     Page<DemandProject> findBySearch(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search, Pageable pageable);
 
     Page<DemandProject> findDemandProjectByUser_Id(Long seller_id, Pageable pageable);
+
+    List<DemandProject> findByUser_Id(Long sellerId);
 
     @Query(nativeQuery = true, value = "select * from demand_project where demand_project_id =?")
     DemandProject findByDemandProject_Id(Long demandProjectId);

@@ -50,7 +50,7 @@ public class DemandDetailService {
             //* 사용자의 대학교가 수요조사 프로젝트의 대학교와 일치하지 않으면 -> 추후 수정될 조건 *
             if (!Objects.equals(user.getUniv(), demandProject.getUser().getUniv())) {
                 //에러 반환
-                return new ResponseEntity(HttpStatus.BAD_REQUEST); //400 Bad Request: 전체 대상 판매가 아닌 경우, 사용자와 판매자 대학교 일치 x
+                return new ResponseEntity(HttpStatus.UNAUTHORIZED); //401 Unauthorized: 전체 대상 판매가 아닌 경우, 사용자와 판매자 대학교 일치 x
             }
         }
 

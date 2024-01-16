@@ -42,11 +42,13 @@ public class OrderService {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
-        //사용자의 대학교가 프로젝트의 대학교와 일치하지 않으면
-        if (!Objects.equals(user.getUniv(), project.getUser().getUniv()))
+        if(!project.isSellToAll()) //전체대상 판매인 프로젝트가 아닌 경우,
         {
-            //에러 반환
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            //사용자의 대학교가 프로젝트의 대학교와 일치하지 않으면
+            if (!Objects.equals(user.getUniv(), project.getUser().getUniv())) {
+                //에러 반환
+                return new ResponseEntity(HttpStatus.UNAUTHORIZED); //401 Unauthorized: 전체 대상 판매가 아닌 경우, 사용자와 판매자 대학교 일치 x
+            }
         }
 
         Orders order = Orders.builder()

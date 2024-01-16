@@ -10,6 +10,9 @@ import java.util.List;
 
 @Getter
 public class OrderResponseDto {
+    //판매대상
+    private boolean sellToAll;
+
     //수령방법
     private String receive_type; //수령방법: [택배배송/직접수령]
     private String receive_address; //직접수령시 픽업장소
@@ -24,6 +27,7 @@ public class OrderResponseDto {
     private List<OrderQuestionResponseDto> orderQuestionResponseDtoList;
 
     public OrderResponseDto(Project project, List<ItemResponseDto> itemResponseDtoList, List<OrderQuestionResponseDto> orderQuestionResponseDtoList) {
+        this.sellToAll = project.isSellToAll();
         this.receive_type=project.getReceive_type().toString();
         this.receive_address=project.getReceive_address();
         this.delivery_fee=project.getDelivery_fee();

@@ -31,6 +31,8 @@ public class DemandItemService {
     }
 
     public DemandResponseDto getDemandItemInfo(Long demand_project_id){
+        DemandProject demandProject = demandProjectRepository.findByDemandProject_Id(demand_project_id);
+
         List<DemandItem> itemList = itemRepository.findDemandItemByDemandProject_Id(demand_project_id);
         List<DemandItemResponseDto> itemResponseDtoList =
                 itemList.stream()
@@ -42,7 +44,7 @@ public class DemandItemService {
                 demandQuestions.stream()
                         .map(DemandQuestionResponseDto::new)
                         .toList();
-        return new DemandResponseDto(itemResponseDtoList, demandQuestionResponseDtoList);
+        return new DemandResponseDto(demandProject, itemResponseDtoList, demandQuestionResponseDtoList);
 
     }
 

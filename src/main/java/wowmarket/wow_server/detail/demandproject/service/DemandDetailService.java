@@ -44,11 +44,14 @@ public class DemandDetailService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
         System.out.print("here");
-        //* 사용자의 대학교가 수요조사 프로젝트의 대학교와 일치하지 않으면 -> 추후 수정될 조건 *
-        if (!Objects.equals(user.getUniv(), demandProject.getUser().getUniv()))
+
+        if(!demandProject.isSellToAll()) //전체대상 판매인 수요조사 프로젝트가 아닌 경우,
         {
-            //에러 반환
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            //* 사용자의 대학교가 수요조사 프로젝트의 대학교와 일치하지 않으면 -> 추후 수정될 조건 *
+            if (!Objects.equals(user.getUniv(), demandProject.getUser().getUniv())) {
+                //에러 반환
+                return new ResponseEntity(HttpStatus.BAD_REQUEST); //400 Bad Request: 전체 대상 판매가 아닌 경우, 사용자와 판매자 대학교 일치 x
+            }
         }
 
         //이미 수요조사폼을 작성한 사용자의 경우, 작성 못하게하는 로직

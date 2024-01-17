@@ -17,6 +17,13 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p FROM Project p " +
             "WHERE p.isDel = false AND p.isEnd = false " +
             "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
+            "AND p.projectName LIKE CONCAT('%', :search, '%') " +
+            "AND p.user.univ LIKE CONCAT('%', :univ, '%')")
+    Page<Project> findByAdminFormSearch(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search, @Param("univ") String univ, Pageable pageable);
+
+    @Query("SELECT p FROM Project p " +
+            "WHERE p.isDel = false AND p.isEnd = false " +
+            "AND p.startDate <= :currentDate AND p.endDate >= :currentDate " +
             "AND p.user.univ = :userUniv AND p.permission = 'APPROVED'")
     Page<Project> findByUserUniv(@Param("userUniv") String userUniv, @Param("currentDate") LocalDateTime currentDate, Pageable pageable);
 

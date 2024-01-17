@@ -19,6 +19,13 @@ public interface DemandProjectRepository extends JpaRepository<DemandProject, Lo
     @Query("SELECT dp FROM DemandProject dp " +
             "WHERE dp.isEnd = false " +
             "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +
+            "AND dp.projectName LIKE CONCAT('%', :search, '%') " +
+            "AND dp.user.univ LIKE CONCAT('%', :univ, '%')")
+    Page<DemandProject> findByAdminFormSearch(@Param("currentDate") LocalDateTime currentDate, @Param("search") String search, @Param("univ") String univ, Pageable pageable);
+
+    @Query("SELECT dp FROM DemandProject dp " +
+            "WHERE dp.isEnd = false " +
+            "AND dp.startDate <= :currentDate AND dp.endDate >= :currentDate " +
             "AND dp.user.univ = :userUniv AND dp.permission = 'APPROVED'")
     Page<DemandProject> findByUserUniv(@Param("currentDate") LocalDateTime currentDate, @Param("userUniv") String userUniv, Pageable pageable);
 

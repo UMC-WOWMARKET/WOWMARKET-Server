@@ -32,5 +32,22 @@ public class AdminSearchController {
         return adminSearchService.findProjectAdmin(search, pageable, univ);
     }
 
+    // 구분: 수요조사 &  검색 항목: 프로젝트 이름 or 소속학교
+    @GetMapping("/demandSale") //구분: 수요조사
+//     /?search={search}&pageNo=${pageNo}&orderBy=${orderBy}&univ=${univ}
+    public ProjectListResponse GetAdminDemandListSearch(
+            @RequestParam("search") String search,
+            @RequestParam("univ") String univ,
+            @RequestParam(name = "pageNo", defaultValue = "1", required = true) int pageNo,
+            @RequestParam(name = "orderBy", defaultValue = "endDate", required = true) String orderBy) {
+        Sort sort;
+        if (orderBy.equals("view")) {
+            sort = Sort.by(Sort.Direction.DESC, "view");
+        } else {
+            sort = Sort.by(Sort.Direction.ASC, orderBy);
+        }
+        Pageable pageable = PageRequest.of(pageNo - 1, 9, sort);
+        return adminSearchService.findDemandAdmin(search, pageable, univ);
+    }
 
 }

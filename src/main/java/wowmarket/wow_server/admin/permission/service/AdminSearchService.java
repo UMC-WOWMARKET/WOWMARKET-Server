@@ -3,19 +3,13 @@ package wowmarket.wow_server.admin.permission.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import wowmarket.wow_server.admin.permission.dto.ProjectResponseDto;
-import wowmarket.wow_server.admin.permission.dto.request.PermissionProjectsRequest;
 import wowmarket.wow_server.admin.permission.dto.response.ProjectInfo;
 import wowmarket.wow_server.admin.permission.dto.response.ProjectListResponse;
-import wowmarket.wow_server.domain.DemandProject;
-import wowmarket.wow_server.domain.Permission;
 import wowmarket.wow_server.domain.Project;
 import wowmarket.wow_server.domain.User;
 import wowmarket.wow_server.global.jwt.SecurityUtil;
@@ -23,8 +17,6 @@ import wowmarket.wow_server.repository.DemandProjectRepository;
 import wowmarket.wow_server.repository.ItemRepository;
 import wowmarket.wow_server.repository.ProjectRepository;
 import wowmarket.wow_server.repository.UserRepository;
-import wowmarket.wow_server.sale.dto.SaleDto;
-import wowmarket.wow_server.sale.dto.SaleResponseDto;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -40,7 +32,7 @@ public class AdminSearchService {
     private final UserRepository userRepository;
 
     //Admin Search
-    public ProjectResponseDto findProjectAdmin(String search, Pageable pageable, String univ) {
+    public ProjectListResponse findProjectAdmin(String search, Pageable pageable, String univ) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
@@ -55,7 +47,6 @@ public class AdminSearchService {
 
         Page<ProjectInfo> projectDtos = findProjects.map(project -> new ProjectInfo(project));
 
-        return new ProjectResponseDto(univ,
-                projectDtos.getTotalPages(), projectDtos.getNumber(), projectDtos.getContent());
+        return new ProjectListResponse(projectDtos.getTotalPages(), projectDtos.getNumber(), projectDtos.getContent());
     }
 }
